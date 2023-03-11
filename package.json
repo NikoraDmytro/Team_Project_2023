@@ -1,0 +1,22 @@
+{
+  "name": "team_project_2023",
+  "version": "1.0.0",
+  "description": "Team project for one of the courses of the Kharkiv National University of Radio Electronics. The theme of the project is  implementation of a full-stack application for the taekwondo competition organization system. ",
+  "main": "index.js",
+  "scripts": {
+    "start": "startup.bat",
+    "server": "cd ./server/Api & dotnet run",
+    "client": "cd client & npm i & npm start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NikoraDmytro/Team_Project_2023.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NikoraDmytro/Team_Project_2023/issues"
+  },
+  "homepage": "https://github.com/NikoraDmytro/Team_Project_2023#readme"
+}
