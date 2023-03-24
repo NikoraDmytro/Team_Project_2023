@@ -1,0 +1,29 @@
+.registration-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    padding: 24px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-width: 400px;
+    justify-content: center;
+    gap: 16px;
+}
+
+.additional-buttons button {
+    color: #000;
+}
+
+.additional-buttons .google-button {
+    background-color: #fff;
+    border: 1px solid #3333339e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.additional-buttons .google-button:hover {
+background-color: #eee;
+}
