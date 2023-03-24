@@ -1,0 +1,25 @@
+version: '3.7'
+
+networks:
+  localdev:
+    name: localdev
+
+services:
+
+  project-client:
+    container_name: 'project-client'
+    build: './client'
+    ports:
+      - "3000:3000"
+    networks:
+      - localdev
+    image: project-client-image:latest
+    
+  project-api:
+    container_name: 'project-api'
+    build: './server'
+    ports:
+      - "7000:80"
+    networks:
+      - localdev
+    image: project-api-image:latest
