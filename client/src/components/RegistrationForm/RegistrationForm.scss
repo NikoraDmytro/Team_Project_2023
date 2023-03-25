@@ -1,0 +1,37 @@
+.registration-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px auto;
+    padding: 24px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-width: 400px;
+    justify-content: center;
+    gap: 14px;
+    box-shadow: -13px 9px 50px -13px rgba(0, 0, 0, 0.75);
+}
+
+.registration-form {
+    .forgot-password-button {
+        font-size: 10px;
+        padding: 0;
+        color:#353b78;
+        text-transform: none;
+        align-self: flex-end;
+    }
+    
+    .google-button {
+        background-color: #fff;
+        color: #000;
+        border: 1px solid #3333339e;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .google-button:hover {
+        background-color: #eee;
+    }
+}
