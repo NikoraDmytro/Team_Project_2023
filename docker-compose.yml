@@ -11,6 +11,9 @@ services:
     build: './client'
     ports:
       - "3000:3000"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
     networks:
       - localdev
     image: project-client-image:latest
@@ -22,4 +25,26 @@ services:
       - "7000:80"
     networks:
       - localdev
+    depends_on:
+      - sql-server-db
+    restart: always
     image: project-api-image:latest
+
+  sql-server-db:
+    container_name: 'sql-server-db'
+    hostname: 'TeamProject'
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./server/volumes/data:/var/opt/mssql/data
+      - ./server/volumes/log:/var/opt/mssql/log
+      - ./server/volumes/secrets:/var/opt/mssql/secrets
+    env_file:
+      - server/.env
+    restart: always
+
+volumes:
+  data:
+  log:
+  secrets:

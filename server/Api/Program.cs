@@ -4,9 +4,13 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-string? connectionString = builder
-    .Configuration
-    .GetConnectionString("sqlConnection");
+DotNetEnv.Env.Load();
+
+string connectionString = "Server=localhost,1433;" +
+                          $"Database={Environment.GetEnvironmentVariable("DB_NAME")};" +
+                          $"User Id={Environment.GetEnvironmentVariable("USER_ID")};" +
+                          $"Password={Environment.GetEnvironmentVariable("SA_PASSWORD")};" +
+                          "Encrypt=False";
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
