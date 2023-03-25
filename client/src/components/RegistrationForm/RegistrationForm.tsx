@@ -4,7 +4,7 @@ import { Button, Typography } from '@mui/material';
 import { FcGoogle } from 'react-icons/fc'
 import {InputFormField} from '../InputFormField';
 import './RegistrationForm.scss';
-import { validationSchema } from '../../helpers/validation';
+import { validationSchema } from './helpers/validation';
 
 const RegistrationForm = (): JSX.Element => {
   return (
