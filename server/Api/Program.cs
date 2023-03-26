@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-DotNetEnv.Env.Load();
+DotNetEnv.Env.Load("../.env");
 
 string connectionString = "Server=localhost,1433;" +
                           $"Database={Environment.GetEnvironmentVariable("DB_NAME")};" +
