@@ -9,7 +9,7 @@
 .idea/**/dictionaries
 .idea/**/shelf
 
-.env
+#Docker volumes
 /volumes
 
 # Generated files
