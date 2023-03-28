@@ -1,6 +1,17 @@
-﻿namespace BLL;
+﻿using BLL.Interfaces;
+using BLL.Services;
+using Microsoft.Extensions.DependencyInjection;
 
-public class DependencyRegistrar
+namespace BLL;
+
+public static class DependencyRegistrar
 {
-    
+    public static IServiceCollection ConfigureBusinessLayerServices(
+        this IServiceCollection services)
+    {
+        services.AddScoped<IJwtHandler, JwtHandler>();
+        services.AddScoped<IAuthService, AuthService>();
+        
+        return services;
+    }
 }
