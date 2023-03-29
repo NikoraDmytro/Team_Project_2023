@@ -7,6 +7,7 @@
     "start": "startup.bat",
     "server": "cd ./server/Api & dotnet run",
     "client": "cd client & npm i & npm start",
+    "migrate": "cd ./server & dotnet ef database update -p DAL -s Api",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
