@@ -4,6 +4,7 @@ using System.Text;
 using BLL.Interfaces;
 using BLL.Models.Settings;
 using BLL.Models.User;
+using Core.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -27,7 +28,7 @@ public class JwtHandler : IJwtHandler
         return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
     }
 
-    public async Task<List<Claim>> GetClaimsAsync(UserModel user)
+    public async Task<List<Claim>> GetClaimsAsync(User user)
     {
         var claims = new List<Claim>
         {

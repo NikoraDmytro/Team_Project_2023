@@ -5,7 +5,7 @@ using BLL.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BLL;
+namespace BLL.Extensions;
 
 public static class DependencyRegistrar
 {

@@ -1,6 +1,16 @@
-﻿namespace BLL.MappingProfiles;
+﻿using AutoMapper;
+using BLL.Models.Auth;
+using BLL.Models.User;
+using Core.Entities;
 
-public class UserProfile
+namespace BLL.MappingProfiles;
+
+public class UserProfile: Profile
 {
-    
+    public UserProfile()
+    {
+        CreateMap<User, UserModel>();
+        CreateMap<SignupModel, User>()
+            .ForMember(dest => dest.UserName, src => src.MapFrom(opt => opt.Email));
+    }
 }
