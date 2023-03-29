@@ -11,7 +11,7 @@ public static class ServiceExtensions
     {
 
         string connectionString = 
-                          $"Server={Environment.GetEnvironmentVariable("DB_HOST")}" +
+                          $"Server={Environment.GetEnvironmentVariable("DB_HOST")};" +
                           $"Database={Environment.GetEnvironmentVariable("DB_NAME")};" +
                           $"User Id={Environment.GetEnvironmentVariable("USER_ID")};" +
                           $"Password={Environment.GetEnvironmentVariable("SA_PASSWORD")};" +
