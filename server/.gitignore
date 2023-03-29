@@ -110,6 +110,8 @@ ExportedObj/
 *.VC.db
 *.exe
 *.dll
+*.deps.json
+*.runtimeconfig.json
 
 # Unity3D generated meta files
 *.pidb.meta
