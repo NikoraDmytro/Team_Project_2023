@@ -6,6 +6,13 @@ namespace BLL.Services;
 
 public class AuthService: IAuthService
 {
+    private readonly IJwtHandler _jwtHandler;
+
+    public AuthService(IJwtHandler jwtHandler)
+    {
+        _jwtHandler = jwtHandler;
+    }
+
     public Task<JwtTokenModel> LoginAsync(LoginModel model, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
