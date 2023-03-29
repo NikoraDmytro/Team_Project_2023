@@ -20,6 +20,8 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
+app.UseExceptionHandlingMiddleware();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
