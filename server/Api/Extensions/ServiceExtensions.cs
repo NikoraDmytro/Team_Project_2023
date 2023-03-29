@@ -15,10 +15,28 @@ public static class ServiceExtensions
                           $"Database={Environment.GetEnvironmentVariable("DB_NAME")};" +
                           $"User Id={Environment.GetEnvironmentVariable("USER_ID")};" +
                           $"Password={Environment.GetEnvironmentVariable("SA_PASSWORD")};" +
-                           "Encrypt=False";
+                          "Encrypt=False";
         
         services.AddDbContext<AppDbContext>(opts =>
-            opts.UseSqlServer(connectionString, 
-                options => options.MigrationsAssembly("DAL")));
+            opts.UseSqlServer(connectionString));
+    }
+
+    public static void ConfigureIdentity(this IServiceCollection services)
+    {
+        var builder = services.AddIdentityCore<User>(o =>
+        {
+            o.Password.RequireDigit = true;
+            o.Password.RequireLowercase = false;
+            o.Password.RequireUppercase = false;
+            o.Password.RequireNonAlphanumeric = false;
+            o.Password.RequiredLength = 8;
+            o.User.RequireUniqueEmail = true;
+        });
+
+        builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole<int>),
+            builder.Services);
+
+        builder.AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
     }
 }
