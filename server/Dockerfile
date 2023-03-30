@@ -3,6 +3,9 @@ WORKDIR /app
 
 COPY . .
 COPY ./Api/Api.csproj ./Api/
+COPY ./BLL/BLL.csproj ./BLL/
+COPY ./DAL/DAL.csproj ./DAL/
+COPY ./Core/Core.csproj ./Core/
 
 RUN dotnet restore
 RUN dotnet publish -c Release -o out

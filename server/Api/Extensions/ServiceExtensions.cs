@@ -36,6 +36,8 @@ public static class ServiceExtensions
         builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole<int>),
             builder.Services);
 
+        builder.AddSignInManager<SignInManager<User>>();
+
         builder.AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
     }
