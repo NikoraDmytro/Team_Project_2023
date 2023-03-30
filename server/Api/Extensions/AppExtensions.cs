@@ -1,4 +1,5 @@
-﻿using DAL;
+﻿using Api.Middleware;
+using DAL;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Extensions;
@@ -34,5 +35,10 @@ public static class AppExtensions
         }
 
         return webApp;
+    }
+    
+    public static IApplicationBuilder UseExceptionHandlingMiddleware(this IApplicationBuilder app)
+    {
+        return app.UseMiddleware<ExceptionHandlingMiddleware>();
     }
 }
