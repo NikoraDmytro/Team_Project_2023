@@ -13,9 +13,12 @@ services:
       - "3000:3000"
     volumes:
       - ./client:/app
-      - ./client/node_modules:/app/node_modules
+      - /app/node_modules
     networks:
       - localdev
+    depends_on:
+      - project-api
+    restart: unless-stopped
     image: project-client-image:latest
     
   project-api:
@@ -29,7 +32,7 @@ services:
       - sql-server-db
     env_file:
       - .env
-    restart: always
+    restart: unless-stopped
     image: project-api-image:latest
 
   sql-server-db:
@@ -45,7 +48,7 @@ services:
       - localdev
     env_file:
       - .env
-    restart: always
+    restart: unless-stopped
 
 volumes:
   data:
