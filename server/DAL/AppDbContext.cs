@@ -12,7 +12,7 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
         : base(options)
     {
     }
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ClubConfiguration).Assembly);
@@ -21,4 +21,5 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
     }
 
     public DbSet<Club>? Clubs { get; set; }
+    public DbSet<Sportsman>? Sportsmen { get; set; }
 }
