@@ -11,4 +11,7 @@ public class Coach
     
     //Every coach is a sportsman on its own
     public Sportsman? Sportsman { get; set; }
+    
+    //List of sportsmen he coaches
+    public ICollection<Sportsman>? Sportsmen { get; set; }
 }

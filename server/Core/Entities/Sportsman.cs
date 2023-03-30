@@ -16,8 +16,8 @@ public class Sportsman
     public int UserId { get; set; }
     public User? User { get; set; }
 
-    //public int CoachMembershipCardNum { get; set; }
-    //public Coach? Coach { get; set; }
+    public int CoachMembershipCardNum { get; set; }
+    public Coach? Coach { get; set; }
 
     public string? Rank { get; set; }
     public Belt? Belt { get; set; }

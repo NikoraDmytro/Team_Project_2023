@@ -42,6 +42,10 @@ public class SportsmanConfiguration: IEntityTypeConfiguration<Sportsman>
         builder
             .Property(s => s.UserId)
             .HasColumnName("user_id");
+
+        builder
+            .Property(s => s.CoachMembershipCardNum)
+            .HasColumnName("coach_membership_card_num");
         
         builder
             .HasOne(s => s.Belt)
@@ -53,6 +57,11 @@ public class SportsmanConfiguration: IEntityTypeConfiguration<Sportsman>
             .WithOne()
             .HasForeignKey<Sportsman>(s => s.UserId);
 
+        builder
+            .HasOne(s => s.Coach)
+            .WithMany(c => c.Sportsmen)
+            .HasForeignKey(s => s.CoachMembershipCardNum);
+        
         builder.ToTable("sportsmen", 
             t => 
                 t.HasCheckConstraint("CHK_sportsmen_user_id", "sex IN ('M', 'F')"));
