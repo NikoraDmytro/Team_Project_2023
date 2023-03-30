@@ -60,7 +60,8 @@ public class SportsmanConfiguration: IEntityTypeConfiguration<Sportsman>
         builder
             .HasOne(s => s.Coach)
             .WithMany(c => c.Sportsmen)
-            .HasForeignKey(s => s.CoachMembershipCardNum);
+            .HasForeignKey(s => s.CoachMembershipCardNum)
+            .IsRequired(false);
         
         builder.ToTable("sportsmen", 
             t => 
