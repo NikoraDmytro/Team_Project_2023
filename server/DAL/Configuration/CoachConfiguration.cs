@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DAL.Configuration;
 
-public class CoachConfiguration: IEntityTypeConfiguration<Coach>
+internal class CoachConfiguration: IEntityTypeConfiguration<Coach>
 {
     public void Configure(EntityTypeBuilder<Coach> builder)
     {

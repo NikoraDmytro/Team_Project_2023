@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DAL.Configuration;
 
-public class BeltConfiguration: IEntityTypeConfiguration<Belt>
+internal class BeltConfiguration: IEntityTypeConfiguration<Belt>
 {
     public void Configure(EntityTypeBuilder<Belt> builder)
     {

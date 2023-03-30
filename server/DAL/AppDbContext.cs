@@ -22,4 +22,5 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
 
     public DbSet<Club>? Clubs { get; set; }
     public DbSet<Sportsman>? Sportsmen { get; set; }
+    public DbSet<Coach>? Coaches { get; set; }
 }

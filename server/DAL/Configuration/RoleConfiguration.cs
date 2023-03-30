@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DAL.Configuration;
 
-public class RoleConfiguration : IEntityTypeConfiguration<IdentityRole<int>>
+internal class RoleConfiguration : IEntityTypeConfiguration<IdentityRole<int>>
 {
     public void Configure(EntityTypeBuilder<IdentityRole<int>> builder)
     {

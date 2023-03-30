@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DAL.Configuration;
 
-public class SportsmanConfiguration: IEntityTypeConfiguration<Sportsman>
+internal class SportsmanConfiguration: IEntityTypeConfiguration<Sportsman>
 {
     public void Configure(EntityTypeBuilder<Sportsman> builder)
     {
