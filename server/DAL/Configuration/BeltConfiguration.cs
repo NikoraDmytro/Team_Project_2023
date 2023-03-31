@@ -12,7 +12,7 @@ internal class BeltConfiguration: IEntityTypeConfiguration<Belt>
         
         builder.HasKey(b => b.Rank);
 
-       builder
+        builder
             .Property(b => b.Rank)
             .HasColumnName("rank")
             .HasColumnType("varchar(4)");
