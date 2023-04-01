@@ -12,4 +12,6 @@ public class Competition
     
     public string? CurrentStatus { get; set; }
     public CompetitionStatus? CompetitionStatus { get; set; }
+    
+    public ICollection<Competitor>? Competitors { get; set; }
 }
