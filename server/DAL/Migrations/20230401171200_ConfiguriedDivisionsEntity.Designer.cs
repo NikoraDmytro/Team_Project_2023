@@ -4,6 +4,7 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230401171200_ConfiguriedDivisionsEntity")]
+    partial class ConfiguriedDivisionsEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -574,7 +577,7 @@ namespace DAL.Migrations
 
                     b.ToTable("sportsmen", null, t =>
                         {
-                            t.HasCheckConstraint("CHK_sportsmen_sex", "sex IN ('M', 'F')");
+                            t.HasCheckConstraint("CHK_sportsmen_user_id", "sex IN ('M', 'F')");
                         });
                 });
 

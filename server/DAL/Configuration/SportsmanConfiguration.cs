@@ -8,6 +8,10 @@ internal class SportsmanConfiguration: IEntityTypeConfiguration<Sportsman>
 {
     public void Configure(EntityTypeBuilder<Sportsman> builder)
     {
+        builder.ToTable("sportsmen", 
+            t => 
+                t.HasCheckConstraint("CHK_sportsmen_sex", "sex IN ('M', 'F')"));
+        
         builder.HasKey(s => s.MembershipCardNum);
 
         builder
@@ -62,9 +66,5 @@ internal class SportsmanConfiguration: IEntityTypeConfiguration<Sportsman>
             .WithMany(c => c.Sportsmen)
             .HasForeignKey(s => s.CoachMembershipCardNum)
             .IsRequired(false);
-        
-        builder.ToTable("sportsmen", 
-            t => 
-                t.HasCheckConstraint("CHK_sportsmen_user_id", "sex IN ('M', 'F')"));
     }
 }
