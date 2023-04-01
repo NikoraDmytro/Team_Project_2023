@@ -26,4 +26,5 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
     public DbSet<Judge>? Judges { get; set; }
     public DbSet<Competition>? Competitions { get; set; }
     public DbSet<Competitor>? Competitors { get; set; }
+    public DbSet<Shuffle>? Shuffles { get; set; }
 }
