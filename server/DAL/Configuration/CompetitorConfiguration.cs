@@ -39,8 +39,8 @@ public class CompetitorConfiguration
 
         builder
             .HasOne(c => c.Sportsman)
-            .WithOne()
-            .HasForeignKey<Competitor>(c => c.MembershipCardNum)
+            .WithMany()
+            .HasForeignKey(c => c.MembershipCardNum)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder
