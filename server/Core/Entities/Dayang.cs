@@ -6,4 +6,6 @@ public class Dayang
 
     public int CompetitionId { get; set; }
     public Competition? Competition { get; set; }
+    
+    public ICollection<JudgingStaff>? Judges { get; set; }
 }

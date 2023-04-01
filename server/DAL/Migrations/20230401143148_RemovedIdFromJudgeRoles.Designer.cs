@@ -4,6 +4,7 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230401143148_RemovedIdFromJudgeRoles")]
+    partial class RemovedIdFromJudgeRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -380,39 +383,6 @@ namespace DAL.Migrations
                         {
                             RoleName = "reserve_judge"
                         });
-                });
-
-            modelBuilder.Entity("Core.Entities.JudgingStaff", b =>
-                {
-                    b.Property<int>("ApplicationNum")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("application_num");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ApplicationNum"));
-
-                    b.Property<int>("DayangId")
-                        .HasColumnType("int")
-                        .HasColumnName("dayang_id");
-
-                    b.Property<int>("MembershipCardNum")
-                        .HasColumnType("int")
-                        .HasColumnName("membership_card_num");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("role");
-
-                    b.HasKey("ApplicationNum");
-
-                    b.HasIndex("DayangId");
-
-                    b.HasIndex("MembershipCardNum");
-
-                    b.HasIndex("Role");
-
-                    b.ToTable("judging_staff", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Shuffle", b =>
@@ -816,33 +786,6 @@ namespace DAL.Migrations
                     b.Navigation("Sportsman");
                 });
 
-            modelBuilder.Entity("Core.Entities.JudgingStaff", b =>
-                {
-                    b.HasOne("Core.Entities.Dayang", "Dayang")
-                        .WithMany("Judges")
-                        .HasForeignKey("DayangId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Core.Entities.Judge", "Judge")
-                        .WithMany()
-                        .HasForeignKey("MembershipCardNum")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Core.Entities.JudgeRole", "JudgeRole")
-                        .WithMany()
-                        .HasForeignKey("Role")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Dayang");
-
-                    b.Navigation("Judge");
-
-                    b.Navigation("JudgeRole");
-                });
-
             modelBuilder.Entity("Core.Entities.Shuffle", b =>
                 {
                     b.HasOne("Core.Entities.Competitor", "CompetitorInBlue")
@@ -950,11 +893,6 @@ namespace DAL.Migrations
                     b.Navigation("Competitors");
 
                     b.Navigation("Dayangs");
-                });
-
-            modelBuilder.Entity("Core.Entities.Dayang", b =>
-                {
-                    b.Navigation("Judges");
                 });
 #pragma warning restore 612, 618
         }
