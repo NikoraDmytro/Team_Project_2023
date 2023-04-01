@@ -8,4 +8,5 @@ public class Dayang
     public Competition? Competition { get; set; }
     
     public ICollection<JudgingStaff>? Judges { get; set; }
+    public ICollection<Distribution>? Distributions { get; set; }
 }
