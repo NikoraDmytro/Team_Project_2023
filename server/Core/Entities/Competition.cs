@@ -14,4 +14,5 @@ public class Competition
     public CompetitionStatus? CompetitionStatus { get; set; }
     
     public ICollection<Competitor>? Competitors { get; set; }
+    public ICollection<Dayang>? Dayangs { get; set; }
 }
