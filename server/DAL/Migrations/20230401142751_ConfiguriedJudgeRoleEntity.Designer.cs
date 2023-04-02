@@ -4,6 +4,7 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230401142751_ConfiguriedJudgeRoleEntity")]
+    partial class ConfiguriedJudgeRoleEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -304,7 +307,8 @@ namespace DAL.Migrations
 
                     b.HasIndex("CompetitionId");
 
-                    b.HasIndex("MembershipCardNum");
+                    b.HasIndex("MembershipCardNum")
+                        .IsUnique();
 
                     b.HasIndex("Rank");
 
@@ -331,101 +335,6 @@ namespace DAL.Migrations
                     b.ToTable("dayangs", (string)null);
                 });
 
-            modelBuilder.Entity("Core.Entities.Distribution", b =>
-                {
-                    b.Property<int>("DistributionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("distribution_id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DistributionId"));
-
-                    b.Property<int>("DayangId")
-                        .HasColumnType("int")
-                        .HasColumnName("dayang_id");
-
-                    b.Property<int>("DivisionId")
-                        .HasColumnType("int")
-                        .HasColumnName("division_id");
-
-                    b.Property<int>("SerialNum")
-                        .HasColumnType("int")
-                        .HasColumnName("serial_num");
-
-                    b.HasKey("DistributionId");
-
-                    b.HasIndex("DivisionId");
-
-                    b.HasIndex("DayangId", "SerialNum")
-                        .IsUnique();
-
-                    b.ToTable("distributions", (string)null);
-                });
-
-            modelBuilder.Entity("Core.Entities.Division", b =>
-                {
-                    b.Property<int>("DivisionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("division_id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DivisionId"));
-
-                    b.Property<int>("MaxAge")
-                        .HasColumnType("int")
-                        .HasColumnName("max_age");
-
-                    b.Property<string>("MaxRank")
-                        .IsRequired()
-                        .HasColumnType("varchar(4)")
-                        .HasColumnName("max_rank");
-
-                    b.Property<int?>("MaxWeight")
-                        .HasColumnType("int")
-                        .HasColumnName("max_weight");
-
-                    b.Property<int>("MinAge")
-                        .HasColumnType("int")
-                        .HasColumnName("min_age");
-
-                    b.Property<string>("MinRank")
-                        .IsRequired()
-                        .HasColumnType("varchar(4)")
-                        .HasColumnName("min_rank");
-
-                    b.Property<int?>("MinWeight")
-                        .HasColumnType("int")
-                        .HasColumnName("min_weight");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("division_name");
-
-                    b.Property<string>("Sex")
-                        .IsRequired()
-                        .HasMaxLength(1)
-                        .HasColumnType("varchar(1)")
-                        .HasColumnName("sex");
-
-                    b.HasKey("DivisionId");
-
-                    b.HasIndex("MaxRank");
-
-                    b.HasIndex("MinRank");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.ToTable("divisions", null, t =>
-                        {
-                            t.HasCheckConstraint("CHK_divisions_sex", "sex IN ('M', 'F')");
-
-                            t.HasCheckConstraint("CHK_divisions_weight", "min_weight IS NOT NULL OR  max_weight IS NOT NULL");
-                        });
-                });
-
             modelBuilder.Entity("Core.Entities.Judge", b =>
                 {
                     b.Property<int>("MembershipCardNum")
@@ -445,68 +354,48 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Core.Entities.JudgeRole", b =>
                 {
-                    b.Property<string>("RoleName")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("role_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("varchar(50)")
                         .HasColumnName("role_name");
 
-                    b.HasKey("RoleName");
+                    b.HasKey("Id");
 
                     b.ToTable("judge_roles", (string)null);
 
                     b.HasData(
                         new
                         {
-                            RoleName = "side_judge"
+                            Id = 1,
+                            Name = "side_judge"
                         },
                         new
                         {
-                            RoleName = "referee"
+                            Id = 2,
+                            Name = "referee"
                         },
                         new
                         {
-                            RoleName = "chief_judge"
+                            Id = 3,
+                            Name = "chief_judge"
                         },
                         new
                         {
-                            RoleName = "deputy_chief_judge"
+                            Id = 4,
+                            Name = "deputy_chief_judge"
                         },
                         new
                         {
-                            RoleName = "reserve_judge"
+                            Id = 5,
+                            Name = "reserve_judge"
                         });
-                });
-
-            modelBuilder.Entity("Core.Entities.JudgingStaff", b =>
-                {
-                    b.Property<int>("ApplicationNum")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("application_num");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ApplicationNum"));
-
-                    b.Property<int>("DayangId")
-                        .HasColumnType("int")
-                        .HasColumnName("dayang_id");
-
-                    b.Property<int>("MembershipCardNum")
-                        .HasColumnType("int")
-                        .HasColumnName("membership_card_num");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("role");
-
-                    b.HasKey("ApplicationNum");
-
-                    b.HasIndex("DayangId");
-
-                    b.HasIndex("MembershipCardNum");
-
-                    b.HasIndex("Role");
-
-                    b.ToTable("judging_staff", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Shuffle", b =>
@@ -605,7 +494,7 @@ namespace DAL.Migrations
 
                     b.ToTable("sportsmen", null, t =>
                         {
-                            t.HasCheckConstraint("CHK_sportsmen_sex", "sex IN ('M', 'F')");
+                            t.HasCheckConstraint("CHK_sportsmen_user_id", "sex IN ('M', 'F')");
                         });
                 });
 
@@ -870,8 +759,8 @@ namespace DAL.Migrations
                         .IsRequired();
 
                     b.HasOne("Core.Entities.Sportsman", "Sportsman")
-                        .WithMany()
-                        .HasForeignKey("MembershipCardNum")
+                        .WithOne()
+                        .HasForeignKey("Core.Entities.Competitor", "MembershipCardNum")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -899,44 +788,6 @@ namespace DAL.Migrations
                     b.Navigation("Competition");
                 });
 
-            modelBuilder.Entity("Core.Entities.Distribution", b =>
-                {
-                    b.HasOne("Core.Entities.Dayang", "Dayang")
-                        .WithMany("Distributions")
-                        .HasForeignKey("DayangId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Core.Entities.Division", "Division")
-                        .WithMany()
-                        .HasForeignKey("DivisionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Dayang");
-
-                    b.Navigation("Division");
-                });
-
-            modelBuilder.Entity("Core.Entities.Division", b =>
-                {
-                    b.HasOne("Core.Entities.Belt", "MaxBelt")
-                        .WithMany()
-                        .HasForeignKey("MaxRank")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Core.Entities.Belt", "MinBelt")
-                        .WithMany()
-                        .HasForeignKey("MinRank")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("MaxBelt");
-
-                    b.Navigation("MinBelt");
-                });
-
             modelBuilder.Entity("Core.Entities.Judge", b =>
                 {
                     b.HasOne("Core.Entities.Sportsman", "Sportsman")
@@ -946,33 +797,6 @@ namespace DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("Sportsman");
-                });
-
-            modelBuilder.Entity("Core.Entities.JudgingStaff", b =>
-                {
-                    b.HasOne("Core.Entities.Dayang", "Dayang")
-                        .WithMany("Judges")
-                        .HasForeignKey("DayangId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Core.Entities.Judge", "Judge")
-                        .WithMany()
-                        .HasForeignKey("MembershipCardNum")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Core.Entities.JudgeRole", "JudgeRole")
-                        .WithMany()
-                        .HasForeignKey("Role")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Dayang");
-
-                    b.Navigation("Judge");
-
-                    b.Navigation("JudgeRole");
                 });
 
             modelBuilder.Entity("Core.Entities.Shuffle", b =>
@@ -1082,13 +906,6 @@ namespace DAL.Migrations
                     b.Navigation("Competitors");
 
                     b.Navigation("Dayangs");
-                });
-
-            modelBuilder.Entity("Core.Entities.Dayang", b =>
-                {
-                    b.Navigation("Distributions");
-
-                    b.Navigation("Judges");
                 });
 #pragma warning restore 612, 618
         }

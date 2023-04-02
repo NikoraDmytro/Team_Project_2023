@@ -4,6 +4,7 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230401171200_ConfiguriedDivisionsEntity")]
+    partial class ConfiguriedDivisionsEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -331,37 +334,6 @@ namespace DAL.Migrations
                     b.ToTable("dayangs", (string)null);
                 });
 
-            modelBuilder.Entity("Core.Entities.Distribution", b =>
-                {
-                    b.Property<int>("DistributionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("distribution_id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DistributionId"));
-
-                    b.Property<int>("DayangId")
-                        .HasColumnType("int")
-                        .HasColumnName("dayang_id");
-
-                    b.Property<int>("DivisionId")
-                        .HasColumnType("int")
-                        .HasColumnName("division_id");
-
-                    b.Property<int>("SerialNum")
-                        .HasColumnType("int")
-                        .HasColumnName("serial_num");
-
-                    b.HasKey("DistributionId");
-
-                    b.HasIndex("DivisionId");
-
-                    b.HasIndex("DayangId", "SerialNum")
-                        .IsUnique();
-
-                    b.ToTable("distributions", (string)null);
-                });
-
             modelBuilder.Entity("Core.Entities.Division", b =>
                 {
                     b.Property<int>("DivisionId")
@@ -605,7 +577,7 @@ namespace DAL.Migrations
 
                     b.ToTable("sportsmen", null, t =>
                         {
-                            t.HasCheckConstraint("CHK_sportsmen_sex", "sex IN ('M', 'F')");
+                            t.HasCheckConstraint("CHK_sportsmen_user_id", "sex IN ('M', 'F')");
                         });
                 });
 
@@ -899,25 +871,6 @@ namespace DAL.Migrations
                     b.Navigation("Competition");
                 });
 
-            modelBuilder.Entity("Core.Entities.Distribution", b =>
-                {
-                    b.HasOne("Core.Entities.Dayang", "Dayang")
-                        .WithMany("Distributions")
-                        .HasForeignKey("DayangId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Core.Entities.Division", "Division")
-                        .WithMany()
-                        .HasForeignKey("DivisionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Dayang");
-
-                    b.Navigation("Division");
-                });
-
             modelBuilder.Entity("Core.Entities.Division", b =>
                 {
                     b.HasOne("Core.Entities.Belt", "MaxBelt")
@@ -1086,8 +1039,6 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Core.Entities.Dayang", b =>
                 {
-                    b.Navigation("Distributions");
-
                     b.Navigation("Judges");
                 });
 #pragma warning restore 612, 618
