@@ -4,9 +4,21 @@ import { Button, Typography } from '@mui/material';
 import { FcGoogle } from 'react-icons/fc'
 import {InputFormField} from '../InputFormField';
 import './RegistrationForm.scss';
+import { useNavigate } from 'react-router-dom';
 import { validationSchema } from './helpers/validation';
 
+interface FormValues {
+  email: string;
+  password: string;
+}
+
 const RegistrationForm = (): JSX.Element => {
+  const navigate = useNavigate();
+  const submitHandler = (values: FormValues) => {
+    localStorage.setItem('isLoggedIn', 'true');
+    console.log(values);
+    navigate('/home');
+  }
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
@@ -14,7 +26,7 @@ const RegistrationForm = (): JSX.Element => {
       validateOnChange={true}
       validateOnBlur={true}
       validateOnMount={true}
-      onSubmit={values=>console.log(values)}
+      onSubmit={values=>submitHandler(values)}
     >
       {({ isValid }) => (
         <Form className="registration-form">

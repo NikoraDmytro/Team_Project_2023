@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Outlet, useNavigate} from 'react-router-dom'
+import {Header} from './components/Header';
 
-import { RegistrationForm } from './components/RegistrationForm';
-
-function App() {
+const App = (): JSX.Element => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem('isLoggedIn') !== 'true') {
+      navigate('/register');
+    }
+  }, [])
   return (
-    <div>
-      <RegistrationForm />
-    </div>
+    <>
+      <Header />
+      <Outlet/>
+      </>
   );
 }
 
-export default App;
+export {App};
