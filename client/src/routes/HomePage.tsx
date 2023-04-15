@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const HomePage = (): JSX.Element => {
-  return (
-    <div>HomePage</div>
-  )
-}
+  return <div>HomePage</div>;
+};
 
-export {HomePage}
+export { HomePage };

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { Outlet, useNavigate} from 'react-router-dom'
-import {Header} from './components/Header';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { Header } from './components/Header';
 
 const App = (): JSX.Element => {
   const navigate = useNavigate();
@@ -8,13 +8,13 @@ const App = (): JSX.Element => {
     if (localStorage.getItem('isLoggedIn') !== 'true') {
       navigate('/register');
     }
-  }, [])
+  }, []);
   return (
     <>
       <Header />
-      <Outlet/>
-      </>
+      <Outlet />
+    </>
   );
-}
+};
 
-export {App};
+export { App };
