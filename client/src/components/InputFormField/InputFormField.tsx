@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, useField} from 'formik';
+import { useField } from 'formik';
 import { TextField } from '@mui/material';
 
 interface Props {
@@ -11,16 +11,15 @@ interface Props {
 const InputFormField = (props: Props): JSX.Element => {
   const [field, meta] = useField(props.name);
   return (
-    <Field
+    <TextField
       {...field}
+      fullWidth
       type={props.type}
       label={props.label}
-      as={TextField}
-      fullWidth
       error={meta.touched && !!meta.error}
       helperText={meta.touched && meta.error}
     />
-  )
-}
+  );
+};
 
-export { InputFormField }
+export { InputFormField };

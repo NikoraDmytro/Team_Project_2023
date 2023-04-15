@@ -1,0 +1,15 @@
+{
+  "singleQuote": true,
+  "semi": true,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "jsxBracketSameLine": false,
+  "arrowParens": "avoid",
+  "jsxSelfClosing": true,
+  "spaceBeforeFunctionParen": false,
+  "spaceBeforeBlockStatements": true,
+  "spaceBeforeControlStatements": true,
+  "spaceInfixOps": true,
+  "bracketSpacing": true,
+  "jsxSingleQuote": true
+}
