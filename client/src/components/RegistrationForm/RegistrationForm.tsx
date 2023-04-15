@@ -3,30 +3,36 @@ import { Formik, Form } from 'formik';
 import { Button, Typography } from '@mui/material';
 import { FcGoogle } from 'react-icons/fc';
 import { InputFormField } from '../InputFormField';
-import './RegistrationForm.scss';
 import { useNavigate } from 'react-router-dom';
 import { validationSchema } from './helpers/validation';
+import routes from '../../const/routes';
+import './RegistrationForm.scss';
 
 interface FormValues {
   email: string;
   password: string;
 }
 
+const initialValues: FormValues = {
+  email: '',
+  password: '',
+};
+
 const RegistrationForm = (): JSX.Element => {
   const navigate = useNavigate();
+
   const submitHandler = (values: FormValues) => {
     localStorage.setItem('isLoggedIn', 'true');
     console.log(values);
-    navigate('/home');
+    navigate(routes.DASHBOARD);
   };
+
   return (
     <Formik
-      initialValues={{ email: '', password: '' }}
+      initialValues={initialValues}
       validationSchema={validationSchema}
-      validateOnChange={true}
-      validateOnBlur={true}
       validateOnMount={true}
-      onSubmit={values => submitHandler(values)}
+      onSubmit={submitHandler}
     >
       {({ isValid }) => (
         <Form className='registration-form'>

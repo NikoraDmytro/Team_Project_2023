@@ -1,12 +1,14 @@
 import { Box, AppBar, Toolbar, Typography, Button } from '@mui/material';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import routes, { dashboardRoutes } from '../../const/routes';
 
 const Header = (): JSX.Element => {
+  const location = useLocation();
   const navigate = useNavigate();
   const clickHandler = () => {
     localStorage.setItem('isLoggedIn', 'false');
-    navigate('/register');
+    navigate(routes.REGISTRATION);
   };
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -17,7 +19,7 @@ const Header = (): JSX.Element => {
             component='div'
             sx={{ flexGrow: 1, cursor: 'pointer' }}
             onClick={() => {
-              navigate('/home');
+              navigate(location.pathname + dashboardRoutes.HOME);
             }}
           >
             Taekwondo
@@ -26,7 +28,7 @@ const Header = (): JSX.Element => {
             <Button
               color='inherit'
               onClick={() => {
-                navigate('/calendar');
+                navigate(location.pathname + dashboardRoutes.CALENDAR);
               }}
             >
               Calendar

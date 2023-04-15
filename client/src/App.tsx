@@ -8,7 +8,7 @@ const App = (): JSX.Element => {
   return (
     <Routes>
       <Route index element={<Navigate to={routes.REGISTRATION} />} />
-      <Route path={routes.DASHBOARD} element={<DashboardPage />} />
+      <Route path={`${routes.DASHBOARD}/*`} element={<DashboardPage />} />
       <Route path={routes.REGISTRATION} element={<RegistrationPage />} />
     </Routes>
   );

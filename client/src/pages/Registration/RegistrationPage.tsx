@@ -3,7 +3,7 @@ import { RegistrationForm } from '../../components/RegistrationForm';
 
 const RegistrationPage = (): JSX.Element => {
   return (
-    <div style={{ height: '100vh', display: 'flex', alignItems: 'center' }}>
+    <div className='registration-page-wrapper'>
       <RegistrationForm />
     </div>
   );
