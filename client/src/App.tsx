@@ -1,19 +1,16 @@
-import React, { useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { Header } from './components/Header';
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import routes from './const/routes';
+import { RegistrationPage } from './pages/Registration';
+import { DashboardPage } from './pages/Dashboard';
 
 const App = (): JSX.Element => {
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (localStorage.getItem('isLoggedIn') !== 'true') {
-      navigate('/register');
-    }
-  }, []);
   return (
-    <>
-      <Header />
-      <Outlet />
-    </>
+    <Routes>
+      <Route index element={<Navigate to={routes.REGISTRATION} />} />
+      <Route path={routes.DASHBOARD} element={<DashboardPage />} />
+      <Route path={routes.REGISTRATION} element={<RegistrationPage />} />
+    </Routes>
   );
 };
 
