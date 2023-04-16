@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DAL.Configuration;
 
-public class InstructorCategoryConfiguration
+internal class InstructorCategoryConfiguration
     :IEntityTypeConfiguration<InstructorCategory>
 {
     public void Configure(EntityTypeBuilder<InstructorCategory> builder)

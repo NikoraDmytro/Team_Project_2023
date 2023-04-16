@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DAL.Configuration;
 
-public class JudgingStaffConfiguration
+internal class JudgingStaffConfiguration
     : IEntityTypeConfiguration<JudgingStaff>
 {
     public void Configure(EntityTypeBuilder<JudgingStaff> builder)

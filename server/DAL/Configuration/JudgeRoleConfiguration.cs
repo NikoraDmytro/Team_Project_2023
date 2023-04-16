@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DAL.Configuration;
 
-public class JudgeRoleConfiguration
+internal class JudgeRoleConfiguration
     : IEntityTypeConfiguration<JudgeRole>
 {
     public void Configure(EntityTypeBuilder<JudgeRole> builder)

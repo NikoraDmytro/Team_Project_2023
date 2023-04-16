@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DAL.Configuration;
 
-public class DivisionConfiguration
+internal class DivisionConfiguration
     : IEntityTypeConfiguration<Division>
 {
     public void Configure(EntityTypeBuilder<Division> builder)

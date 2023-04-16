@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DAL.Configuration;
 
-public class CompetitionConfiguration
+internal class CompetitionConfiguration
     : IEntityTypeConfiguration<Competition>
 {
     public void Configure(EntityTypeBuilder<Competition> builder)
