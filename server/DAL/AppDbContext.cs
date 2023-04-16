@@ -20,6 +20,7 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
 
         base.OnModelCreating(modelBuilder);
         JudgeCategoryDataInitializer.SeedData(modelBuilder);
+        SportsCategoryDataInitializer.SeedData(modelBuilder);
         InstructorCategoryDataInitializer.SeedData(modelBuilder);
     }
 
@@ -35,5 +36,6 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
     public DbSet<Division>? Divisions { get; set; }
     public DbSet<Distribution>? Distributions { get; set; }
     public DbSet<JudgeCategory>? JudgeCategories { get; set; }
+    public DbSet<SportsCategory>? SportsCategories { get; set; }
     public DbSet<InstructorCategory>? InstructorCategories { get; set; }
 }

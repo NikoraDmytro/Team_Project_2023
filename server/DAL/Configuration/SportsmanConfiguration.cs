@@ -19,12 +19,6 @@ internal class SportsmanConfiguration: IEntityTypeConfiguration<Sportsman>
             .HasColumnName("membership_card_num");
 
         builder
-            .Property(s => s.SportsCategory)
-            .HasColumnName("sports_category")
-            .HasMaxLength(50)
-            .HasColumnType("varchar(50)");
-
-        builder
             .Property(s => s.BirthDate)
             .HasColumnName("birth_date")
             .IsRequired();
@@ -50,6 +44,10 @@ internal class SportsmanConfiguration: IEntityTypeConfiguration<Sportsman>
         builder
             .Property(s => s.CoachMembershipCardNum)
             .HasColumnName("coach_membership_card_num");
+
+        builder
+            .Property(s => s.SportsCategoryId)
+            .HasColumnName("sports_category_id");
         
         builder
             .HasOne(s => s.Belt)
@@ -66,5 +64,12 @@ internal class SportsmanConfiguration: IEntityTypeConfiguration<Sportsman>
             .WithMany(c => c.Sportsmen)
             .HasForeignKey(s => s.CoachMembershipCardNum)
             .IsRequired(false);
+
+        builder
+            .HasOne(s => s.SportsCategory)
+            .WithMany()
+            .HasForeignKey(s => s.SportsCategoryId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

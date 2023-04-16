@@ -35,7 +35,8 @@ internal class CoachConfiguration: IEntityTypeConfiguration<Coach>
             .HasOne(c => c.InstructorCategory)
             .WithMany()
             .HasForeignKey(c => c.InstructorCategoryId)
-            .IsRequired();
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder
             .Property(c => c.InstructorCategoryId)

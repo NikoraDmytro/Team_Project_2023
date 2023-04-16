@@ -9,7 +9,6 @@ public enum Sex
 public class Sportsman
 {
     public int MembershipCardNum { get; set; }
-    public string? SportsCategory { get; set; }
     public DateTime BirthDate { get; set; }
     public Sex Sex { get; set; }
 
@@ -21,4 +20,7 @@ public class Sportsman
 
     public string? Rank { get; set; }
     public Belt? Belt { get; set; }
+    
+    public int? SportsCategoryId { get; set; }
+    public SportsCategory? SportsCategory { get; set; }
 }
