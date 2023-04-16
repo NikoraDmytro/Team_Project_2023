@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
 using DAL.Configuration;
+using DAL.Initializers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ClubConfiguration).Assembly);
 
         base.OnModelCreating(modelBuilder);
+        InstructorCategoryDataInitializer.SeedData(modelBuilder);
     }
 
     public DbSet<Club>? Clubs { get; set; }
@@ -31,4 +33,5 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
     public DbSet<Dayang>? Dayangs { get; set; }
     public DbSet<Division>? Divisions { get; set; }
     public DbSet<Distribution>? Distributions { get; set; }
+    public DbSet<InstructorCategory>? InstructorCategories { get; set; }
 }
