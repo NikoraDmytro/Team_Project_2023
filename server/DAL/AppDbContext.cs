@@ -19,6 +19,7 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ClubConfiguration).Assembly);
 
         base.OnModelCreating(modelBuilder);
+        JudgeCategoryDataInitializer.SeedData(modelBuilder);
         InstructorCategoryDataInitializer.SeedData(modelBuilder);
     }
 
@@ -33,5 +34,6 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
     public DbSet<Dayang>? Dayangs { get; set; }
     public DbSet<Division>? Divisions { get; set; }
     public DbSet<Distribution>? Distributions { get; set; }
+    public DbSet<JudgeCategory>? JudgeCategories { get; set; }
     public DbSet<InstructorCategory>? InstructorCategories { get; set; }
 }
