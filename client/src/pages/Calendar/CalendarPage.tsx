@@ -1,70 +1,48 @@
-import {
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TablePagination,
-  TableRow,
-  TextField,
-} from '@mui/material';
 import React, { useState } from 'react';
-import CalendarItem from './CalendarItem';
 import './Calendar.scss';
+import { DataTable } from '../../components/DataTable';
 
 const CalendarPage = (): JSX.Element => {
   const [competitions, setCompetitions] = useState(test);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
   return (
-    <div className='calendar-wrapper'>
-      <div className='calendar-menu'>
-        <TextField label='місце для пошуку'></TextField>
-        <TextField label='місце для фільтрації'></TextField>
-        <Button variant='contained'>Додати змагання</Button>
-      </div>
-      <Table stickyHeader>
-        <TableHead>
-          <TableRow>
-            <TableCell>Назва</TableCell>
-            <TableCell>Дата зважування</TableCell>
-            <TableCell>Дата початку</TableCell>
-            <TableCell>Дата закінчення</TableCell>
-            <TableCell>Місто</TableCell>
-            <TableCell>Статус</TableCell>
-            <TableCell>Рівень</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {competitions.map((el, id) => (
-            <CalendarItem key={id} el={el} />
-          ))}
-        </TableBody>
-      </Table>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component='div'
-        count={competitions.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </div>
+    <>
+      <DataTable tableRows={competitions} tableColumns={columns} />
+    </>
   );
 };
 
 export { CalendarPage };
+
+const columns = [
+  {
+    name: 'Назва',
+    sortable: true,
+  },
+  {
+    name: 'Дата зважування',
+    sortable: true,
+  },
+  {
+    name: 'Дата початку',
+    sortable: true,
+  },
+  {
+    name: 'Дата закінчення',
+    sortable: true,
+  },
+  {
+    name: 'Місто',
+    sortable: true,
+  },
+  {
+    name: 'Статус',
+    sortable: true,
+  },
+  {
+    name: 'Рівень',
+    sortable: true,
+  },
+];
 
 const test = [
   {

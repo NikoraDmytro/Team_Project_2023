@@ -1,19 +1,14 @@
 import { Box, Collapse, TableCell, TableRow } from '@mui/material';
 import React, { useState } from 'react';
 
-type CalendarItemProps = {
+type DataTableItemProps = {
   el: {
-    name: string;
-    weightingDate: string;
-    startDate: string;
-    endData: string;
-    city: string;
-    status: string;
-    level: string;
+    [key: string]: string;
   };
 };
 
-const CalendarItem = ({ el }: CalendarItemProps): JSX.Element => {
+const DataTableItem = (props: DataTableItemProps): JSX.Element => {
+  const { el } = props;
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -27,7 +22,7 @@ const CalendarItem = ({ el }: CalendarItemProps): JSX.Element => {
       <TableRow>
         <Collapse in={open} timeout='auto' unmountOnExit>
           <Box>
-            <p>Більше інформації про змагання {el.name}</p>
+            <p>Більше інформації про {el.name}</p>
           </Box>
         </Collapse>
       </TableRow>
@@ -35,4 +30,4 @@ const CalendarItem = ({ el }: CalendarItemProps): JSX.Element => {
   );
 };
 
-export default CalendarItem;
+export default DataTableItem;
