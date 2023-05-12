@@ -36,10 +36,10 @@ public class ClubsController: ControllerBase
         return RedirectToRoute(nameof(GetById), new { id = club.Id });
     }
 
-    [HttpPut]
-    public async Task<IActionResult> Put(UpdateClubModel updateClubModel)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Put(int id, UpdateClubModel updateClubModel)
     {
-        await _clubService.UpdateAsync(updateClubModel);
+        await _clubService.UpdateAsync(id, updateClubModel);
         return NoContent();
     }
 
