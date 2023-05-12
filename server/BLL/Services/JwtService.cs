@@ -10,11 +10,11 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace BLL.Services;
 
-public class JwtHandler : IJwtHandler
+public class JwtService : IJwtService
 {
     private readonly JwtSettings _jwtSettings;
 
-    public JwtHandler(
+    public JwtService(
         IOptions<JwtSettings> jwtSettings)
     {
         _jwtSettings = jwtSettings.Value;

@@ -1,6 +1,8 @@
-﻿namespace BLL.Models.User;
+﻿using BLL.Mappings;
 
-public class UserModel
+namespace BLL.Models.User;
+
+public class UserModel: IMap<Core.Entities.User>
 {
     public int Id { get; set; }
     public string? FirstName { get; set; }

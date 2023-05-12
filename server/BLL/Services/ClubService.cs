@@ -48,10 +48,10 @@ public class ClubService: IClubService
         return _mapper.Map<ClubModel>(club);
     }
 
-    public async Task UpdateAsync(UpdateClubModel updateClubModel)
+    public async Task UpdateAsync(int id, UpdateClubModel updateClubModel)
     {
-        var club = await _clubRepository.GetByIdAsync(updateClubModel.Id)
-                   ?? throw new NotFoundException($"Club with id {updateClubModel.Id} was not found");
+        var club = await _clubRepository.GetByIdAsync(id)
+                   ?? throw new NotFoundException($"Club with id {id} was not found");
 
         if (!string.IsNullOrWhiteSpace(updateClubModel.Name))
         {
