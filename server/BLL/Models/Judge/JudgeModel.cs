@@ -2,7 +2,7 @@
 
 namespace BLL.Models.Judge;
 
-public class JudgeModel: IMap<Core.Entities.Judge>
+public class JudgeModel: IMapFrom<Core.Entities.Judge>
 {
     public int MembershipCardNum { get; set; }
     public string? JudgeCategory { get; set; }

@@ -2,7 +2,7 @@
 
 namespace BLL.Models.User;
 
-public class UserModel: IMap<Core.Entities.User>
+public class UserModel: IMapFrom<Core.Entities.User>
 {
     public int Id { get; set; }
     public string? FirstName { get; set; }

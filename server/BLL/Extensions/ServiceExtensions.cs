@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using BLL.Mappings;
 using BLL.Models.Settings;
 using BLL.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +26,7 @@ public static class DependencyRegistrar
     private static IServiceCollection ConfigureAutomapper(
         this IServiceCollection services)
     {
-        services.AddAutoMapper(Assembly.GetExecutingAssembly());
+        services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
 
         return services;
     }

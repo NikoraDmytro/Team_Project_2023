@@ -6,7 +6,7 @@ namespace DAL.Repositories;
 
 public class JudgeRepository: GenericRepository<Judge>, IJudgeRepository
 {
-    protected JudgeRepository(AppDbContext context) : base(context)
+    public JudgeRepository(AppDbContext context) : base(context)
     {
     }
 

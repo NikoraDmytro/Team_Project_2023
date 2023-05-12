@@ -2,7 +2,7 @@
 
 namespace BLL.Models.Club;
 
-public class ClubModel: IMap<Core.Entities.Club>
+public class ClubModel: IMapFrom<Core.Entities.Club>
 {
     public int Id { get; set; }
     public string? Name { get; set; }

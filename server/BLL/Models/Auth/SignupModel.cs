@@ -3,7 +3,7 @@ using BLL.Mappings;
 
 namespace BLL.Models.Auth;
 
-public class SignupModel: IMap<Core.Entities.User>
+public class SignupModel: IMapTo<Core.Entities.User>
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
@@ -11,7 +11,7 @@ public class SignupModel: IMap<Core.Entities.User>
     public string Email { get; set; }
     public string Password { get; set; }
 
-    public void Mapping(Profile profile)
+    public void MapTo(Profile profile)
     {
         profile.CreateMap<SignupModel, Core.Entities.User>()
             .ForMember(dest => dest.UserName, src => src.MapFrom(opt => opt.Email));
