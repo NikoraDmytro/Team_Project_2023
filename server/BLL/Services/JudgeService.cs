@@ -38,9 +38,9 @@ public class JudgeService: IJudgeService
         return _mapper.Map<JudgeModel>(judge);
     }
 
-    public async Task<JudgeModel> CreateAsync(CreateJudgeModel createClubModel)
+    public async Task<JudgeModel> CreateAsync(CreateJudgeModel createJudgeModel)
     {
-        var judge = _mapper.Map<Judge>(createClubModel);
+        var judge = _mapper.Map<Judge>(createJudgeModel);
 
         await _judgeRepository.CreateAsync(judge);
         await _context.SaveChangesAsync();
@@ -48,15 +48,15 @@ public class JudgeService: IJudgeService
         return _mapper.Map<JudgeModel>(judge);
     }
 
-    public async Task UpdateAsync(int cardNum, UpdateJudgeModel updateClubModel)
+    public async Task UpdateAsync(int cardNum, UpdateJudgeModel updateJudgeModel)
     {
         var judge = await _judgeRepository.GetByMembershipCardNumAsync(cardNum)
                     ?? throw new NotFoundException($"Judge with membership card num {cardNum} was not found");
 
-        if (!string.IsNullOrWhiteSpace(updateClubModel.JudgeCategory) &&
-            judge.JudgeCategory != updateClubModel.JudgeCategory)
+        if (!string.IsNullOrWhiteSpace(updateJudgeModel.JudgeCategory) &&
+            judge.JudgeCategory != updateJudgeModel.JudgeCategory)
         {
-            judge.JudgeCategory = updateClubModel.JudgeCategory;
+            judge.JudgeCategory = updateJudgeModel.JudgeCategory;
         }
 
         _judgeRepository.Update(judge);
