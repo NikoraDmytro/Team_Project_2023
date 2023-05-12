@@ -1,9 +1,9 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using BLL.Interfaces;
 using BLL.Models.Settings;
 using BLL.Models.User;
+using BLL.Services.Interfaces;
 using Core.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

@@ -1,5 +1,5 @@
-﻿using BLL.Interfaces;
-using BLL.Models.Auth;
+﻿using BLL.Models.Auth;
+using BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;

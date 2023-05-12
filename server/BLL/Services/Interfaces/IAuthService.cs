@@ -1,7 +1,7 @@
 ﻿using BLL.Models.Auth;
 using BLL.Models.User;
 
-namespace BLL.Interfaces;
+namespace BLL.Services.Interfaces;
 
 public interface IAuthService
 {

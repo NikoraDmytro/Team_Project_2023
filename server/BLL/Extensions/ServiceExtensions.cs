@@ -1,9 +1,7 @@
-﻿using BLL.Interfaces;
-using BLL.MappingProfiles;
+﻿using BLL.MappingProfiles;
 using BLL.Models.Settings;
 using BLL.Services;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using BLL.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BLL.Extensions;
@@ -15,6 +13,7 @@ public static class DependencyRegistrar
     {
         services.AddScoped<IJwtHandler, JwtHandler>();
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IClubService, ClubService>();
 
         services.ConfigureAutomapper();
         services.ConfigureOptions();

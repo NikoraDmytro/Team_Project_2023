@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Core.Exceptions;
+using Newtonsoft.Json;
 
 namespace Api.Middleware
 {
@@ -28,7 +29,7 @@ namespace Api.Middleware
         {
             var code = exception switch
             {
-                // Add exceptions when they are created
+                NotFoundException => StatusCodes.Status404NotFound,
                 _ => StatusCodes.Status500InternalServerError
             };
 
