@@ -1,4 +1,4 @@
-﻿namespace BLL.Exceptions.Auth;
+﻿namespace Core.Exceptions.Auth;
 
 public class InvalidLoginException: Exception
 {

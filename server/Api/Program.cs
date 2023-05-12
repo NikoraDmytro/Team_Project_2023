@@ -2,17 +2,17 @@ using Api.Extensions;
 
 using BLL;
 using BLL.Extensions;
+using DAL.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.ConfigureSqlContext();
 builder.Services.AddControllers();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.ConfigureBusinessLayerServices();
+builder.Services.ConfigureDataAccessLayer();
 
 builder.Services.AddAuthentication();
 builder.Services.ConfigureIdentity();

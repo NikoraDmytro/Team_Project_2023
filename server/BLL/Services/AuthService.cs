@@ -1,10 +1,10 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using AutoMapper;
-using BLL.Exceptions.Auth;
-using BLL.Interfaces;
 using BLL.Models.Auth;
 using BLL.Models.User;
+using BLL.Services.Interfaces;
 using Core.Entities;
+using Core.Exceptions.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 
