@@ -4,6 +4,7 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230512235646_ConfiguredCompetitionLevelAndStatusEntities")]
+    partial class ConfiguredCompetitionLevelAndStatusEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -257,38 +260,6 @@ namespace DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("competition_levels", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Чемпіонат області"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Кубок області"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Чемпіонат України"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Кубок України"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Інші всеукраїнські турніри"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "Інші турніри"
-                        });
                 });
 
             modelBuilder.Entity("Core.Entities.CompetitionStatus", b =>
@@ -312,38 +283,6 @@ namespace DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("competition_statuses", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Очікується"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Прийом заявок"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Прийом заявок закінченно"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Проходить"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Завершено"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "Скасовано"
-                        });
                 });
 
             modelBuilder.Entity("Core.Entities.Competitor", b =>

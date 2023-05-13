@@ -47,21 +47,26 @@ internal class CompetitionConfiguration
             .IsRequired();
 
         builder
-            .Property(c => c.CompetitionLevel)
-            .HasColumnName("competition_level")
-            .HasColumnType("varchar(100)")
-            .HasMaxLength(100)
+            .Property(c => c.CompetitionLevelId)
+            .HasColumnName("competition_level_id")
             .IsRequired();
 
         builder
-            .Property(c => c.CurrentStatus)
-            .HasColumnName("current_status")
-            .HasDefaultValue("pending");
+            .HasOne(c => c.CompetitionLevel)
+            .WithMany()
+            .HasForeignKey(c => c.CompetitionLevelId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder
+            .Property(c => c.CompetitionStatusId)
+            .HasColumnName("competition_status_id")
+            .HasDefaultValue(1);
 
         builder
             .HasOne(c => c.CompetitionStatus)
             .WithMany()
-            .HasForeignKey(c => c.CurrentStatus);
+            .HasForeignKey(c => c.CompetitionStatusId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder
             .HasIndex(c => new { c.Name, c.StartDate })
