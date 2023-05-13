@@ -56,20 +56,17 @@ public class CoachService: ICoachService
         var coach = await _coachRepository.GetByMembershipCardNumAsync(cardNum)
                     ?? throw new NotFoundException($"Coach with membership card num {cardNum} was not found");
 
-        if (!string.IsNullOrWhiteSpace(updateCoachModel.Phone) &&
-            coach.Phone != updateCoachModel.Phone)
+        if (!string.IsNullOrWhiteSpace(updateCoachModel.Phone))
         {
             coach.Phone = updateCoachModel.Phone;
         }
 
-        if (!string.IsNullOrWhiteSpace(updateCoachModel.InstructorCategory) &&
-            coach.InstructorCategory != updateCoachModel.InstructorCategory)
+        if (!string.IsNullOrWhiteSpace(updateCoachModel.InstructorCategory))
         {
             coach.InstructorCategory = updateCoachModel.InstructorCategory;
         }
 
-        if (updateCoachModel.ClubId != null &&
-            coach.ClubId != updateCoachModel.ClubId)
+        if (updateCoachModel.ClubId != null)
         {
             _ = await _clubRepository.GetByIdAsync(updateCoachModel.ClubId.Value)
                        ?? throw new NotFoundException($"Club with id {updateCoachModel.ClubId} was not found");
