@@ -3,8 +3,11 @@ using BLL.Models.Club;
 using BLL.Services.Interfaces;
 using Core.Entities;
 using Core.Exceptions;
+using Core.Shared;
 using DAL;
 using DAL.Repositories.Interfaces;
+using Sieve.Models;
+using Sieve.Services;
 
 namespace BLL.Services;
 
@@ -28,6 +31,16 @@ public class ClubService: IClubService
     {
         var clubs = await _clubRepository.GetAllAsync();
         return _mapper.Map<IEnumerable<ClubModel>>(clubs);
+    }
+
+    public async Task<PagedList<ClubModel>> GetAllWithFilterAsync(SieveModel sieveModel)
+    {
+        var pagedList = await _clubRepository.GetAllWithFilterAsync(sieveModel);
+        var clubModels = _mapper.Map<IEnumerable<ClubModel>>(pagedList.Items);
+
+        var updatedPagedList = PagedList<ClubModel>.Copy(pagedList, clubModels);
+
+        return updatedPagedList;
     }
 
     public async Task<ClubModel> GetByIdAsync(int id)

@@ -1,6 +1,7 @@
 ﻿using BLL.Models.Club;
 using BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Sieve.Models;
 
 namespace Api.Controllers;
 
@@ -15,10 +16,17 @@ public class ClubsController: ControllerBase
         _clubService = clubService;
     }
 
-    [HttpGet]
+    [HttpGet("all")]
     public async Task<IActionResult> Get()
     {
         var clubs = await _clubService.GetAllAsync();
+        return Ok(clubs);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllWithFilter([FromQuery] SieveModel sieveModel)
+    {
+        var clubs = await _clubService.GetAllWithFilterAsync(sieveModel);
         return Ok(clubs);
     }
 
