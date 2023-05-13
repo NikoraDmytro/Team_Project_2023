@@ -32,12 +32,6 @@ internal class SportsmanConfiguration: IEntityTypeConfiguration<Sportsman>
             .IsRequired();
 
         builder
-            .Property(s => s.Rank)
-            .HasColumnName("belt_rank")
-            .HasMaxLength(4)
-            .HasDefaultValue("10");
-
-        builder
             .Property(s => s.UserId)
             .HasColumnName("user_id");
 
@@ -48,16 +42,23 @@ internal class SportsmanConfiguration: IEntityTypeConfiguration<Sportsman>
         builder
             .Property(s => s.SportsCategoryId)
             .HasColumnName("sports_category_id");
-        
+
+        builder
+            .Property(s => s.BeltId)
+            .HasColumnName("belt_id")
+            .IsRequired();
+
         builder
             .HasOne(s => s.Belt)
             .WithMany()
-            .HasForeignKey(s => s.Rank);
+            .HasForeignKey(s => s.BeltId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder
             .HasOne(s => s.User)
             .WithOne()
-            .HasForeignKey<Sportsman>(s => s.UserId);
+            .HasForeignKey<Sportsman>(s => s.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder
             .HasOne(s => s.Coach)

@@ -22,15 +22,14 @@ internal class CompetitorConfiguration
             .HasColumnName("weighting_result");
 
         builder
-            .Property(c => c.Rank)
-            .HasColumnName("belt_rank")
-            .HasMaxLength(4)
+            .Property(c => c.BeltId)
+            .HasColumnName("belt_id")
             .IsRequired();
         
         builder
             .HasOne(c => c.Belt)
             .WithMany()
-            .HasForeignKey(c => c.Rank)
+            .HasForeignKey(c => c.BeltId)
             .OnDelete(DeleteBehavior.Restrict);
         
         builder
@@ -51,6 +50,6 @@ internal class CompetitorConfiguration
             .HasOne(c => c.Competition)
             .WithMany(c => c.Competitors)
             .HasForeignKey(c => c.CompetitionId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
