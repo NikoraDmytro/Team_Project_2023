@@ -1,32 +1,22 @@
 import {
-  Button,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TablePagination,
   TableRow,
-  TextField,
+  TableSortLabel,
 } from '@mui/material';
 import React, { useState } from 'react';
-import DataTableItem from './DataTableItem';
+import { WithId, TableColumns } from '../../types/DataTableTypes';
 
-interface TableColumns {
-  name: string;
-  sortable?: boolean;
+interface TableProps<T extends WithId, P extends T> {
+  tableData: T[];
+  tableColumns: TableColumns<T, P>[];
 }
 
-interface TableRows {
-  [key: string]: string;
-}
-
-interface TableProps {
-  tableRows: TableRows[];
-  tableColumns: TableColumns[];
-}
-
-const DataTable = (props: TableProps) => {
-  const { tableRows, tableColumns } = props;
+const DataTable = <T extends WithId, P extends T>(props: TableProps<T, P>) => {
+  const { tableData, tableColumns } = props;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -41,36 +31,45 @@ const DataTable = (props: TableProps) => {
   };
 
   return (
-    <div className='calendar-wrapper'>
-      <div className='calendar-menu'>
-        <TextField label='місце для пошуку'></TextField>
-        <TextField label='місце для фільтрації'></TextField>
-        <Button variant='contained'>Додати змагання</Button>
-      </div>
+    <>
       <Table stickyHeader>
         <TableHead>
           <TableRow>
-            {tableColumns.map((el, id) => (
-              <TableCell key={id}>{el.name}</TableCell>
+            {tableColumns.map(column => (
+              <TableCell key={String(column.name)}>
+                {column.sortable ? (
+                  <TableSortLabel>{column.label}</TableSortLabel>
+                ) : (
+                  column.label
+                )}
+              </TableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {tableRows.map((el, id) => (
-            <DataTableItem key={id} el={el} />
+          {tableData.map(item => (
+            <TableRow key={item.id}>
+              {tableColumns.map(column => (
+                <TableCell key={String(column.name)}>
+                  {column.renderItem
+                    ? column.renderItem(item)
+                    : item[column.name as string]}
+                </TableCell>
+              ))}
+            </TableRow>
           ))}
         </TableBody>
       </Table>
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component='div'
-        count={tableRows.length}
+        count={tableData.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-    </div>
+    </>
   );
 };
 
