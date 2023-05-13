@@ -1,5 +1,4 @@
-﻿using DAL.Repositories;
-using DAL.Repositories.Interfaces;
+﻿using DAL.Repositories.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DAL.Extensions;
@@ -9,7 +8,11 @@ public static class ServiceExtensions
     public static IServiceCollection ConfigureDataAccessLayer(
         this IServiceCollection services)
     {
-        services.AddScoped<IClubRepository, ClubRepository>();
+        services.Scan(scan =>
+            scan.FromAssemblyOf<IClubRepository>()
+                .AddClasses(cl => cl.Where(type => type.Name.EndsWith("Repository")))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime());
 
         return services;
     }

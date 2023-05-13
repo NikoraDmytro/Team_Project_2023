@@ -1,6 +1,6 @@
-﻿using BLL.MappingProfiles;
+﻿using System.Reflection;
+using BLL.Mappings;
 using BLL.Models.Settings;
-using BLL.Services;
 using BLL.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,9 +11,11 @@ public static class DependencyRegistrar
     public static IServiceCollection ConfigureBusinessLayerServices(
         this IServiceCollection services)
     {
-        services.AddScoped<IJwtHandler, JwtHandler>();
-        services.AddScoped<IAuthService, AuthService>();
-        services.AddScoped<IClubService, ClubService>();
+        services.Scan(scan =>
+            scan.FromAssemblyOf<IClubService>()
+                .AddClasses(cl => cl.Where(type => type.Name.EndsWith("Service")))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime());
 
         services.ConfigureAutomapper();
         services.ConfigureOptions();
@@ -24,7 +26,7 @@ public static class DependencyRegistrar
     private static IServiceCollection ConfigureAutomapper(
         this IServiceCollection services)
     {
-        services.AddAutoMapper(typeof(UserProfile));
+        services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
 
         return services;
     }

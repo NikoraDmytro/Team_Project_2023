@@ -33,7 +33,7 @@ public class ClubsController: ControllerBase
     public async Task<IActionResult> Create(CreateClubModel createClubModel)
     {
         var club = await _clubService.CreateAsync(createClubModel);
-        return RedirectToRoute(nameof(GetById), new { id = club.Id });
+        return CreatedAtRoute(nameof(GetById), new { id = club.Id }, club);
     }
 
     [HttpPut("{id}")]

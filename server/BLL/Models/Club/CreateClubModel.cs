@@ -1,6 +1,8 @@
-﻿namespace BLL.Models.Club;
+﻿using BLL.Mappings;
 
-public class CreateClubModel
+namespace BLL.Models.Club;
+
+public class CreateClubModel: IMapTo<Core.Entities.Club>
 {
     public string? Name { get; set; }
     public string? City { get; set; }

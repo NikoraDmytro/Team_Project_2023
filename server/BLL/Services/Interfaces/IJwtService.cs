@@ -5,7 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace BLL.Services.Interfaces
 {
-    public interface IJwtHandler
+    public interface IJwtService
     {
         SigningCredentials GetSigningCredentials();
         Task<List<Claim>> GetClaimsAsync(User user);

@@ -12,18 +12,18 @@ namespace BLL.Services;
 
 public class AuthService: IAuthService
 {
-    private readonly IJwtHandler _jwtHandler;
+    private readonly IJwtService _jwtService;
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
     private readonly IMapper _mapper;
 
     public AuthService(
-        IJwtHandler jwtHandler,
+        IJwtService jwtService,
         UserManager<User> userManager,
         SignInManager<User> signInManager,
         IMapper mapper)
     {
-        _jwtHandler = jwtHandler;
+        _jwtService = jwtService;
         _userManager = userManager;
         _signInManager = signInManager;
         _mapper = mapper;
@@ -47,9 +47,9 @@ public class AuthService: IAuthService
             throw new InvalidLoginException();
         }
 
-        var claims = await _jwtHandler.GetClaimsAsync(user);
-        var signingCredentials = _jwtHandler.GetSigningCredentials();
-        var token = _jwtHandler.GenerateToken(signingCredentials, claims);
+        var claims = await _jwtService.GetClaimsAsync(user);
+        var signingCredentials = _jwtService.GetSigningCredentials();
+        var token = _jwtService.GenerateToken(signingCredentials, claims);
 
         return new JwtTokenModel()
         {
