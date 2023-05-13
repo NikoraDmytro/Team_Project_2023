@@ -3,7 +3,9 @@ using BLL.Mappings;
 using BLL.Models.Settings;
 using BLL.Services.Interfaces;
 using BLL.Sieve;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Sieve.Models;
 using Sieve.Services;
 
 namespace BLL.Extensions;
@@ -11,7 +13,8 @@ namespace BLL.Extensions;
 public static class DependencyRegistrar
 {
     public static IServiceCollection ConfigureBusinessLayerServices(
-        this IServiceCollection services)
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
         services.Scan(scan =>
             scan.FromAssemblyOf<IClubService>()
@@ -23,6 +26,7 @@ public static class DependencyRegistrar
         services.ConfigureOptions();
 
         services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
+        services.Configure<SieveOptions>(configuration.GetSection("Sieve"));
         
         return services;
     }
