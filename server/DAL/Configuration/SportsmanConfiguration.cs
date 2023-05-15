@@ -19,12 +19,6 @@ internal class SportsmanConfiguration: IEntityTypeConfiguration<Sportsman>
             .HasColumnName("membership_card_num");
 
         builder
-            .Property(s => s.SportsCategory)
-            .HasColumnName("sports_category")
-            .HasMaxLength(50)
-            .HasColumnType("varchar(50)");
-
-        builder
             .Property(s => s.BirthDate)
             .HasColumnName("birth_date")
             .IsRequired();
@@ -38,33 +32,45 @@ internal class SportsmanConfiguration: IEntityTypeConfiguration<Sportsman>
             .IsRequired();
 
         builder
-            .Property(s => s.Rank)
-            .HasColumnName("belt_rank")
-            .HasMaxLength(4)
-            .HasDefaultValue("10");
-
-        builder
             .Property(s => s.UserId)
             .HasColumnName("user_id");
 
         builder
             .Property(s => s.CoachMembershipCardNum)
             .HasColumnName("coach_membership_card_num");
-        
+
+        builder
+            .Property(s => s.SportsCategoryId)
+            .HasColumnName("sports_category_id");
+
+        builder
+            .Property(s => s.BeltId)
+            .HasColumnName("belt_id")
+            .IsRequired();
+
         builder
             .HasOne(s => s.Belt)
             .WithMany()
-            .HasForeignKey(s => s.Rank);
+            .HasForeignKey(s => s.BeltId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder
             .HasOne(s => s.User)
             .WithOne()
-            .HasForeignKey<Sportsman>(s => s.UserId);
+            .HasForeignKey<Sportsman>(s => s.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder
             .HasOne(s => s.Coach)
             .WithMany(c => c.Sportsmen)
             .HasForeignKey(s => s.CoachMembershipCardNum)
             .IsRequired(false);
+
+        builder
+            .HasOne(s => s.SportsCategory)
+            .WithMany()
+            .HasForeignKey(s => s.SportsCategoryId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

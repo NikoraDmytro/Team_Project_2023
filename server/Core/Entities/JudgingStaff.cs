@@ -10,6 +10,6 @@ public class JudgingStaff
     public int MembershipCardNum { get; set; }
     public Judge? Judge { get; set; }
     
-    public string? Role { get; set; }
+    public int JudgeRoleId { get; set; }
     public JudgeRole? JudgeRole { get; set; }
 }

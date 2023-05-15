@@ -9,10 +9,10 @@ public class Division
     public int MinAge { get; set; }
     public int MaxAge { get; set; }
     public Sex Sex { get; set; }
-    
-    public string? MinRank { get; set; }
+
+    public int MinBeltId { get; set; }
     public Belt? MinBelt { get; set; }
-    
-    public string? MaxRank { get; set; }
+
+    public int MaxBeltId { get; set; }
     public Belt? MaxBelt { get; set; }
 }

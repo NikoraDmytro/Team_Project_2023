@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DAL.Configuration;
 
-public class DivisionConfiguration
+internal class DivisionConfiguration
     : IEntityTypeConfiguration<Division>
 {
     public void Configure(EntityTypeBuilder<Division> builder)
@@ -64,26 +64,26 @@ public class DivisionConfiguration
             .IsRequired();
         
         builder
-            .Property(d => d.MinRank)
-            .HasColumnName("min_rank")
+            .Property(d => d.MinBeltId)
+            .HasColumnName("min_belt_id")
             .IsRequired();
         
         builder
-            .Property(d => d.MaxRank)
-            .HasColumnName("max_rank")
+            .Property(d => d.MaxBeltId)
+            .HasColumnName("max_belt_id")
             .IsRequired();
 
         builder
             .HasOne(s => s.MinBelt)
             .WithMany()
-            .HasForeignKey(s => s.MinRank)
+            .HasForeignKey(s => s.MinBeltId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
         
         builder
             .HasOne(s => s.MaxBelt)
             .WithMany()
-            .HasForeignKey(s => s.MaxRank)
+            .HasForeignKey(s => s.MaxBeltId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
     }

@@ -8,7 +8,7 @@ public class Competitor
     public int MembershipCardNum { get; set; }
     public Sportsman? Sportsman { get; set; }
     
-    public string? Rank { get; set; }
+    public int BeltId { get; set; }
     public Belt? Belt { get; set; }
     
     public int CompetitionId { get; set; }

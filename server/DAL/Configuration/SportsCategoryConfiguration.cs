@@ -4,28 +4,28 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DAL.Configuration;
 
-internal class CompetitionStatusConfiguration
-    : IEntityTypeConfiguration<CompetitionStatus>
+public class SportsCategoryConfiguration
+    : IEntityTypeConfiguration<SportsCategory>
 {
-    public void Configure(EntityTypeBuilder<CompetitionStatus> builder)
+    public void Configure(EntityTypeBuilder<SportsCategory> builder)
     {
-        builder.ToTable("competition_statuses");
+        builder.ToTable("sports_categories");
+        
+        builder.HasKey(sc => sc.Id);
 
-        builder.HasKey(cs => cs.Id);
-        
         builder
-            .Property(ic => ic.Id)
+            .Property(sc => sc.Id)
             .HasColumnName("id");
-        
+
         builder
-            .Property(ic => ic.Name)
+            .Property(sc => sc.Name)
             .HasColumnName("name")
             .HasColumnType("varchar(50)")
             .HasMaxLength(50)
             .IsRequired();
         
         builder
-            .HasIndex(ic => ic.Name)
+            .HasIndex(sc => sc.Name)
             .IsUnique();
     }
 }

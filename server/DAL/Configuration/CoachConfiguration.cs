@@ -22,7 +22,7 @@ internal class CoachConfiguration: IEntityTypeConfiguration<Coach>
             .HasForeignKey<Coach>(c => c.MembershipCardNum);
 
         builder
-            .HasOne<Club>(c => c.Club)
+            .HasOne(c => c.Club)
             .WithMany(c => c.Coaches)
             .HasForeignKey(c => c.ClubId)
             .IsRequired();
@@ -32,10 +32,15 @@ internal class CoachConfiguration: IEntityTypeConfiguration<Coach>
             .HasColumnName("club_id");
 
         builder
-            .Property(c => c.InstructorCategory)
-            .HasColumnType("varchar(50)")
-            .HasMaxLength(50)
-            .IsRequired();
+            .HasOne(c => c.InstructorCategory)
+            .WithMany()
+            .HasForeignKey(c => c.InstructorCategoryId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder
+            .Property(c => c.InstructorCategoryId)
+            .HasColumnName("instructor_category_id");
 
         builder
             .Property(c => c.Phone)

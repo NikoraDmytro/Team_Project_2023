@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DAL.Configuration;
 
-public class DistributionConfiguration
+internal class DistributionConfiguration
     : IEntityTypeConfiguration<Distribution>
 {
     public void Configure(EntityTypeBuilder<Distribution> builder)
