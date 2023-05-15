@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
 using DAL.Configuration;
+using DAL.Initializers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,13 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ClubConfiguration).Assembly);
 
         base.OnModelCreating(modelBuilder);
+        JudgeCategoryDataInitializer.SeedData(modelBuilder);
+        SportsCategoryDataInitializer.SeedData(modelBuilder);
+        InstructorCategoryDataInitializer.SeedData(modelBuilder);
+        CompetitionStatusDataInitializer.SeedData(modelBuilder);
+        CompetitionLevelDataInitializer.SeedData(modelBuilder);
+        BeltDataInitializer.SeedData(modelBuilder);
+        JudgeRoleDataInitializer.SeedData(modelBuilder);
     }
 
     public DbSet<Club>? Clubs { get; set; }
@@ -31,4 +39,11 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
     public DbSet<Dayang>? Dayangs { get; set; }
     public DbSet<Division>? Divisions { get; set; }
     public DbSet<Distribution>? Distributions { get; set; }
+    public DbSet<JudgeCategory>? JudgeCategories { get; set; }
+    public DbSet<SportsCategory>? SportsCategories { get; set; }
+    public DbSet<InstructorCategory>? InstructorCategories { get; set; }
+    public DbSet<CompetitionLevel>? CompetitionLevels { get; set; }
+    public DbSet<CompetitionStatus>? CompetitionStatuses { get; set; }
+    public DbSet<Belt> Belts { get; set; }
+    public DbSet<JudgeRole> JudgeRoles { get; set; }
 }

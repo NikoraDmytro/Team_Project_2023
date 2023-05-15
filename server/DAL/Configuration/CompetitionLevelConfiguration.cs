@@ -4,12 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DAL.Configuration;
 
-internal class CompetitionStatusConfiguration
-    : IEntityTypeConfiguration<CompetitionStatus>
+public class CompetitionLevelConfiguration : IEntityTypeConfiguration<CompetitionLevel>
 {
-    public void Configure(EntityTypeBuilder<CompetitionStatus> builder)
-    {
-        builder.ToTable("competition_statuses");
+    public void Configure(EntityTypeBuilder<CompetitionLevel> builder)
+    { 
+        builder.ToTable("competition_levels");
 
         builder.HasKey(cs => cs.Id);
         
@@ -20,10 +19,10 @@ internal class CompetitionStatusConfiguration
         builder
             .Property(ic => ic.Name)
             .HasColumnName("name")
-            .HasColumnType("varchar(50)")
-            .HasMaxLength(50)
+            .HasColumnType("varchar(30)")
+            .HasMaxLength(30)
             .IsRequired();
-        
+
         builder
             .HasIndex(ic => ic.Name)
             .IsUnique();

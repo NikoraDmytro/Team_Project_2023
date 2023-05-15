@@ -4,19 +4,19 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DAL.Configuration;
 
-internal class CompetitionStatusConfiguration
-    : IEntityTypeConfiguration<CompetitionStatus>
+internal class InstructorCategoryConfiguration
+    :IEntityTypeConfiguration<InstructorCategory>
 {
-    public void Configure(EntityTypeBuilder<CompetitionStatus> builder)
+    public void Configure(EntityTypeBuilder<InstructorCategory> builder)
     {
-        builder.ToTable("competition_statuses");
+        builder.ToTable("instructor_categories");
 
-        builder.HasKey(cs => cs.Id);
-        
+        builder.HasKey(ic => ic.Id);
+
         builder
             .Property(ic => ic.Id)
             .HasColumnName("id");
-        
+
         builder
             .Property(ic => ic.Name)
             .HasColumnName("name")

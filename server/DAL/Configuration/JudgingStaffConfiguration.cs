@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DAL.Configuration;
 
-public class JudgingStaffConfiguration
+internal class JudgingStaffConfiguration
     : IEntityTypeConfiguration<JudgingStaff>
 {
     public void Configure(EntityTypeBuilder<JudgingStaff> builder)
@@ -18,14 +18,14 @@ public class JudgingStaffConfiguration
             .HasColumnName("application_num");
 
         builder
-            .Property(js => js.Role)
-            .HasColumnName("role")
+            .Property(js => js.JudgeRoleId)
+            .HasColumnName("judge_role_id")
             .IsRequired();
 
         builder
             .HasOne(js => js.JudgeRole)
             .WithMany()
-            .HasForeignKey(js => js.Role)
+            .HasForeignKey(js => js.JudgeRoleId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder

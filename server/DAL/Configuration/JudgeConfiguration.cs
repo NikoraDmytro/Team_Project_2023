@@ -17,16 +17,20 @@ internal class JudgeConfiguration: IEntityTypeConfiguration<Judge>
             .HasColumnName("membership_card_num");
         
         builder
-            .HasOne(c => c.Sportsman)
+            .HasOne(j => j.Sportsman)
             .WithOne()
-            .HasForeignKey<Judge>(c => c.MembershipCardNum)
+            .HasForeignKey<Judge>(j => j.MembershipCardNum)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder
-            .Property(j => j.JudgeCategory)
-            .HasColumnType("varchar(50)")
-            .HasMaxLength(50)
-            .HasColumnName("judge_category")
-            .IsRequired();
+            .Property(j => j.JudgeCategoryId)
+            .HasColumnName("judge_category_id");
+
+        builder
+            .HasOne(j => j.JudgeCategory)
+            .WithMany()
+            .HasForeignKey(j => j.JudgeCategoryId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

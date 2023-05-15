@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DAL.Configuration;
 
-public class DayangConfiguration : IEntityTypeConfiguration<Dayang>
+internal class DayangConfiguration : IEntityTypeConfiguration<Dayang>
 {
     public void Configure(EntityTypeBuilder<Dayang> builder)
     {

@@ -8,9 +8,11 @@ public class Competition
     public DateTime? StartDate { get; set; }
     public DateTime? EndDate { get; set; }
     public string? City { get; set; }
-    public string? CompetitionLevel { get; set; }
     
-    public string? CurrentStatus { get; set; }
+    public int CompetitionLevelId { get; set; }
+    public CompetitionLevel? CompetitionLevel { get; set; }
+    
+    public int CompetitionStatusId { get; set; }
     public CompetitionStatus? CompetitionStatus { get; set; }
     
     public ICollection<Competitor>? Competitors { get; set; }

@@ -4,6 +4,7 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230513001208_DataSeedingForCompetitionStatusAndLevel")]
+    partial class DataSeedingForCompetitionStatusAndLevel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,119 +27,89 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Core.Entities.Belt", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<string>("Rank")
-                        .IsRequired()
                         .HasColumnType("varchar(4)")
                         .HasColumnName("rank");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("Rank")
-                        .IsUnique();
+                    b.HasKey("Rank");
 
                     b.ToTable("belts", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
                             Rank = "1"
                         },
                         new
                         {
-                            Id = 2,
                             Rank = "2"
                         },
                         new
                         {
-                            Id = 3,
                             Rank = "3"
                         },
                         new
                         {
-                            Id = 4,
                             Rank = "4"
                         },
                         new
                         {
-                            Id = 5,
                             Rank = "5"
                         },
                         new
                         {
-                            Id = 6,
                             Rank = "6"
                         },
                         new
                         {
-                            Id = 7,
                             Rank = "7"
                         },
                         new
                         {
-                            Id = 8,
                             Rank = "8"
                         },
                         new
                         {
-                            Id = 9,
                             Rank = "9"
                         },
                         new
                         {
-                            Id = 10,
                             Rank = "10"
                         },
                         new
                         {
-                            Id = 11,
                             Rank = "I"
                         },
                         new
                         {
-                            Id = 12,
                             Rank = "II"
                         },
                         new
                         {
-                            Id = 13,
                             Rank = "III"
                         },
                         new
                         {
-                            Id = 14,
                             Rank = "IV"
                         },
                         new
                         {
-                            Id = 15,
                             Rank = "V"
                         },
                         new
                         {
-                            Id = 16,
                             Rank = "VI"
                         },
                         new
                         {
-                            Id = 17,
                             Rank = "VII"
                         },
                         new
                         {
-                            Id = 18,
                             Rank = "VIII"
                         },
                         new
                         {
-                            Id = 19,
                             Rank = "IX"
                         });
                 });
@@ -385,10 +358,6 @@ namespace DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ApplicationNum"));
 
-                    b.Property<int>("BeltId")
-                        .HasColumnType("int")
-                        .HasColumnName("belt_id");
-
                     b.Property<int>("CompetitionId")
                         .HasColumnType("int")
                         .HasColumnName("competition_id");
@@ -397,17 +366,23 @@ namespace DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("membership_card_num");
 
+                    b.Property<string>("Rank")
+                        .IsRequired()
+                        .HasMaxLength(4)
+                        .HasColumnType("varchar(4)")
+                        .HasColumnName("belt_rank");
+
                     b.Property<int?>("WeightingResult")
                         .HasColumnType("int")
                         .HasColumnName("weighting_result");
 
                     b.HasKey("ApplicationNum");
 
-                    b.HasIndex("BeltId");
-
                     b.HasIndex("CompetitionId");
 
                     b.HasIndex("MembershipCardNum");
+
+                    b.HasIndex("Rank");
 
                     b.ToTable("competitors", (string)null);
                 });
@@ -476,9 +451,10 @@ namespace DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("max_age");
 
-                    b.Property<int>("MaxBeltId")
-                        .HasColumnType("int")
-                        .HasColumnName("max_belt_id");
+                    b.Property<string>("MaxRank")
+                        .IsRequired()
+                        .HasColumnType("varchar(4)")
+                        .HasColumnName("max_rank");
 
                     b.Property<int?>("MaxWeight")
                         .HasColumnType("int")
@@ -488,9 +464,10 @@ namespace DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("min_age");
 
-                    b.Property<int>("MinBeltId")
-                        .HasColumnType("int")
-                        .HasColumnName("min_belt_id");
+                    b.Property<string>("MinRank")
+                        .IsRequired()
+                        .HasColumnType("varchar(4)")
+                        .HasColumnName("min_rank");
 
                     b.Property<int?>("MinWeight")
                         .HasColumnType("int")
@@ -510,9 +487,9 @@ namespace DAL.Migrations
 
                     b.HasKey("DivisionId");
 
-                    b.HasIndex("MaxBeltId");
+                    b.HasIndex("MaxRank");
 
-                    b.HasIndex("MinBeltId");
+                    b.HasIndex("MinRank");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -644,50 +621,34 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Core.Entities.JudgeRole", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
+                    b.Property<string>("RoleName")
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("role_name");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("varchar(30)")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
+                    b.HasKey("RoleName");
 
                     b.ToTable("judge_roles", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            Name = "боковий суддя"
+                            RoleName = "side_judge"
                         },
                         new
                         {
-                            Id = 2,
-                            Name = "рефері"
+                            RoleName = "referee"
                         },
                         new
                         {
-                            Id = 3,
-                            Name = "головний суддя"
+                            RoleName = "chief_judge"
                         },
                         new
                         {
-                            Id = 4,
-                            Name = "помічник головного судді"
+                            RoleName = "deputy_chief_judge"
                         },
                         new
                         {
-                            Id = 5,
-                            Name = "запасний суддя"
+                            RoleName = "reserve_judge"
                         });
                 });
 
@@ -704,21 +665,22 @@ namespace DAL.Migrations
                         .HasColumnType("int")
                         .HasColumnName("dayang_id");
 
-                    b.Property<int>("JudgeRoleId")
-                        .HasColumnType("int")
-                        .HasColumnName("judge_role_id");
-
                     b.Property<int>("MembershipCardNum")
                         .HasColumnType("int")
                         .HasColumnName("membership_card_num");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("role");
 
                     b.HasKey("ApplicationNum");
 
                     b.HasIndex("DayangId");
 
-                    b.HasIndex("JudgeRoleId");
-
                     b.HasIndex("MembershipCardNum");
+
+                    b.HasIndex("Role");
 
                     b.ToTable("judging_staff", (string)null);
                 });
@@ -818,10 +780,6 @@ namespace DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MembershipCardNum"));
 
-                    b.Property<int>("BeltId")
-                        .HasColumnType("int")
-                        .HasColumnName("belt_id");
-
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("birth_date");
@@ -829,6 +787,13 @@ namespace DAL.Migrations
                     b.Property<int?>("CoachMembershipCardNum")
                         .HasColumnType("int")
                         .HasColumnName("coach_membership_card_num");
+
+                    b.Property<string>("Rank")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(4)
+                        .HasColumnType("varchar(4)")
+                        .HasDefaultValue("10")
+                        .HasColumnName("belt_rank");
 
                     b.Property<string>("Sex")
                         .IsRequired()
@@ -846,9 +811,9 @@ namespace DAL.Migrations
 
                     b.HasKey("MembershipCardNum");
 
-                    b.HasIndex("BeltId");
-
                     b.HasIndex("CoachMembershipCardNum");
+
+                    b.HasIndex("Rank");
 
                     b.HasIndex("SportsCategoryId");
 
@@ -1133,21 +1098,21 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Core.Entities.Competitor", b =>
                 {
-                    b.HasOne("Core.Entities.Belt", "Belt")
-                        .WithMany()
-                        .HasForeignKey("BeltId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Core.Entities.Competition", "Competition")
                         .WithMany("Competitors")
                         .HasForeignKey("CompetitionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Core.Entities.Sportsman", "Sportsman")
                         .WithMany()
                         .HasForeignKey("MembershipCardNum")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Belt", "Belt")
+                        .WithMany()
+                        .HasForeignKey("Rank")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1192,13 +1157,13 @@ namespace DAL.Migrations
                 {
                     b.HasOne("Core.Entities.Belt", "MaxBelt")
                         .WithMany()
-                        .HasForeignKey("MaxBeltId")
+                        .HasForeignKey("MaxRank")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Core.Entities.Belt", "MinBelt")
                         .WithMany()
-                        .HasForeignKey("MinBeltId")
+                        .HasForeignKey("MinRank")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1234,15 +1199,15 @@ namespace DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Entities.JudgeRole", "JudgeRole")
-                        .WithMany()
-                        .HasForeignKey("JudgeRoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Core.Entities.Judge", "Judge")
                         .WithMany()
                         .HasForeignKey("MembershipCardNum")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.JudgeRole", "JudgeRole")
+                        .WithMany()
+                        .HasForeignKey("Role")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1273,15 +1238,13 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Core.Entities.Sportsman", b =>
                 {
-                    b.HasOne("Core.Entities.Belt", "Belt")
-                        .WithMany()
-                        .HasForeignKey("BeltId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Core.Entities.Coach", "Coach")
                         .WithMany("Sportsmen")
                         .HasForeignKey("CoachMembershipCardNum");
+
+                    b.HasOne("Core.Entities.Belt", "Belt")
+                        .WithMany()
+                        .HasForeignKey("Rank");
 
                     b.HasOne("Core.Entities.SportsCategory", "SportsCategory")
                         .WithMany()
