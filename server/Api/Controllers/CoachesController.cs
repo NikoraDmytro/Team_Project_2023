@@ -1,6 +1,7 @@
 ﻿using BLL.Models.Coach;
 using BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Sieve.Models;
 
 namespace Api.Controllers;
 
@@ -15,10 +16,17 @@ public class CoachesController: ControllerBase
         _coachService = coachService;
     }
 
-    [HttpGet]
+    [HttpGet("all")]
     public async Task<IActionResult> Get()
     {
         var coaches = await _coachService.GetAllAsync();
+        return Ok(coaches);
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> GetAllWithFilter([FromQuery] SieveModel sieveModel)
+    {
+        var coaches = await _coachService.GetAllWithFilterAsync(sieveModel);
         return Ok(coaches);
     }
 

@@ -7,11 +7,12 @@ public class CoachSieveConfiguration: ISieveConfiguration
 {
     public void Configure(SievePropertyMapper mapper)
     {
-        mapper.Property<Coach>(x => x.InstructorCategory)
+        mapper.Property<Coach>(x => x.Phone)
             .CanFilter()
             .CanSort();
 
-        mapper.Property<Coach>(x => x.Phone)
+        mapper.Property<Coach>(x => x.InstructorCategory!.Name)
+            .HasName("InstructorCategory")
             .CanFilter()
             .CanSort();
     }
