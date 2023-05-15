@@ -1,5 +1,8 @@
-﻿using DAL.Repositories.Interfaces;
+﻿using Core.Shared;
+using DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Sieve.Models;
+using Sieve.Services;
 
 namespace DAL.Repositories;
 
@@ -7,16 +10,28 @@ public class GenericRepository<TEntity>: IGenericRepository<TEntity> where TEnti
 {
     protected readonly AppDbContext _context;
     protected readonly DbSet<TEntity> _dbSet;
+    private readonly ISieveProcessor _sieveProcessor;
 
-    protected GenericRepository(AppDbContext context)
+    protected GenericRepository(
+        AppDbContext context,
+        ISieveProcessor sieveProcessor)
     {
         _context = context;
+        _sieveProcessor = sieveProcessor;
         _dbSet = context.Set<TEntity>();
     }
 
     public async Task<IEnumerable<TEntity>> GetAllAsync()
     {
         return await _dbSet.ToListAsync();
+    }
+
+    public async Task<PagedList<TEntity>> GetAllWithFilterAsync(SieveModel sieveModel)
+    {
+        var entities = _sieveProcessor
+            .Apply(sieveModel, _dbSet.AsQueryable(), applyPagination: false);
+
+        return await PagedList<TEntity>.ToPagedListAsync(entities, sieveModel);
     }
 
     public async Task CreateAsync(TEntity entity)
