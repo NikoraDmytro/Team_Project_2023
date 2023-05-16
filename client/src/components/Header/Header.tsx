@@ -32,6 +32,14 @@ const Header = (): JSX.Element => {
             >
               Calendar
             </Button>
+            <Button
+              color='inherit'
+              onClick={() => {
+                navigate(routes.DASHBOARD + dashboardRoutes.USERS);
+              }}
+            >
+              Calendar
+            </Button>
           </Box>
           <Button color='inherit' size='large' onClick={clickHandler}>
             Log out
