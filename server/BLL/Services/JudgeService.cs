@@ -55,7 +55,7 @@ public class JudgeService: IJudgeService
 
         if (!string.IsNullOrWhiteSpace(updateJudgeModel.JudgeCategory))
         {
-            judge.JudgeCategory = updateJudgeModel.JudgeCategory;
+            //judge.JudgeCategory = updateJudgeModel.JudgeCategory;
         }
 
         _judgeRepository.Update(judge);

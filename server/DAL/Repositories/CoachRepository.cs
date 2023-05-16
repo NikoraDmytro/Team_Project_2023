@@ -6,7 +6,7 @@ namespace DAL.Repositories;
 
 public class CoachRepository: GenericRepository<Coach>, ICoachRepository
 {
-    protected CoachRepository(AppDbContext context) : base(context)
+    public CoachRepository(AppDbContext context) : base(context)
     {
     }
 

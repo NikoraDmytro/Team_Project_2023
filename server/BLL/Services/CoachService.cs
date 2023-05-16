@@ -63,7 +63,7 @@ public class CoachService: ICoachService
 
         if (!string.IsNullOrWhiteSpace(updateCoachModel.InstructorCategory))
         {
-            coach.InstructorCategory = updateCoachModel.InstructorCategory;
+            //coach.InstructorCategory = updateCoachModel.InstructorCategory;
         }
 
         if (updateCoachModel.ClubId != null)

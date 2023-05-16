@@ -22,8 +22,8 @@ public class CoachesController: ControllerBase
         return Ok(coaches);
     }
 
-    [HttpGet("{cardNum}", Name = nameof(GetByMembershipCardNum))]
-    public async Task<IActionResult> GetByMembershipCardNum(int cardNum)
+    [HttpGet("{cardNum}", Name = nameof(GetCoachByMembershipCardNum))]
+    public async Task<IActionResult> GetCoachByMembershipCardNum(int cardNum)
     {
         var coach = await _coachService.GetByMembershipCardNumAsync(cardNum);
         return Ok(coach);
@@ -33,7 +33,7 @@ public class CoachesController: ControllerBase
     public async Task<IActionResult> Post(CreateCoachModel createCoachModel)
     {
         var coach = await _coachService.CreateAsync(createCoachModel);
-        return CreatedAtRoute(nameof(GetByMembershipCardNum), new { cardNum = coach.MembershipCardNum }, coach);
+        return CreatedAtRoute(nameof(GetCoachByMembershipCardNum), new { cardNum = coach.MembershipCardNum }, coach);
     }
 
     [HttpPut("{cardNum}")]

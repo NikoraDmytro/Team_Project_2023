@@ -10,10 +10,17 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.ConfigureBusinessLayerServices();
+builder.Services.ConfigureBusinessLayerServices(builder.Configuration);
 builder.Services.ConfigureDataAccessLayer();
 
-builder.Services.AddAuthentication();
+builder.Services
+    .AddAuthentication()
+    .AddGoogle(googleOptions =>
+    {
+        googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? string.Empty;
+        googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? string.Empty;
+    });
+
 builder.Services.ConfigureIdentity();
 
 var app = builder.Build();

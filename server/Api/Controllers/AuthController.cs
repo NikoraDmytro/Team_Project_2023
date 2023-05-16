@@ -25,6 +25,15 @@ public class AuthController: ControllerBase
         return Ok(tokenModel);
     }
 
+    [HttpPost("login-external")]
+    public async Task<IActionResult> LoginExternal(
+        ExternalAuthModel externalAuthModel,
+        CancellationToken cancellationToken)
+    {
+        var tokenModel = await _authService.LoginExternalAsync(externalAuthModel, cancellationToken);
+        return Ok(tokenModel);
+    }
+
     [HttpPost("signup")]
     public async Task<IActionResult> Signup(
         SignupModel signupModel,
