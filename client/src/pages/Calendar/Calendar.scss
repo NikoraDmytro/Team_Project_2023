@@ -1,0 +1,12 @@
+.calendar-wrapper {
+  .calendar-menu {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 15px auto;
+  }
+  thead {
+    th {
+      font-weight: 700;
+    }
+  }
+}
