@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.ConfigureBusinessLayerServices();
+builder.Services.ConfigureBusinessLayerServices(builder.Configuration);
 builder.Services.ConfigureDataAccessLayer();
 
 builder.Services.AddAuthentication();

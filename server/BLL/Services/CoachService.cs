@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using BLL.Models.Club;
 using BLL.Models.Coach;
 using BLL.Services.Interfaces;
 using Core.Entities;
 using Core.Exceptions;
+using Core.Shared;
 using DAL;
 using DAL.Repositories.Interfaces;
+using Sieve.Models;
 
 namespace BLL.Services;
 
@@ -33,6 +36,16 @@ public class CoachService: ICoachService
         return _mapper.Map<IEnumerable<CoachModel>>(coaches);
     }
 
+    public async Task<PagedList<ClubModel>> GetAllWithFilterAsync(SieveModel sieveModel)
+    {
+        var pagedList = await _coachRepository.GetAllWithFilterAsync(sieveModel);
+        var clubModels = _mapper.Map<IEnumerable<ClubModel>>(pagedList.Items);
+
+        var updatedPagedList = PagedList<ClubModel>.Copy(pagedList, clubModels);
+
+        return updatedPagedList;
+    }
+
     public async Task<CoachModel> GetByMembershipCardNumAsync(int cardNum)
     {
         var coach = await _coachRepository.GetByMembershipCardNumAsync(cardNum)
@@ -59,11 +72,6 @@ public class CoachService: ICoachService
         if (!string.IsNullOrWhiteSpace(updateCoachModel.Phone))
         {
             coach.Phone = updateCoachModel.Phone;
-        }
-
-        if (!string.IsNullOrWhiteSpace(updateCoachModel.InstructorCategory))
-        {
-            coach.InstructorCategory = updateCoachModel.InstructorCategory;
         }
 
         if (updateCoachModel.ClubId != null)

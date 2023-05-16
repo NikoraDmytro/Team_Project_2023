@@ -1,6 +1,7 @@
 ﻿using BLL.Models.Coach;
 using BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Sieve.Models;
 
 namespace Api.Controllers;
 
@@ -15,15 +16,22 @@ public class CoachesController: ControllerBase
         _coachService = coachService;
     }
 
-    [HttpGet]
+    [HttpGet("all")]
     public async Task<IActionResult> Get()
     {
         var coaches = await _coachService.GetAllAsync();
         return Ok(coaches);
     }
+    
+    [HttpGet]
+    public async Task<IActionResult> GetAllWithFilter([FromQuery] SieveModel sieveModel)
+    {
+        var coaches = await _coachService.GetAllWithFilterAsync(sieveModel);
+        return Ok(coaches);
+    }
 
-    [HttpGet("{cardNum}", Name = nameof(GetByMembershipCardNum))]
-    public async Task<IActionResult> GetByMembershipCardNum(int cardNum)
+    [HttpGet("{cardNum}", Name = nameof(GetCoachByMembershipCardNum))]
+    public async Task<IActionResult> GetCoachByMembershipCardNum(int cardNum)
     {
         var coach = await _coachService.GetByMembershipCardNumAsync(cardNum);
         return Ok(coach);
@@ -33,7 +41,7 @@ public class CoachesController: ControllerBase
     public async Task<IActionResult> Post(CreateCoachModel createCoachModel)
     {
         var coach = await _coachService.CreateAsync(createCoachModel);
-        return CreatedAtRoute(nameof(GetByMembershipCardNum), new { cardNum = coach.MembershipCardNum }, coach);
+        return CreatedAtRoute(nameof(GetCoachByMembershipCardNum), new { cardNum = coach.MembershipCardNum }, coach);
     }
 
     [HttpPut("{cardNum}")]

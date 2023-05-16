@@ -1,12 +1,15 @@
 ﻿using Core.Entities;
 using DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Sieve.Services;
 
 namespace DAL.Repositories;
 
 public class CoachRepository: GenericRepository<Coach>, ICoachRepository
 {
-    protected CoachRepository(AppDbContext context) : base(context)
+    public CoachRepository(
+        AppDbContext context,
+        ISieveProcessor sieveProcessor) : base(context, sieveProcessor)
     {
     }
 
