@@ -11,7 +11,7 @@ public class CoachSieveConfiguration: ISieveConfiguration
             .CanFilter()
             .CanSort();
 
-        mapper.Property<Coach>(x => x.InstructorCategory!.Name)
+        mapper.Property<Coach>(x => x.InstructorCategoryId)
             .HasName("InstructorCategory")
             .CanFilter()
             .CanSort();

@@ -15,12 +15,12 @@ public class SportsmanSieveConfiguration: ISieveConfiguration
             .CanFilter()
             .CanSort();
 
-        mapper.Property<Sportsman>(x => x.SportsCategory!.Name)
+        mapper.Property<Sportsman>(x => x.SportsCategoryId)
             .HasName("SportsCategory")
             .CanFilter()
             .CanSort();
 
-        mapper.Property<Sportsman>(x => x.Belt!.Rank)
+        mapper.Property<Sportsman>(x => x.BeltId)
             .HasName("Belt")
             .CanFilter()
             .CanSort();

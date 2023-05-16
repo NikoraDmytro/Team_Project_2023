@@ -38,7 +38,7 @@ public class CoachService: ICoachService
 
     public async Task<PagedList<ClubModel>> GetAllWithFilterAsync(SieveModel sieveModel)
     {
-        var pagedList = await _clubRepository.GetAllWithFilterAsync(sieveModel);
+        var pagedList = await _coachRepository.GetAllWithFilterAsync(sieveModel);
         var clubModels = _mapper.Map<IEnumerable<ClubModel>>(pagedList.Items);
 
         var updatedPagedList = PagedList<ClubModel>.Copy(pagedList, clubModels);
