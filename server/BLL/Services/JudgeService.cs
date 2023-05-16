@@ -53,11 +53,6 @@ public class JudgeService: IJudgeService
         var judge = await _judgeRepository.GetByMembershipCardNumAsync(cardNum)
                     ?? throw new NotFoundException($"Judge with membership card num {cardNum} was not found");
 
-        if (!string.IsNullOrWhiteSpace(updateJudgeModel.JudgeCategory))
-        {
-            //judge.JudgeCategory = updateJudgeModel.JudgeCategory;
-        }
-
         _judgeRepository.Update(judge);
         await _context.SaveChangesAsync();
     }

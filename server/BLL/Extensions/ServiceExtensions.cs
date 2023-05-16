@@ -2,8 +2,12 @@
 using BLL.Mappings;
 using BLL.Models.Settings;
 using BLL.Services.Interfaces;
+using BLL.Sieve;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Sieve.Models;
+using Sieve.Services;
 
 namespace BLL.Extensions;
 
@@ -20,6 +24,9 @@ public static class DependencyRegistrar
                 .WithScopedLifetime());
 
         services.ConfigureAutomapper();
+
+        services.AddScoped<ISieveProcessor, ApplicationSieveProcessor>();
+        services.Configure<SieveOptions>(configuration.GetSection("Sieve"));
         services.ConfigureOptions(configuration);
         
         return services;

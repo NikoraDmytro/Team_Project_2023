@@ -10,12 +10,12 @@ public static class ServiceExtensions
     public static void ConfigureSqlContext(this IServiceCollection services)
     {
 
-        /*var connectionString = 
+        var connectionString = 
                           $"Server={Environment.GetEnvironmentVariable("DB_HOST")};" +
                           $"Database={Environment.GetEnvironmentVariable("DB_NAME")};" +
                           $"User Id={Environment.GetEnvironmentVariable("USER_ID")};" +
                           $"Password={Environment.GetEnvironmentVariable("SA_PASSWORD")};" +
-                          "Encrypt=False";*/
+                          "Encrypt=False";
 
         var anotherString =
             "Server=DESKTOP-LA5RDNV;Database=taekwondo;Integrated Security=True;MultipleActiveResultSets=True;TrustServerCertificate=True";

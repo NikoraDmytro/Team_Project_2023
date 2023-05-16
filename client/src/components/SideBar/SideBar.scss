@@ -1,0 +1,70 @@
+.container {
+  width: 250px;
+  height: 100vh;
+  position: relative;
+  float: left;
+  margin-right: 15px;
+  padding: 10px;
+  border-right: 1px solid #383636;
+
+  .logo {
+    display: flex;
+    border-bottom: 1px solid #a49999;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0 20px 0;
+
+    img {
+      width: 80px;
+      height: 80px;
+    }
+
+    h1 {
+      font-weight: 500;
+      font-size: 20px;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+  }
+
+  .navbar {
+    display: flex;
+    flex-direction: column;
+    a {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 5px 0 5px 20px;
+      p {
+        color: black;
+        font-weight: 400;
+        font-size: 18px;
+        color: #6c6c6c;
+      }
+    }
+
+    a.active p {
+      font-weight: 700;
+    }
+
+    img {
+      width: 32px;
+      height: 32px;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  .exit {
+    position: absolute;
+    bottom: 0;
+    padding: 20px 20px;
+    cursor: pointer;
+    p {
+      font-weight: 300;
+      font-size: 24px;
+    }
+  }
+}
