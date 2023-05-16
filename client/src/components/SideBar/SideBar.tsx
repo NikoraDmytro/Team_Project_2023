@@ -1,17 +1,19 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import routes, { dashboardRoutes } from '../../const/routes';
-import './Header.scss';
-import logo from '../../assets/navIcons/taekwondo.png';
-import calendar from '../../assets/navIcons/calendar.png';
-import users from '../../assets/navIcons/users.png';
-import clubs from '../../assets/navIcons/clubs.png';
-import coaches from '../../assets/navIcons/coaches.png';
-import divisions from '../../assets/navIcons/divisions.png';
-import referees from '../../assets/navIcons/referees.png';
-import sportsman from '../../assets/navIcons/sportsman.png';
+import './SideBar.scss';
+import {
+  taekwondoLogo,
+  calendarIcon,
+  usersIcon,
+  clubsIcon,
+  coachesIcon,
+  divisionsIcon,
+  refereesIcon,
+  sportsmanIcon,
+} from '../../assets/img';
 
-const Header = (): JSX.Element => {
+const SideBar = (): JSX.Element => {
   const navigate = useNavigate();
   const clickHandler = () => {
     localStorage.setItem('isLoggedIn', 'false');
@@ -20,7 +22,7 @@ const Header = (): JSX.Element => {
   return (
     <div className='container'>
       <div className='logo'>
-        <img src={logo} alt='logo' />
+        <img src={taekwondoLogo} alt='logo' />
         <h1
           onClick={() => {
             navigate(routes.DASHBOARD + dashboardRoutes.HOME);
@@ -34,49 +36,49 @@ const Header = (): JSX.Element => {
           to={`${routes.DASHBOARD}${dashboardRoutes.USERS}`}
           className={({ isActive }) => (isActive ? 'active' : '')}
         >
-          <img src={users} alt='users-icon' />
+          <img src={usersIcon} alt='users-icon' />
           <p>Користувачі</p>
         </NavLink>
         <NavLink
           to={`${routes.DASHBOARD}${dashboardRoutes.CLUBS}`}
           className={({ isActive }) => (isActive ? 'active' : '')}
         >
-          <img src={clubs} alt='clubs-icon' />
+          <img src={clubsIcon} alt='clubs-icon' />
           <p>Клуби</p>
         </NavLink>
         <NavLink
           to={`${routes.DASHBOARD}${dashboardRoutes.SPORTSMAN}`}
           className={({ isActive }) => (isActive ? 'active' : '')}
         >
-          <img src={sportsman} alt='sportsman-icon' />
+          <img src={sportsmanIcon} alt='sportsman-icon' />
           <p>Спортсмени</p>
         </NavLink>
         <NavLink
           to={`${routes.DASHBOARD}${dashboardRoutes.COACHES}`}
           className={({ isActive }) => (isActive ? 'active' : '')}
         >
-          <img src={coaches} alt='coaches-icon' />
+          <img src={coachesIcon} alt='coaches-icon' />
           <p>Тренери</p>
         </NavLink>
         <NavLink
           to={`${routes.DASHBOARD}${dashboardRoutes.REFEREES}`}
           className={({ isActive }) => (isActive ? 'active' : '')}
         >
-          <img src={referees} alt='referees-icon' />
+          <img src={refereesIcon} alt='referees-icon' />
           <p>Судді</p>
         </NavLink>
         <NavLink
           to={`${routes.DASHBOARD}${dashboardRoutes.CALENDAR}`}
           className={({ isActive }) => (isActive ? 'active' : '')}
         >
-          <img src={calendar} alt='calendar-icon' />
+          <img src={calendarIcon} alt='calendar-icon' />
           <p>Календар</p>
         </NavLink>
         <NavLink
           to={`${routes.DASHBOARD}${dashboardRoutes.DIVISIONS}`}
           className={({ isActive }) => (isActive ? 'active' : '')}
         >
-          <img src={divisions} alt='divisions-icon' />
+          <img src={divisionsIcon} alt='divisions-icon' />
           <p>Дивізіони</p>
         </NavLink>
       </div>
@@ -87,4 +89,4 @@ const Header = (): JSX.Element => {
   );
 };
 
-export { Header };
+export { SideBar };
