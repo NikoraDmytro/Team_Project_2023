@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import { Button, Typography } from '@mui/material';
 import { FcGoogle } from 'react-icons/fc';
@@ -18,8 +18,39 @@ const initialValues: FormValues = {
   password: '',
 };
 
+const clientId = "<your-client-id>";
+
+function handleCallbackResponse(res: any){
+  console.log('Callback response', res);
+
+  fetch("https://localhost:7238/api/auth/login-external",{
+    method: "POST", 
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({provider: "Google", idToken: res.credential })
+  })
+    .then(res => res.json())
+    .then(res => console.log(res))
+    .catch(error => console.log(error));
+}
+
 const RegistrationForm = (): JSX.Element => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      navigate(routes.DASHBOARD);
+    }
+
+    google.accounts.id.initialize({
+      client_id: clientId,
+      callback: handleCallbackResponse
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById("signinDiv")!,
+      { theme: "outline", size: "large", type: "standard", text: "signin_with" }
+    );
+  });
 
   const submitHandler = (values: FormValues) => {
     localStorage.setItem('isLoggedIn', 'true');
@@ -52,6 +83,7 @@ const RegistrationForm = (): JSX.Element => {
           >
             Register
           </Button>
+          <div id="signinDiv"></div>
         </Form>
       )}
     </Formik>
