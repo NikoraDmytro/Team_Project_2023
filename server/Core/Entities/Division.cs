@@ -11,8 +11,8 @@ public class Division
     public Sex Sex { get; set; }
 
     public int MinBeltId { get; set; }
-    public Belt? MinBelt { get; set; }
+    public virtual Belt? MinBelt { get; set; }
 
     public int MaxBeltId { get; set; }
-    public Belt? MaxBelt { get; set; }
+    public virtual Belt? MaxBelt { get; set; }
 }

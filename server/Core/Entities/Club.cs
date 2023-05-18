@@ -7,5 +7,5 @@ public class Club
     public string? City { get; set; }
     public string? Address { get; set; }
     
-   public ICollection<Coach>? Coaches { get; set; }
+    public virtual ICollection<Coach>? Coaches { get; set; }
 }

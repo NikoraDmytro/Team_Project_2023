@@ -6,14 +6,14 @@ public class Coach
     public string? Phone { get; set; }
     
     public int ClubId { get; set; }
-    public Club? Club { get; set; }
+    public virtual Club? Club { get; set; }
     
     public int InstructorCategoryId { get; set; }
-    public InstructorCategory? InstructorCategory { get; set; }
+    public virtual InstructorCategory? InstructorCategory { get; set; }
     
     //Every coach is a sportsman on its own
-    public Sportsman? Sportsman { get; set; }
+    public virtual Sportsman? Sportsman { get; set; }
     
     //List of sportsmen he coaches
-    public ICollection<Sportsman>? Sportsmen { get; set; }
+    public virtual ICollection<Sportsman>? Sportsmen { get; set; }
 }
