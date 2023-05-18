@@ -46,7 +46,7 @@ public static class DependencyRegistrar
     {
         services.Configure<JwtSettings>(options =>
         {
-            options.Key = Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? "JwtSecretKey";
+            options.Key = Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? "JwtVerySecretKey1111111111111111111";
             options.Issuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? "JwtIssuer";
             options.Audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? "JwtAudience";
         });

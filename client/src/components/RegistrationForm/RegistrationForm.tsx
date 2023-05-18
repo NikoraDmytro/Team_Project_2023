@@ -52,10 +52,6 @@ const RegistrationForm = (): JSX.Element => {
           >
             Register
           </Button>
-          <Button variant='contained' className='google-button'>
-            <FcGoogle />
-            Sign in with Google
-          </Button>
         </Form>
       )}
     </Formik>

@@ -13,13 +13,22 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureBusinessLayerServices(builder.Configuration);
 builder.Services.ConfigureDataAccessLayer();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        x => x
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
 builder.Services
-    .AddAuthentication()
-    .AddGoogle(googleOptions =>
+    .AddAuthentication();/*
+    .AddGoogle("Google", googleOptions =>
     {
         googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? string.Empty;
         googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? string.Empty;
-    });
+    });*/
 
 builder.Services.ConfigureIdentity();
 
@@ -29,6 +38,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy");
 
 app.UseExceptionHandlingMiddleware();
 

@@ -21,7 +21,9 @@ public static class ServiceExtensions
             "Server=DESKTOP-LA5RDNV;Database=taekwondo;Integrated Security=True;MultipleActiveResultSets=True;TrustServerCertificate=True";
         
         services.AddDbContext<AppDbContext>(opts =>
-            opts.UseSqlServer(anotherString));
+            opts
+                .UseLazyLoadingProxies()
+                .UseSqlServer(anotherString));
     }
 
     public static void ConfigureIdentity(this IServiceCollection services)
