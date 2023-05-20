@@ -3,12 +3,27 @@ import './Calendar.scss';
 import { DataTable } from '../../components/DataTable';
 import { Button, TextField } from '@mui/material';
 import { TableColumns } from '../../types/DataTableTypes';
+import { SimpleDialog } from '../../dialogs/Competition/AddCompetitionDialog';
 
 type Competition = (typeof test)[0];
 type ColumnsType = Competition & { controls: string };
 
+const emails = ['username@gmail.com', 'user02@gmail.com'];
+
 const CalendarPage = (): JSX.Element => {
   const [competitions, setCompetitions] = useState(test);
+
+  const [open, setOpen] = React.useState(false);
+  const [selectedValue, setSelectedValue] = React.useState(emails[1]);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (value: string) => {
+    setOpen(false);
+    setSelectedValue(value);
+  };
 
   const columns: TableColumns<Competition, ColumnsType>[] = [
     {
@@ -66,6 +81,11 @@ const CalendarPage = (): JSX.Element => {
       <div className="calendar-data">
         <DataTable tableData={competitions} tableColumns={columns} />
       </div>
+      <SimpleDialog
+        selectedValue={selectedValue}
+        open={open}
+        onClose={handleClose}
+      />
     </div>
   );
 };
