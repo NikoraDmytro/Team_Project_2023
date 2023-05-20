@@ -2,6 +2,9 @@
 using DAL;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Api.Validators.Club;
 
 namespace Api.Extensions;
 
@@ -43,5 +46,13 @@ public static class ServiceExtensions
 
         builder.AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
+    }
+
+    public static void ConfigureFluentValidation(
+        this IServiceCollection services)
+    {
+        services.AddFluentValidationAutoValidation();
+        services.AddValidatorsFromAssemblyContaining<CreateClubModelValidator>();
+        services.AddValidatorsFromAssemblyContaining<UpdateClubModelValidator>();
     }
 }
