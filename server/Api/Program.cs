@@ -16,6 +16,8 @@ builder.Services.ConfigureDataAccessLayer();
 builder.Services.AddAuthentication();
 builder.Services.ConfigureIdentity();
 
+builder.Services.ConfigureFluentValidation();
+
 var app = builder.Build();
 
 app.UseSwagger();
