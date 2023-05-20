@@ -20,10 +20,10 @@ jobs:
         dotnet-version: '6.0.x'
         
     - name: Restore
-      run: dotnet restore ./Team_Project_2023.sln
+      run: dotnet restore .server/Team_Project_2023.sln
       
     - name: Build
-      run: dotnet build ./Team_Project_2023.sln --configuration Release --no-restore
+      run: dotnet build .server/Team_Project_2023.sln --configuration Release --no-restore
     
     - name: Publish
-      run: dotnet publish ./Team_Project_2023.sln --configuration Release --no-build
+      run: dotnet publish .server/Team_Project_2023.sln --configuration Release --no-build
