@@ -12,11 +12,12 @@ import {
   refereesIcon,
   sportsmanIcon,
 } from '../../assets/img';
+import AuthService from '../../services/AuthService';
 
 const SideBar = (): JSX.Element => {
   const navigate = useNavigate();
   const clickHandler = () => {
-    localStorage.setItem('isLoggedIn', 'false');
+    AuthService.logout();
     navigate(routes.REGISTRATION);
   };
   return (

@@ -1,8 +1,22 @@
 .calendar-wrapper {
+  margin-left: 300px;
+  margin-right: 30px;
+
   .calendar-menu {
     display: flex;
-    justify-content: space-evenly;
-    margin: 15px auto;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+
+    &__filters{
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    &__btn{
+      padding: 1rem;
+    }
   }
   thead {
     th {

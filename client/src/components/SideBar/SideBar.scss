@@ -1,11 +1,13 @@
 .container {
   width: 250px;
   height: 100vh;
-  position: relative;
+  position: fixed;
+  z-index: 1000;
   float: left;
   margin-right: 15px;
   padding: 10px;
   border-right: 1px solid #383636;
+  background-color: #fff;
 
   .logo {
     display: flex;

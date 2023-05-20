@@ -10,12 +10,13 @@ import { SportsmanPage } from '../Sportsman';
 import { CoachesPage } from '../Coaches';
 import { RefereesPage } from '../Referees';
 import { DivisionsPage } from '../Divisions';
+import AuthService from '../../services/AuthService';
 
 const DashboardPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem('isLoggedIn') !== 'true') {
+    if (!AuthService.isUserAuthenticated) {
       navigate(routes.REGISTRATION);
     }
   });
@@ -23,6 +24,7 @@ const DashboardPage = () => {
   return (
     <>
       <SideBar />
+      
       <Routes>
         <Route
           path='/'

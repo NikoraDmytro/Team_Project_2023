@@ -1,6 +1,7 @@
 const routes = {
   REGISTRATION: '/registration',
   DASHBOARD: '/dashboard',
+  LOGIN: '/login'
 };
 
 export const dashboardRoutes = {
@@ -11,7 +12,7 @@ export const dashboardRoutes = {
   SPORTSMAN: '/sportsman',
   COACHES: '/coaches',
   REFEREES: '/referees',
-  DIVISIONS: '/divisions',
+  DIVISIONS: '/divisions'
 };
 
 export default routes;

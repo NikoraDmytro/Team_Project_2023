@@ -19,6 +19,7 @@ const CalendarPage = (): JSX.Element => {
     {
       name: 'weightingDate',
       label: 'Дата зважування',
+      sortable: true,
     },
     {
       name: 'startDate',
@@ -28,10 +29,12 @@ const CalendarPage = (): JSX.Element => {
     {
       name: 'endData',
       label: 'Дата закінчення',
+      sortable: true,
     },
     {
       name: 'city',
       label: 'Місто',
+      sortable: true,
     },
     {
       name: 'status',
@@ -41,6 +44,7 @@ const CalendarPage = (): JSX.Element => {
     {
       name: 'level',
       label: 'Рівень',
+      sortable: true,
     },
     {
       name: 'controls',
@@ -51,12 +55,17 @@ const CalendarPage = (): JSX.Element => {
   return (
     <div className='calendar-wrapper'>
       <div className='calendar-menu'>
-        <TextField label='місце для пошуку'></TextField>
-        <TextField label='місце для фільтрації'></TextField>
-        <Button variant='contained'>Додати змагання</Button>
+        <TextField label='Пошук'></TextField>
+        <div className="calendar-menu__filters">
+          <TextField label='Місто'></TextField>
+          <TextField label='Рівень'></TextField>
+          <TextField label='Статус'></TextField>
+        </div>
+        <Button variant='contained' className='calendar-menu__btn'>Додати змагання</Button>
       </div>
-
-      <DataTable tableData={competitions} tableColumns={columns} />
+      <div className="calendar-data">
+        <DataTable tableData={competitions} tableColumns={columns} />
+      </div>
     </div>
   );
 };
