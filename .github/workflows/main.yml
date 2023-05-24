@@ -1,0 +1,29 @@
+name: Publish to Azure
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+    - main
+    - ci-cd-pipeline
+
+jobs:
+  publish: 
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '6.0.x'
+        
+    - name: Restore
+      run: dotnet restore .server/Team_Project_2023.sln
+      
+    - name: Build
+      run: dotnet build .server/Team_Project_2023.sln --configuration Release --no-restore
+    
+    - name: Publish
+      run: dotnet publish .server/Team_Project_2023.sln --configuration Release --no-build
