@@ -50,7 +50,7 @@ public class CoachService: ICoachService
     {
         var coach = await _coachRepository.GetByMembershipCardNumAsync(cardNum)
                     ?? throw new NotFoundException($"Coach with membership card num {cardNum} was not found");
-        
+
         return _mapper.Map<CoachModel>(coach);
     }
 
@@ -88,6 +88,10 @@ public class CoachService: ICoachService
         var coach = await _coachRepository.GetByMembershipCardNumAsync(cardNum)
                     ?? throw new NotFoundException($"Coach with membership card num {cardNum} was not found");
 
+        if (coach.Sportsmen != null && coach.Sportsmen.Any())
+        {
+            throw new BadRequestException($"Coach with membership card num {cardNum} can't be deleted, he still has sportsmen");
+        }
         _coachRepository.Delete(coach);
         await _context.SaveChangesAsync();
     }

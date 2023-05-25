@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Api.Validators.Club;
+using Api.Validators.Coach;
 
 namespace Api.Extensions;
 
@@ -54,5 +55,7 @@ public static class ServiceExtensions
         services.AddFluentValidationAutoValidation();
         services.AddValidatorsFromAssemblyContaining<CreateClubModelValidator>();
         services.AddValidatorsFromAssemblyContaining<UpdateClubModelValidator>();
+        services.AddValidatorsFromAssemblyContaining<CreateCoachModelValidator>();
+        services.AddValidatorsFromAssemblyContaining<UpdateCoachModelValidator>();
     }
 }

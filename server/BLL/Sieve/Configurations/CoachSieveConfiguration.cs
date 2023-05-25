@@ -15,5 +15,25 @@ public class CoachSieveConfiguration: ISieveConfiguration
             .HasName("InstructorCategory")
             .CanFilter()
             .CanSort();
+
+        mapper.Property<Coach>(x => x.Sportsman!.Belt)
+            .HasName("Belt")
+            .CanFilter()
+            .CanSort();
+
+        mapper.Property<Coach>(x => x.Sportsman!.User!.FirstName)
+            .HasName("FirstName")
+            .CanFilter()
+            .CanSort();
+
+        mapper.Property<Coach>(x => x.Sportsman!.User!.LastName)
+            .HasName("LastName")
+            .CanFilter()
+            .CanSort();
+
+        mapper.Property<Coach>(x => x.Sportsman!.BirthDate)
+            .HasName("BirthDate")
+            .CanFilter()
+            .CanSort();
     }
 }
