@@ -1,0 +1,16 @@
+.wrapper {
+  width: 1150px;
+  float: left;
+  .club-menu {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 15px auto;
+    align-items: center;
+    div {
+      width: 300px;
+    }
+  }
+  .delete-icon {
+    fill: rgba(218, 0, 0, 1);
+  }
+}

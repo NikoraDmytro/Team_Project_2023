@@ -12,6 +12,9 @@ const InputFormField = (props: Props): JSX.Element => {
   const [field, meta] = useField(props.name);
   return (
     <TextField
+      InputLabelProps={{
+        shrink: true,
+      }}
       {...field}
       fullWidth
       type={props.type}
