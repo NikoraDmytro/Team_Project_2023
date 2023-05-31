@@ -52,7 +52,7 @@ const ClubsPage = () => {
           color='inherit'
           onClick={() => setOpen(true)}
         >
-          Додати змагання
+          Додати клуб
         </Button>
       </div>
       <DataTable tableData={clubs} tableColumns={columns} />
@@ -114,6 +114,12 @@ const test = [
   },
   {
     id: 9,
+    name: 'СК "ПРАЙД"',
+    city: 'Харків',
+    address: 'вул. Героїв Праці, 4, оф. 553',
+  },
+  {
+    id: 10,
     name: 'СК "ПРАЙД"',
     city: 'Харків',
     address: 'вул. Героїв Праці, 4, оф. 553',

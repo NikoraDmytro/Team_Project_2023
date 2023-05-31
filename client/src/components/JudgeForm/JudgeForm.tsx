@@ -5,39 +5,37 @@ import { InputFormField } from '../InputFormField';
 import SelectForFilter from '../SelectForFilter/SelectForFilter';
 import belts from '../../const/belts';
 import ClearIcon from '@mui/icons-material/Clear';
+import coachesLevel from '../../const/coachesLevel';
+import judgeCategory from '../../const/judgeCategory';
 
 interface FormValues {
   photo: string;
-  firstname: string;
-  lastname: string;
-  patronimyc: string;
+  name: string;
   sex: string;
   birthday: string;
   club: string;
   belt: string;
-  coach: string;
+  judgeCategory: string;
   membershipCardNum: string;
 }
 
 const initialValues: FormValues = {
   photo: '',
-  firstname: '',
-  lastname: '',
-  patronimyc: '',
+  name: '',
   sex: '',
   birthday: '',
   club: '',
   belt: '',
-  coach: '',
+  judgeCategory: '',
   membershipCardNum: '',
 };
 
-interface SportsmanFormProps {
+interface JudgeFormProps {
   open: boolean;
   setClose: () => void;
 }
 
-const SportsmenForm = (props: SportsmanFormProps) => {
+const JudgeForm = (props: JudgeFormProps) => {
   const { open, setClose } = props;
   const submitHandler = (values: FormValues) => {
     console.log(values);
@@ -57,25 +55,20 @@ const SportsmenForm = (props: SportsmanFormProps) => {
               name='patronimyc'
               type='text'
             />
-            <div className='inputs-group'>
-              <InputFormField label='Прізвище' name='lastname' type='text' />
-              <InputFormField label="Ім'я" name='firstname' type='text' />
-            </div>
-            <InputFormField
-              label="Ім'я по-батькові"
-              name='patronimyc'
-              type='text'
-            />
-            <InputFormField
-              label='Дата народження'
-              name='weightingDate'
-              type='date'
-            />
+            <InputFormField label='ПІБ' name='name' type='text' />
+
             <div className='inputs-group'>
               <SelectForFilter label='Стать' items={['Ч', 'Ж']} />
               <SelectForFilter label='Пояс' items={belts} />
             </div>
-            <SelectForFilter label='Тренер' items={coachesTest} />
+            <div className='inputs-group'>
+              <InputFormField
+                label='Дата народження'
+                name='weightingDate'
+                type='date'
+              />
+              <SelectForFilter label='Категорія' items={judgeCategory} />
+            </div>
             <Button
               type='submit'
               variant='contained'
@@ -93,6 +86,4 @@ const SportsmenForm = (props: SportsmanFormProps) => {
   );
 };
 
-export { SportsmenForm };
-
-const coachesTest = ['Прокопенко Ю.С.', 'Прокопенко Ю.С.', 'Прокопенко Ю.С.'];
+export { JudgeForm };

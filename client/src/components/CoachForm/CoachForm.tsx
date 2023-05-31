@@ -5,6 +5,7 @@ import { InputFormField } from '../InputFormField';
 import SelectForFilter from '../SelectForFilter/SelectForFilter';
 import belts from '../../const/belts';
 import ClearIcon from '@mui/icons-material/Clear';
+import coachesLevel from '../../const/coachesLevel';
 
 interface FormValues {
   photo: string;
@@ -15,7 +16,7 @@ interface FormValues {
   birthday: string;
   club: string;
   belt: string;
-  coach: string;
+  coachCategory: string;
   membershipCardNum: string;
 }
 
@@ -28,16 +29,16 @@ const initialValues: FormValues = {
   birthday: '',
   club: '',
   belt: '',
-  coach: '',
+  coachCategory: '',
   membershipCardNum: '',
 };
 
-interface SportsmanFormProps {
+interface CoachFormProps {
   open: boolean;
   setClose: () => void;
 }
 
-const SportsmenForm = (props: SportsmanFormProps) => {
+const CoachForm = (props: CoachFormProps) => {
   const { open, setClose } = props;
   const submitHandler = (values: FormValues) => {
     console.log(values);
@@ -66,16 +67,20 @@ const SportsmenForm = (props: SportsmanFormProps) => {
               name='patronimyc'
               type='text'
             />
-            <InputFormField
-              label='Дата народження'
-              name='weightingDate'
-              type='date'
-            />
+
             <div className='inputs-group'>
               <SelectForFilter label='Стать' items={['Ч', 'Ж']} />
               <SelectForFilter label='Пояс' items={belts} />
             </div>
-            <SelectForFilter label='Тренер' items={coachesTest} />
+            <div className='inputs-group'>
+              <InputFormField
+                label='Дата народження'
+                name='weightingDate'
+                type='date'
+              />
+              <SelectForFilter label='Категорія' items={coachesLevel} />
+            </div>
+            <SelectForFilter label='Клуб' items={clubsTest} />
             <Button
               type='submit'
               variant='contained'
@@ -93,6 +98,5 @@ const SportsmenForm = (props: SportsmanFormProps) => {
   );
 };
 
-export { SportsmenForm };
-
-const coachesTest = ['Прокопенко Ю.С.', 'Прокопенко Ю.С.', 'Прокопенко Ю.С.'];
+const clubsTest = ['Клуб 1', 'Клуб 2', 'Клуб 3'];
+export { CoachForm };

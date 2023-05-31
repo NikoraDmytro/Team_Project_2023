@@ -77,7 +77,7 @@ const CalendarPage = (): JSX.Element => {
               InputLabelProps={{
                 shrink: true,
               }}
-            ></TextField>
+            />
             <SelectForFilter label='Статус' items={competitionStatus} />
           </div>
           <Button
