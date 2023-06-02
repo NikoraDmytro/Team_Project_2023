@@ -19,5 +19,10 @@
   "bugs": {
     "url": "https://github.com/NikoraDmytro/Team_Project_2023/issues"
   },
-  "homepage": "https://github.com/NikoraDmytro/Team_Project_2023#readme"
+  "homepage": "https://github.com/NikoraDmytro/Team_Project_2023#readme",
+  "dependencies": {
+    "@types/google.accounts": "^0.0.7",
+    "gapi-script": "^1.2.0",
+    "react-google-login": "^5.2.2"
+  }
 }

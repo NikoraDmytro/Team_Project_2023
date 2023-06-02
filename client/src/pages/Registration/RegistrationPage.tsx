@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import routes from '../../const/routes';
 import { RegistrationForm } from '../../components/RegistrationForm';
-
 import './RegistrationPage.scss';
 
 const RegistrationPage = (): JSX.Element => {

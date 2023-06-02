@@ -5,8 +5,8 @@ public class Dayang
     public int DayangId { get; set; }
 
     public int CompetitionId { get; set; }
-    public Competition? Competition { get; set; }
+    public virtual Competition? Competition { get; set; }
     
-    public ICollection<JudgingStaff>? Judges { get; set; }
-    public ICollection<Distribution>? Distributions { get; set; }
+    public virtual ICollection<JudgingStaff>? Judges { get; set; }
+    public virtual ICollection<Distribution>? Distributions { get; set; }
 }

@@ -21,11 +21,13 @@ public static class ServiceExtensions
                           $"Password={Environment.GetEnvironmentVariable("SA_PASSWORD")};" +
                           "Encrypt=False";
 
-        /*var anotherString =
-            "Server=DESKTOP-LA5RDNV;Database=taekwondo;Integrated Security=True;MultipleActiveResultSets=True;TrustServerCertificate=True";*/
+        // var anotherString =
+        //     "Server=DESKTOP-LA5RDNV;Database=taekwondo;Integrated Security=True;MultipleActiveResultSets=True;TrustServerCertificate=True";
         
         services.AddDbContext<AppDbContext>(opts =>
-            opts.UseSqlServer(connectionString));
+            opts
+                .UseLazyLoadingProxies()
+                .UseSqlServer(connectionString));
     }
 
     public static void ConfigureIdentity(this IServiceCollection services)

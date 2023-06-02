@@ -1,10 +1,12 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using BLL.Models.Auth;
 using BLL.Models.Settings;
 using BLL.Models.User;
 using BLL.Services.Interfaces;
 using Core.Entities;
+using Google.Apis.Auth;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -13,11 +15,14 @@ namespace BLL.Services;
 public class JwtService : IJwtService
 {
     private readonly JwtSettings _jwtSettings;
+    private readonly GoogleSettings _googleSettings;
 
     public JwtService(
-        IOptions<JwtSettings> jwtSettings)
+        IOptions<JwtSettings> jwtSettings,
+        IOptions<GoogleSettings> googleSettings)
     {
         _jwtSettings = jwtSettings.Value;
+        _googleSettings = googleSettings.Value;
     }
 
     public SigningCredentials GetSigningCredentials()
@@ -60,5 +65,27 @@ public class JwtService : IJwtService
             signingCredentials: signingCredentials);
 
         return token;
+    }
+    
+    public async Task<GoogleJsonWebSignature.Payload?> VerifyGoogleToken(ExternalAuthModel externalAuth)
+    {
+        try
+        {
+            if (_googleSettings.ClientId != null)
+            {
+                var settings = new GoogleJsonWebSignature.ValidationSettings
+                {
+                    Audience = new List<string> { _googleSettings.ClientId }
+                };
+            
+                return await GoogleJsonWebSignature.ValidateAsync(externalAuth.IdToken, settings);
+            }
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+
+        return null;
     }
 }

@@ -30,7 +30,9 @@ public class AuthService: IAuthService
     }
     
 
-    public async Task<JwtTokenModel> LoginAsync(LoginModel model, CancellationToken cancellationToken = default)
+    public async Task<JwtTokenModel> LoginAsync(
+        LoginModel model, 
+        CancellationToken cancellationToken = default)
     {
         var user = await _userManager.FindByEmailAsync(model.Email);
 
@@ -51,13 +53,59 @@ public class AuthService: IAuthService
         var signingCredentials = _jwtService.GetSigningCredentials();
         var token = _jwtService.GenerateToken(signingCredentials, claims);
 
-        return new JwtTokenModel()
+        return new JwtTokenModel
         {
             Token = new JwtSecurityTokenHandler().WriteToken(token),
         };
     }
 
-    public async Task<UserModel> SignupAsync(SignupModel model, CancellationToken cancellationToken = default)
+    public async Task<JwtTokenModel?> LoginExternalAsync(
+        ExternalAuthModel model, 
+        CancellationToken cancellationToken = default)
+    {
+        var payload =  await _jwtService.VerifyGoogleToken(model);
+
+        if (payload == null)
+        {
+            return null;
+        }
+
+        var info = new UserLoginInfo(model.Provider, payload.Subject, model.Provider);
+        
+        var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+        
+        if (user == null)
+        {
+            user = await _userManager.FindByEmailAsync(payload.Email);
+            
+            if (user == null)
+            {
+                user = new User { Email = payload.Email, UserName = payload.Email };
+                await _userManager.CreateAsync(user);
+                
+                //Send an email for the email confirmation
+
+                await _userManager.AddLoginAsync(user, info);
+            }
+            else
+            {
+                await _userManager.AddLoginAsync(user, info);
+            }
+        }
+        
+        var claims = await _jwtService.GetClaimsAsync(user);
+        var signingCredentials = _jwtService.GetSigningCredentials();
+        var token = _jwtService.GenerateToken(signingCredentials, claims);
+
+        return new JwtTokenModel
+        {
+            Token = new JwtSecurityTokenHandler().WriteToken(token),
+        };
+    }
+
+    public async Task<UserModel> SignupAsync(
+        SignupModel model, 
+        CancellationToken cancellationToken = default)
     {
         var user = _mapper.Map<User>(model);
 

@@ -13,14 +13,14 @@ public class Sportsman
     public Sex Sex { get; set; }
 
     public int UserId { get; set; }
-    public User? User { get; set; }
+    public virtual User? User { get; set; }
 
     public int? CoachMembershipCardNum { get; set; }
-    public Coach? Coach { get; set; }
+    public virtual Coach? Coach { get; set; }
 
     public int BeltId { get; set; }
-    public Belt? Belt { get; set; }
+    public virtual Belt? Belt { get; set; }
     
     public int? SportsCategoryId { get; set; }
-    public SportsCategory? SportsCategory { get; set; }
+    public virtual SportsCategory? SportsCategory { get; set; }
 }

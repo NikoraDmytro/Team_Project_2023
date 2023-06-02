@@ -10,11 +10,11 @@ public class Competition
     public string? City { get; set; }
     
     public int CompetitionLevelId { get; set; }
-    public CompetitionLevel? CompetitionLevel { get; set; }
+    public virtual CompetitionLevel? CompetitionLevel { get; set; }
     
     public int CompetitionStatusId { get; set; }
-    public CompetitionStatus? CompetitionStatus { get; set; }
+    public virtual CompetitionStatus? CompetitionStatus { get; set; }
     
-    public ICollection<Competitor>? Competitors { get; set; }
-    public ICollection<Dayang>? Dayangs { get; set; }
+    public virtual ICollection<Competitor>? Competitors { get; set; }
+    public virtual ICollection<Dayang>? Dayangs { get; set; }
 }

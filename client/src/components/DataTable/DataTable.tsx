@@ -17,18 +17,31 @@ interface TableProps<T extends WithId, P extends T> {
 }
 
 const DataTable = <T extends WithId, P extends T>(props: TableProps<T, P>) => {
+  const [sortColumn, setSortColumn] = useState('');
+  const [sortDirection, setSortDirection] = useState('asc');
   const { tableData, tableColumns } = props;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleChangePage = (event: unknown, newPage: number) => {
+    console.log('change page to', newPage);
     setPage(newPage);
   };
+  
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+
+  const handleSort = (column: any) => {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortColumn(column);
+      setSortDirection('asc');
+    }
   };
 
   return (
@@ -39,7 +52,13 @@ const DataTable = <T extends WithId, P extends T>(props: TableProps<T, P>) => {
             {tableColumns.map(column => (
               <TableCell key={String(column.name)}>
                 {column.sortable ? (
-                  <TableSortLabel>{column.label}</TableSortLabel>
+                  <TableSortLabel
+                    active={sortColumn === column.name}
+                    direction={sortColumn === column.name ? (sortDirection === 'asc' ? 'asc' : 'desc') : 'asc'}
+                    onClick={() => handleSort(column.name)}
+                  >
+                    {column.label}
+                  </TableSortLabel>
                 ) : (
                   column.label
                 )}

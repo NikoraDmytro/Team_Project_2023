@@ -1,5 +1,7 @@
 ﻿using BLL.Models.Auth;
 using BLL.Services.Interfaces;
+using Core.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -22,6 +24,15 @@ public class AuthController: ControllerBase
         CancellationToken cancellationToken)
     {
         var tokenModel = await _authService.LoginAsync(loginModel, cancellationToken);
+        return Ok(tokenModel);
+    }
+
+    [HttpPost("login-external")]
+    public async Task<IActionResult> LoginExternal(
+        ExternalAuthModel externalAuthModel,
+        CancellationToken cancellationToken)
+    {
+        var tokenModel = await _authService.LoginExternalAsync(externalAuthModel, cancellationToken);
         return Ok(tokenModel);
     }
 
