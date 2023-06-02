@@ -1,24 +1,28 @@
 import React, { useState } from 'react';
 import { TableColumns } from '../../types/DataTableTypes';
-import { DataTable } from '../../components/DataTable';
-import { Button, TextField } from '@mui/material';
-import SelectForFilter from '../../components/SelectForFilter/SelectForFilter';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Button, Dialog, TextField, Checkbox } from '@mui/material';
+import SelectForFilter from '../SelectForFilter/SelectForFilter';
 import belts from '../../const/belts';
 import judgeCategory from '../../const/judgeCategory';
-import { JudgeForm } from '../../components/JudgeForm';
+import { DataTable } from '../DataTable';
+
+interface RegisterJudgeFormProps {
+  open: boolean;
+  setClose: () => void;
+}
 
 type Judge = (typeof test)[0];
 type ColumnsType = Judge & { controls: string };
 
-const RefereesPage = () => {
+const RegisterJudge = (props: RegisterJudgeFormProps) => {
+  const { open, setClose } = props;
+
   const [judges, setJudges] = useState(test);
-  const [open, setOpen] = useState(false);
-
-  const handleClose = () => setOpen(false);
-
   const columns: TableColumns<Judge, ColumnsType>[] = [
+    {
+      name: 'controls',
+      renderItem: () => <Checkbox />,
+    },
     {
       name: 'photo',
       label: 'Фото',
@@ -53,46 +57,33 @@ const RefereesPage = () => {
       name: 'membershipCardNum',
       label: 'Номер членського квитка',
     },
-    {
-      name: 'controls',
-      renderItem: () => (
-        <div className='control-buttons'>
-          <EditIcon onClick={() => setOpen(true)} />
-          <DeleteIcon className='delete-icon' />
-        </div>
-      ),
-    },
   ];
   return (
-    <div className='wrapper'>
+    <Dialog open={open} onClose={setClose} maxWidth='lg'>
       <div className='menu'>
-        <TextField label='Пошук'></TextField>
-        <div className='filter-buttons'>
-          <div className='first-buttons'>
-            <SelectForFilter label='Стать' items={['Ч', 'Ж']} />
-            <SelectForFilter label='Пояс' items={belts} />
-          </div>
-          <div className='second-buttons'>
+        <TextField label='Пошук' />
+        <div className='groups-filters'>
+          <div className='filter-buttons1'>
             <SelectForFilter label='Клуб' items={clubsTest} />
             <SelectForFilter label='Категорія' items={judgeCategory} />
           </div>
+          <div className='filter-buttons2'>
+            <SelectForFilter label='Мін пояс' items={belts} />
+            <SelectForFilter label='Макс пояс' items={belts} />
+            <TextField label='Мін вік' />
+            <TextField label='Макс вік' />
+          </div>
         </div>
-        <Button
-          variant='contained'
-          color='inherit'
-          onClick={() => setOpen(true)}
-        >
-          Додати суддю
+        <Button variant='contained' color='inherit' onClick={setClose}>
+          Зареєструвати
         </Button>
       </div>
-
       <DataTable tableData={judges} tableColumns={columns} />
-      <JudgeForm open={open} setClose={handleClose} />
-    </div>
+    </Dialog>
   );
 };
 
-export { RefereesPage };
+export { RegisterJudge };
 
 const test = [
   {
@@ -152,6 +143,50 @@ const test = [
   },
   {
     id: 6,
+    photo: '',
+    name: 'Іванов Іван Іванович',
+    sex: 'ч',
+    birthday: '1970-02-06',
+    club: 'СК "ПРАЙД"',
+    belt: '3 дан',
+    judgeCategory: 'Суддя 1-ї категорії',
+    membershipCardNum: '123456',
+  },
+  {
+    id: 7,
+    photo: '',
+    name: 'Іванов Іван Іванович',
+    sex: 'ч',
+    birthday: '1970-02-06',
+    club: 'СК "ПРАЙД"',
+    belt: '3 дан',
+    judgeCategory: 'Суддя 1-ї категорії',
+    membershipCardNum: '123456',
+  },
+  {
+    id: 8,
+    photo: '',
+    name: 'Іванов Іван Іванович',
+    sex: 'ч',
+    birthday: '1970-02-06',
+    club: 'СК "ПРАЙД"',
+    belt: '3 дан',
+    judgeCategory: 'Суддя 1-ї категорії',
+    membershipCardNum: '123456',
+  },
+  {
+    id: 9,
+    photo: '',
+    name: 'Іванов Іван Іванович',
+    sex: 'ч',
+    birthday: '1970-02-06',
+    club: 'СК "ПРАЙД"',
+    belt: '3 дан',
+    judgeCategory: 'Суддя 1-ї категорії',
+    membershipCardNum: '123456',
+  },
+  {
+    id: 10,
     photo: '',
     name: 'Іванов Іван Іванович',
     sex: 'ч',

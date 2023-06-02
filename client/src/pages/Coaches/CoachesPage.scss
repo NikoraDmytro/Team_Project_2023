@@ -1,0 +1,28 @@
+.filter-buttons {
+  display: flex;
+  gap: 35px;
+  .first-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    div {
+      width: 94px;
+    }
+  }
+  .second-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    div {
+      width: 220px;
+    }
+  }
+}
+
+.control-buttons {
+  display: flex;
+  flex-direction: row;
+  .delete-icon {
+    fill: rgba(218, 0, 0, 1);
+  }
+}

@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
-import { TableColumns } from '../../types/DataTableTypes';
-import { DataTable } from '../../components/DataTable';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import { TableColumns } from '../../../../types/DataTableTypes';
+import { DataTable } from '../../../../components/DataTable';
 import { Button, TextField } from '@mui/material';
-import SelectForFilter from '../../components/SelectForFilter/SelectForFilter';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import belts from '../../const/belts';
-import judgeCategory from '../../const/judgeCategory';
-import { JudgeForm } from '../../components/JudgeForm';
+import SelectForFilter from '../../../../components/SelectForFilter/SelectForFilter';
+import './JudgingStaff.scss';
+import { RegisterJudge } from '../../../../components/RegisterJudge';
 
 type Judge = (typeof test)[0];
 type ColumnsType = Judge & { controls: string };
 
-const RefereesPage = () => {
+const JudgingStaff = () => {
   const [judges, setJudges] = useState(test);
   const [open, setOpen] = useState(false);
 
@@ -55,44 +53,31 @@ const RefereesPage = () => {
     },
     {
       name: 'controls',
-      renderItem: () => (
-        <div className='control-buttons'>
-          <EditIcon onClick={() => setOpen(true)} />
-          <DeleteIcon className='delete-icon' />
-        </div>
-      ),
+      renderItem: () => <PersonRemoveIcon />,
     },
   ];
   return (
     <div className='wrapper'>
-      <div className='menu'>
+      <div className='judges-menu'>
         <TextField label='Пошук'></TextField>
-        <div className='filter-buttons'>
-          <div className='first-buttons'>
-            <SelectForFilter label='Стать' items={['Ч', 'Ж']} />
-            <SelectForFilter label='Пояс' items={belts} />
-          </div>
-          <div className='second-buttons'>
-            <SelectForFilter label='Клуб' items={clubsTest} />
-            <SelectForFilter label='Категорія' items={judgeCategory} />
-          </div>
-        </div>
+        <SelectForFilter label='Клуб' items={clubsTest} />
         <Button
           variant='contained'
           color='inherit'
           onClick={() => setOpen(true)}
+          className='register-button'
         >
-          Додати суддю
+          Зареєструвати
         </Button>
       </div>
 
-      <DataTable tableData={judges} tableColumns={columns} />
-      <JudgeForm open={open} setClose={handleClose} />
+      <DataTable tableData={test} tableColumns={columns} />
+      <RegisterJudge open={open} setClose={handleClose} />
     </div>
   );
 };
 
-export { RefereesPage };
+export { JudgingStaff };
 
 const test = [
   {
@@ -152,6 +137,50 @@ const test = [
   },
   {
     id: 6,
+    photo: '',
+    name: 'Іванов Іван Іванович',
+    sex: 'ч',
+    birthday: '1970-02-06',
+    club: 'СК "ПРАЙД"',
+    belt: '3 дан',
+    judgeCategory: 'Суддя 1-ї категорії',
+    membershipCardNum: '123456',
+  },
+  {
+    id: 7,
+    photo: '',
+    name: 'Іванов Іван Іванович',
+    sex: 'ч',
+    birthday: '1970-02-06',
+    club: 'СК "ПРАЙД"',
+    belt: '3 дан',
+    judgeCategory: 'Суддя 1-ї категорії',
+    membershipCardNum: '123456',
+  },
+  {
+    id: 8,
+    photo: '',
+    name: 'Іванов Іван Іванович',
+    sex: 'ч',
+    birthday: '1970-02-06',
+    club: 'СК "ПРАЙД"',
+    belt: '3 дан',
+    judgeCategory: 'Суддя 1-ї категорії',
+    membershipCardNum: '123456',
+  },
+  {
+    id: 9,
+    photo: '',
+    name: 'Іванов Іван Іванович',
+    sex: 'ч',
+    birthday: '1970-02-06',
+    club: 'СК "ПРАЙД"',
+    belt: '3 дан',
+    judgeCategory: 'Суддя 1-ї категорії',
+    membershipCardNum: '123456',
+  },
+  {
+    id: 10,
     photo: '',
     name: 'Іванов Іван Іванович',
     sex: 'ч',

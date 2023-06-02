@@ -1,0 +1,48 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 15px;
+  width: 1140px;
+  overflow: auto;
+  .competition-name {
+    width: 500px;
+    font-size: 30px;
+    align-self: center;
+    text-align: center;
+  }
+  .competitors-menu {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    div {
+      width: 200px;
+    }
+  }
+}
+
+.menu {
+  display: flex;
+  justify-content: space-around;
+  margin: 15px 5px;
+  align-items: center;
+  .groups-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    .filter-buttons1 {
+      display: flex;
+      gap: 15px;
+      div {
+        width: 200px;
+      }
+    }
+    .filter-buttons2 {
+      display: flex;
+      gap: 15px;
+      div {
+        width: 130px;
+      }
+    }
+  }
+}

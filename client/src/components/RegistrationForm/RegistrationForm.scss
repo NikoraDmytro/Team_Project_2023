@@ -1,6 +1,5 @@
 .registration-form {
-  height: auto;
-  width: 50%;
+  width: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,14 +15,13 @@
 }
 
 .registration-form {
-  .forgot-password-button {
-    font-size: 10px;
-    padding: 0;
-    color: #353b78;
-    text-transform: none;
-    align-self: flex-end;
+  img {
+    width: 100px;
   }
 
+  .remember-password {
+    align-self: flex-start;
+  }
   .google-button {
     background-color: #fff;
     color: #000;

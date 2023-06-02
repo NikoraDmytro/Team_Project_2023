@@ -1,0 +1,16 @@
+.wrapper {
+  width: 1140px;
+  float: left;
+  // overflow-x: hidden;
+  .judges-menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    div {
+      width: 250px;
+    }
+    .register-button {
+      width: 250px;
+    }
+  }
+}

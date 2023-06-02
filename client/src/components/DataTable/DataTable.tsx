@@ -6,6 +6,7 @@ import {
   TablePagination,
   TableRow,
   TableSortLabel,
+  Avatar,
 } from '@mui/material';
 import React, { useState } from 'react';
 import { WithId, TableColumns } from '../../types/DataTableTypes';
@@ -72,7 +73,9 @@ const DataTable = <T extends WithId, P extends T>(props: TableProps<T, P>) => {
                 <TableCell key={String(column.name)}>
                   {column.renderItem
                     ? column.renderItem(item)
-                    : item[column.name as string]}
+                    : item[column.name as string] || (
+                        <Avatar src={item[column.name as string]} />
+                      )}
                 </TableCell>
               ))}
             </TableRow>

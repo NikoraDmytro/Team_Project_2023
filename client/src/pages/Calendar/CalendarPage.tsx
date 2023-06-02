@@ -3,27 +3,22 @@ import './Calendar.scss';
 import { DataTable } from '../../components/DataTable';
 import { Button, TextField } from '@mui/material';
 import { TableColumns } from '../../types/DataTableTypes';
-import { SimpleDialog } from '../../dialogs/Competition/AddCompetitionDialog';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import SelectForFilter from '../../components/SelectForFilter/SelectForFilter';
+import competitionStatus from '../../const/competitionStatus';
+import competitionLevel from '../../const/competitionLevel';
+import regionalCenters from '../../const/cities';
+import { CompetitionForm } from '../../components/CompetitionForm/CompetitionForm';
 
 type Competition = (typeof test)[0];
 type ColumnsType = Competition & { controls: string };
 
-const emails = ['username@gmail.com', 'user02@gmail.com'];
-
 const CalendarPage = (): JSX.Element => {
   const [competitions, setCompetitions] = useState(test);
+  const [open, setOpen] = useState(false);
 
-  const [open, setOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState(emails[1]);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (value: string) => {
-    setOpen(false);
-    setSelectedValue(value);
-  };
+  const handleClose = () => setOpen(false);
 
   const columns: TableColumns<Competition, ColumnsType>[] = [
     {
@@ -34,7 +29,6 @@ const CalendarPage = (): JSX.Element => {
     {
       name: 'weightingDate',
       label: 'Дата зважування',
-      sortable: true,
     },
     {
       name: 'startDate',
@@ -44,12 +38,10 @@ const CalendarPage = (): JSX.Element => {
     {
       name: 'endData',
       label: 'Дата закінчення',
-      sortable: true,
     },
     {
       name: 'city',
       label: 'Місто',
-      sortable: true,
     },
     {
       name: 'status',
@@ -59,34 +51,48 @@ const CalendarPage = (): JSX.Element => {
     {
       name: 'level',
       label: 'Рівень',
-      sortable: true,
     },
     {
       name: 'controls',
-      renderItem: () => <div>Buttons here!</div>,
+      renderItem: () => (
+        <div className='control-buttons'>
+          <EditIcon onClick={() => setOpen(true)} />
+          <DeleteIcon className='delete-icon' />
+        </div>
+      ),
     },
   ];
 
   return (
-    <div className='calendar-wrapper'>
-      <div className='calendar-menu'>
-        <TextField label='Пошук'></TextField>
-        <div className="calendar-menu__filters">
-          <TextField label='Місто'></TextField>
-          <TextField label='Рівень'></TextField>
-          <TextField label='Статус'></TextField>
+    <>
+      <div className='calendar-wrapper'>
+        <div className='calendar-menu'>
+          <TextField label='Пошук'></TextField>
+          <div className='filter-buttons'>
+            <SelectForFilter label='Місто' items={regionalCenters} />
+            <SelectForFilter label='Рівень' items={competitionLevel} />
+            <TextField
+              label='Дата початку'
+              type='date'
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <SelectForFilter label='Статус' items={competitionStatus} />
+          </div>
+          <Button
+            variant='contained'
+            color='inherit'
+            onClick={() => setOpen(true)}
+          >
+            Додати змагання
+          </Button>
         </div>
-        <Button variant='contained' className='calendar-menu__btn'>Додати змагання</Button>
-      </div>
-      <div className="calendar-data">
+
         <DataTable tableData={competitions} tableColumns={columns} />
       </div>
-      <SimpleDialog
-        selectedValue={selectedValue}
-        open={open}
-        onClose={handleClose}
-      />
-    </div>
+      <CompetitionForm open={open} setClose={handleClose} />
+    </>
   );
 };
 

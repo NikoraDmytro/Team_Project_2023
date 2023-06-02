@@ -1,0 +1,1 @@
+export { RegisterJudge } from './RegisterJudge';

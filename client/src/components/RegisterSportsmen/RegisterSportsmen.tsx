@@ -1,24 +1,28 @@
 import React, { useState } from 'react';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { TableColumns } from '../../types/DataTableTypes';
-import { DataTable } from '../../components/DataTable';
-import { Button, TextField } from '@mui/material';
-import SelectForFilter from '../../components/SelectForFilter/SelectForFilter';
+import { Button, Dialog, TextField, Checkbox } from '@mui/material';
+import SelectForFilter from '../SelectForFilter/SelectForFilter';
 import belts from '../../const/belts';
-import './Sportsman.scss';
-import { SportsmenForm } from '../../components/SportsmenForm';
+import { DataTable } from '../DataTable';
+import { TableColumns } from '../../types/DataTableTypes';
+import '../../pages/Competition/Competition.scss';
 
+interface RegisterSportsmenFormProps {
+  open: boolean;
+  setClose: () => void;
+}
 type Sporstman = (typeof test)[0];
 type ColumnsType = Sporstman & { controls: string };
 
-const SportsmanPage = () => {
-  const [sportsmen, setSportsmen] = useState(test);
-  const [open, setOpen] = useState(false);
+const RegisterSportsmen = (props: RegisterSportsmenFormProps) => {
+  const { open, setClose } = props;
 
-  const handleClose = () => setOpen(false);
+  const [sportsmen, setSportsmen] = useState(test);
 
   const columns: TableColumns<Sporstman, ColumnsType>[] = [
+    {
+      name: 'controls',
+      renderItem: () => <Checkbox />,
+    },
     {
       name: 'photo',
       label: 'Фото',
@@ -53,19 +57,13 @@ const SportsmanPage = () => {
       name: 'membershipCardNum',
       label: 'Номер членського квитка',
     },
-    {
-      name: 'controls',
-      renderItem: () => (
-        <div className='control-buttons'>
-          <EditIcon onClick={() => setOpen(true)} />
-          <DeleteIcon className='delete-icon' />
-        </div>
-      ),
-    },
   ];
-
   return (
-    <div className='wrapper'>
+    <Dialog
+      open={open}
+      onClose={setClose}
+      maxWidth='lg'
+    >
       <div className='menu'>
         <TextField label='Пошук' />
         <div className='groups-filters'>
@@ -81,21 +79,16 @@ const SportsmanPage = () => {
             <TextField label='Макс вік' />
           </div>
         </div>
-        <Button
-          variant='contained'
-          color='inherit'
-          onClick={() => setOpen(true)}
-        >
-          Додати спортсмена
+        <Button variant='contained' color='inherit' onClick={setClose}>
+          Зареєструвати
         </Button>
       </div>
       <DataTable tableData={sportsmen} tableColumns={columns} />
-      <SportsmenForm open={open} setClose={handleClose} />
-    </div>
+    </Dialog>
   );
 };
 
-export { SportsmanPage };
+export { RegisterSportsmen };
 
 const test = [
   {
