@@ -23,14 +23,16 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services
-    .AddAuthentication();/*
+    .AddAuthentication()
     .AddGoogle("Google", googleOptions =>
     {
         googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? string.Empty;
         googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? string.Empty;
-    });*/
+    });
 
 builder.Services.ConfigureIdentity();
+
+builder.Services.ConfigureFluentValidation();
 
 var app = builder.Build();
 

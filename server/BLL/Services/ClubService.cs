@@ -90,6 +90,10 @@ public class ClubService: IClubService
         var club = await _clubRepository.GetByIdAsync(id)
                    ?? throw new NotFoundException($"Club with id {id} was not found");
 
+        if (club.Coaches != null && club.Coaches.Any())
+        {
+            throw new BadRequestException($"Club with id {id} can't be deleted, it still has coaches");
+        }
         _clubRepository.Delete(club);
         await _context.SaveChangesAsync();
     }
