@@ -62,8 +62,6 @@ const RegisterSportsmen = (props: RegisterSportsmenFormProps) => {
     <Dialog
       open={open}
       onClose={setClose}
-      //   className='large-form'
-      //   sx={{ width: 1200 }}
       maxWidth='lg'
     >
       <div className='menu'>

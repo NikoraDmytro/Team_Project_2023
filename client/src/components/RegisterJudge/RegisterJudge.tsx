@@ -1,22 +1,28 @@
 import React, { useState } from 'react';
-import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
-import { TableColumns } from '../../../../types/DataTableTypes';
-import { DataTable } from '../../../../components/DataTable';
-import { Button, TextField } from '@mui/material';
-import SelectForFilter from '../../../../components/SelectForFilter/SelectForFilter';
-import './JudgingStaff.scss';
-import { RegisterJudge } from '../../../../components/RegisterJudge';
+import { TableColumns } from '../../types/DataTableTypes';
+import { Button, Dialog, TextField, Checkbox } from '@mui/material';
+import SelectForFilter from '../SelectForFilter/SelectForFilter';
+import belts from '../../const/belts';
+import judgeCategory from '../../const/judgeCategory';
+import { DataTable } from '../DataTable';
+
+interface RegisterJudgeFormProps {
+  open: boolean;
+  setClose: () => void;
+}
 
 type Judge = (typeof test)[0];
 type ColumnsType = Judge & { controls: string };
 
-const JudgingStaff = () => {
+const RegisterJudge = (props: RegisterJudgeFormProps) => {
+  const { open, setClose } = props;
+
   const [judges, setJudges] = useState(test);
-  const [open, setOpen] = useState(false);
-
-  const handleClose = () => setOpen(false);
-
   const columns: TableColumns<Judge, ColumnsType>[] = [
+    {
+      name: 'controls',
+      renderItem: () => <Checkbox />,
+    },
     {
       name: 'photo',
       label: 'Фото',
@@ -51,33 +57,33 @@ const JudgingStaff = () => {
       name: 'membershipCardNum',
       label: 'Номер членського квитка',
     },
-    {
-      name: 'controls',
-      renderItem: () => <PersonRemoveIcon />,
-    },
   ];
   return (
-    <div className='wrapper'>
-      <div className='judges-menu'>
-        <TextField label='Пошук'></TextField>
-        <SelectForFilter label='Клуб' items={clubsTest} />
-        <Button
-          variant='contained'
-          color='inherit'
-          onClick={() => setOpen(true)}
-          className='register-button'
-        >
+    <Dialog open={open} onClose={setClose} maxWidth='lg'>
+      <div className='menu'>
+        <TextField label='Пошук' />
+        <div className='groups-filters'>
+          <div className='filter-buttons1'>
+            <SelectForFilter label='Клуб' items={clubsTest} />
+            <SelectForFilter label='Категорія' items={judgeCategory} />
+          </div>
+          <div className='filter-buttons2'>
+            <SelectForFilter label='Мін пояс' items={belts} />
+            <SelectForFilter label='Макс пояс' items={belts} />
+            <TextField label='Мін вік' />
+            <TextField label='Макс вік' />
+          </div>
+        </div>
+        <Button variant='contained' color='inherit' onClick={setClose}>
           Зареєструвати
         </Button>
       </div>
-
-      <DataTable tableData={test} tableColumns={columns} />
-      <RegisterJudge open={open} setClose={handleClose} />
-    </div>
+      <DataTable tableData={judges} tableColumns={columns} />
+    </Dialog>
   );
 };
 
-export { JudgingStaff };
+export { RegisterJudge };
 
 const test = [
   {

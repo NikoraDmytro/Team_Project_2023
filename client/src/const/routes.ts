@@ -16,10 +16,10 @@ export const dashboardRoutes = {
 };
 
 export const competitionRoutes = {
-  COMPETITORS: '/competitors',
-  JUDGINGSTAFF: '/judges',
-  DAYANGS: '/dayangs',
-  SHUFFLES: '/shuffles',
+  COMPETITORS: '/competitors/*',
+  JUDGINGSTAFF: '/judges/*',
+  DAYANGS: '/dayangs/*',
+  SHUFFLES: '/shuffles/*',
   SHUFFLE: '/shuffles/:shuffleId',
 };
 
