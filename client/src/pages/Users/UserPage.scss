@@ -1,0 +1,34 @@
+.wrapper {
+  width: 1150px;
+  float: left;
+  .menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    // margin: 15px 0;
+    .menu-input {
+      width: 300px;
+    }
+  }
+  .delete-icon {
+    fill: rgba(218, 0, 0, 1);
+  }
+}
+
+.form {
+  position: relative;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 29px;
+  margin: 45px 50px;
+  .irole-input {
+    width: 500px;
+  }
+  .close-icon {
+    position: absolute;
+    top: -25px;
+    right: -30px;
+  }
+}

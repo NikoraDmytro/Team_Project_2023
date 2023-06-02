@@ -3,12 +3,22 @@ import './Calendar.scss';
 import { DataTable } from '../../components/DataTable';
 import { Button, TextField } from '@mui/material';
 import { TableColumns } from '../../types/DataTableTypes';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import SelectForFilter from '../../components/SelectForFilter/SelectForFilter';
+import competitionStatus from '../../const/competitionStatus';
+import competitionLevel from '../../const/competitionLevel';
+import regionalCenters from '../../const/cities';
+import { CompetitionForm } from '../../components/CompetitionForm/CompetitionForm';
 
 type Competition = (typeof test)[0];
 type ColumnsType = Competition & { controls: string };
 
 const CalendarPage = (): JSX.Element => {
   const [competitions, setCompetitions] = useState(test);
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => setOpen(false);
 
   const columns: TableColumns<Competition, ColumnsType>[] = [
     {
@@ -44,20 +54,45 @@ const CalendarPage = (): JSX.Element => {
     },
     {
       name: 'controls',
-      renderItem: () => <div>Buttons here!</div>,
+      renderItem: () => (
+        <div className='control-buttons'>
+          <EditIcon onClick={() => setOpen(true)} />
+          <DeleteIcon className='delete-icon' />
+        </div>
+      ),
     },
   ];
 
   return (
-    <div className='calendar-wrapper'>
-      <div className='calendar-menu'>
-        <TextField label='місце для пошуку'></TextField>
-        <TextField label='місце для фільтрації'></TextField>
-        <Button variant='contained'>Додати змагання</Button>
-      </div>
+    <>
+      <div className='calendar-wrapper'>
+        <div className='calendar-menu'>
+          <TextField label='Пошук'></TextField>
+          <div className='filter-buttons'>
+            <SelectForFilter label='Місто' items={regionalCenters} />
+            <SelectForFilter label='Рівень' items={competitionLevel} />
+            <TextField
+              label='Дата початку'
+              type='date'
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <SelectForFilter label='Статус' items={competitionStatus} />
+          </div>
+          <Button
+            variant='contained'
+            color='inherit'
+            onClick={() => setOpen(true)}
+          >
+            Додати змагання
+          </Button>
+        </div>
 
-      <DataTable tableData={competitions} tableColumns={columns} />
-    </div>
+        <DataTable tableData={competitions} tableColumns={columns} />
+      </div>
+      <CompetitionForm open={open} setClose={handleClose} />
+    </>
   );
 };
 

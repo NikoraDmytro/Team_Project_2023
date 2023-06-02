@@ -1,12 +1,13 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
-import { Button, Typography } from '@mui/material';
+import { Button, Checkbox, Typography } from '@mui/material';
 import { FcGoogle } from 'react-icons/fc';
 import { InputFormField } from '../InputFormField';
 import { useNavigate } from 'react-router-dom';
 import { validationSchema } from './helpers/validation';
 import routes from '../../const/routes';
 import './RegistrationForm.scss';
+import logo from '../../assets/img/taekwondo.png';
 
 interface FormValues {
   email: string;
@@ -36,12 +37,16 @@ const RegistrationForm = (): JSX.Element => {
     >
       {({ isValid }) => (
         <Form className='registration-form'>
-          <Typography variant='h5' gutterBottom>
-            Registration
+          <img src={logo} alt='logo' />
+          <Typography variant='h5' gutterBottom align='center'>
+            ФЕДЕРАЦІЯ ТАЕКВОН-ДО ІТФ УКРАЇНИ
           </Typography>
-          <InputFormField label='Email' name='email' type='email' />
-          <InputFormField label='Password' name='password' type='password' />
-          <Button className='forgot-password-button'>Forgot password?</Button>
+          <InputFormField label='Пошта' name='email' type='email' />
+          <InputFormField label='Пароль' name='password' type='password' />
+          {/* <Button className='forgot-password-button'>Forgot password?</Button> */}
+          <div className='remember-password'>
+            <Checkbox /> Запам'ятати пароль
+          </div>
           <Button
             type='submit'
             variant='contained'
@@ -50,7 +55,7 @@ const RegistrationForm = (): JSX.Element => {
             size='large'
             sx={{ width: '60%' }}
           >
-            Register
+            Увійти
           </Button>
           <Button variant='contained' className='google-button'>
             <FcGoogle />

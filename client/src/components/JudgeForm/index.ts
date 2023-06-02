@@ -1,0 +1,1 @@
+export { JudgeForm } from './JudgeForm';

@@ -1,0 +1,33 @@
+.dayang-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  overflow-y: auto;
+  height: 80vh;
+  .box {
+    width: 980px;
+    max-height: fit-content;
+    border: 1px solid #000000;
+    border-radius: 23px;
+    padding: 10px 40px;
+    .dayang-titile {
+      font-weight: 700;
+    }
+    .judges {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 10px;
+      .judge-item {
+        display: flex;
+        gap: 5px;
+        p {
+          width: 100px;
+        }
+        div {
+          width: 220px;
+        }
+      }
+    }
+  }
+}

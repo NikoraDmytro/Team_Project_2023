@@ -1,0 +1,26 @@
+.wrapper {
+  .menu {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    .groups-filters {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      .filter-buttons1 {
+        display: flex;
+        gap: 15px;
+        div {
+          width: 120px;
+        }
+      }
+      .filter-buttons2 {
+        display: flex;
+        gap: 15px;
+        div {
+          width: 130px;
+        }
+      }
+    }
+  }
+}
