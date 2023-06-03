@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import { Button, Checkbox, Typography } from '@mui/material';
-import { FcGoogle } from 'react-icons/fc';
 import { InputFormField } from '../InputFormField';
 import { useNavigate } from 'react-router-dom';
 import { validationSchema } from './helpers/validation';
 import routes from '../../const/routes';
 import './RegistrationForm.scss';
 import logo from '../../assets/img/taekwondo.png';
+import AuthService from '../../services/AuthService';
 
 interface FormValues {
   email: string;
@@ -19,13 +19,45 @@ const initialValues: FormValues = {
   password: '',
 };
 
+const clientId = "801059873983-1g644inr6eibjs8mcb5ejm7olt7s994v.apps.googleusercontent.com";
+
 const RegistrationForm = (): JSX.Element => {
   const navigate = useNavigate();
 
-  const submitHandler = (values: FormValues) => {
-    localStorage.setItem('isLoggedIn', 'true');
-    console.log(values);
-    navigate(routes.DASHBOARD);
+  useEffect(() => {
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      navigate(routes.DASHBOARD);
+    }
+
+    google.accounts.id.initialize({
+      client_id: clientId,
+      callback: handleLoginExternal
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById("signinDiv")!,
+      { theme: "outline", size: "large", type: "standard", text: "signin_with" }
+    );
+  });
+
+  async function handleLoginExternal(res: any){
+    console.log('Callback response', res);
+    await AuthService.loginExternal({provider: "Google", idToken: res.credential })
+      .then(x => {
+        localStorage.setItem('token', x.data.token);
+        navigate(routes.DASHBOARD);
+      });
+  }
+
+  const submitHandler = async (values: FormValues) => {
+    await AuthService.login(values)
+      .then(x => {
+        localStorage.setItem('token', x.data.token);
+        navigate(routes.DASHBOARD);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   return (
@@ -57,10 +89,7 @@ const RegistrationForm = (): JSX.Element => {
           >
             Увійти
           </Button>
-          <Button variant='contained' className='google-button'>
-            <FcGoogle />
-            Sign in with Google
-          </Button>
+          <div id="signinDiv"></div>
         </Form>
       )}
     </Formik>

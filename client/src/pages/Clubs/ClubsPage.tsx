@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { TableColumns } from '../../types/DataTableTypes';
@@ -8,8 +8,9 @@ import { Button, TextField } from '@mui/material';
 import regionalCenters from '../../const/cities';
 import './ClubsPage.scss';
 import { ClubForm } from '../../components/ClubForm';
+import ClubService from '../../services/ClubService';
+import { Club } from '../../models/Club';
 
-type Club = (typeof test)[0];
 type ColumnsType = Club & { controls: string };
 
 const ClubsPage = () => {
@@ -17,6 +18,21 @@ const ClubsPage = () => {
   const [open, setOpen] = useState(false);
 
   const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    const fetchClubs = async () => {
+      const response = await ClubService.getAllClubs();
+      const clubsData = response.data.map((club) => ({
+        id: club.id,
+        name: club.name,
+        city: club.city,
+        address: club.address,
+      }));
+      setClubs(clubsData);
+    };
+
+    fetchClubs();
+  }, []);
 
   const columns: TableColumns<Club, ColumnsType>[] = [
     {

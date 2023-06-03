@@ -20,9 +20,7 @@ const DashboardPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem('isLoggedIn') !== 'true') {
-      navigate(routes.REGISTRATION);
-    }
+
   });
 
   return (

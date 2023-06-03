@@ -18,6 +18,7 @@ const SelectForFilter = ({ label, items }: SelectProps) => {
   const handleChange = (event: SelectChangeEvent) => {
     setValue(event.target.value as string);
   };
+  
   return (
     <FormControl fullWidth>
       <InputLabel id='select-label'>{label}</InputLabel>
