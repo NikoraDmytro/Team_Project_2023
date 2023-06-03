@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/c95fc188-feb0-42fb-86ac-27763f04107a/resourceGroups/Team_Project_2023/providers/Microsoft.Web/sites/teamprojectreactapp",
+    "appService.deploySubpath": "build"
+}

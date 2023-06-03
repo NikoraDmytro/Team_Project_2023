@@ -3,7 +3,7 @@ import {LoginModel} from '../models/Auth'
 import {SignupModel} from '../models/Auth';
 import { ExternalLoginModel} from '../models/Auth';
 
-const BASE_URL = "https://localhost:7238/api/auth/"
+const BASE_URL = process.env.REACT_APP_API_URL + 'auth/';
 
 const AuthService = {
     login: async (loginModel: LoginModel) => {

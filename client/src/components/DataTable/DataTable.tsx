@@ -44,30 +44,53 @@ const DataTable = <T extends WithId, P extends T>(props: TableProps<T, P>) => {
     }
   };
 
+  const sortedData = tableData.sort((a, b) => {
+    if (sortColumn !== '') {
+      const column = tableColumns.find(col => col.name === sortColumn);
+      if (column) {
+        const valueA = a[column.name as keyof T];
+        const valueB = b[column.name as keyof T];
+        if (valueA < valueB) {
+          return sortDirection === 'asc' ? -1 : 1;
+        }
+        if (valueA > valueB) {
+          return sortDirection === 'asc' ? 1 : -1;
+        }
+      }
+    }
+    return 0;
+  });
+
+  const paginatedData = tableData.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
+
   return (
     <>
       <Table stickyHeader>
+       
         <TableHead>
-          <TableRow>
-            {tableColumns.map(column => (
-              <TableCell key={String(column.name)}>
-                {column.sortable ? (
-                  <TableSortLabel
-                    active={sortColumn === column.name}
-                    direction={sortColumn === column.name ? (sortDirection === 'asc' ? 'asc' : 'desc') : 'asc'}
-                    onClick={() => handleSort(column.name)}
-                  >
-                    {column.label}
-                  </TableSortLabel>
-                ) : (
-                  column.label
-                )}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
+        <TableRow>
+          {tableColumns.map(column => (
+            <TableCell key={String(column.name)}>
+              {column.sortable ? (
+                <TableSortLabel
+                  active={sortColumn === column.name}
+                  direction={sortColumn === column.name ? (sortDirection === 'asc' ? 'asc' : 'desc') : 'asc'}
+                  onClick={() => handleSort(column.name)}
+                >
+                  {column.label}
+                </TableSortLabel>
+              ) : (
+                column.label
+              )}
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
         <TableBody>
-          {tableData.map(item => (
+          {paginatedData.map(item => (
             <TableRow key={item.id}>
               {tableColumns.map(column => (
                 <TableCell key={String(column.name)}>

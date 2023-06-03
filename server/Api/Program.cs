@@ -23,12 +23,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services
-    .AddAuthentication()
-    .AddGoogle("Google", googleOptions =>
-    {
-        googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? string.Empty;
-        googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? string.Empty;
-    });
+    .AddAuthentication();
 
 builder.Services.ConfigureIdentity();
 

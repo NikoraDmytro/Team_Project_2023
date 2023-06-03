@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Dialog } from '@mui/material';
 import { InputFormField } from '../InputFormField';
 import { Formik, Form } from 'formik';
 import SelectForFilter from '../SelectForFilter/SelectForFilter';
 import regionalCenters from '../../const/cities';
 import ClearIcon from '@mui/icons-material/Clear';
+import ClubService from '../../services/ClubService';
+import { Club } from '../../models/Club';
 
 interface FormValues {
   name: string;
@@ -25,18 +27,33 @@ interface ClubFormProps {
 
 const ClubForm = (props: ClubFormProps) => {
   const { open, setClose } = props;
-  const submitHandler = (values: FormValues) => {
-    console.log(values);
+  const [city, setCity] = useState('');
+  
+  const handleCityChange = (selectedCity: any) => {
+    setCity(selectedCity);
+  };
+
+  const submitHandler = async (values: FormValues) => {
+    const club: Club = {
+      id: 0,
+      name: values.name,
+      city: 'default',
+      address: values.address,
+    };
+
+
+    await ClubService.createClub(club);
     setClose();
   };
+
   return (
     <Dialog open={open} onClose={setClose} maxWidth='lg'>
       <Formik initialValues={initialValues} onSubmit={submitHandler}>
         {() => (
           <Form className='form'>
             <InputFormField label='Назва клубу' name='name' type='text' />
-            <SelectForFilter label='Місто' items={regionalCenters} />
-            <InputFormField label='Адреса' name='adrees' type='text' />
+            <SelectForFilter label='Місто' items={regionalCenters}/>
+            <InputFormField label='Адреса' name='address' type='text' />
 
             <Button
               type='submit'
@@ -56,3 +73,7 @@ const ClubForm = (props: ClubFormProps) => {
 };
 
 export { ClubForm };
+  function setValue(value: any) {
+    throw new Error('Function not implemented.');
+  }
+

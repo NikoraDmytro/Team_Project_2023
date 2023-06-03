@@ -23,7 +23,7 @@ public class CoachModel: IMapFrom<Core.Entities.Coach>
     {
         profile.CreateMap<Core.Entities.Coach, CoachModel>()
             .ForMember(dest => dest.ClubName, src => src.MapFrom(otp => otp.Club!.Name));
-        profile.CreateMap<Core.Entities.Coach, CoachModel>()
+        /*profile.CreateMap<Core.Entities.Coach, CoachModel>()
             .ForMember(dest => dest.Sportsman!.BirthDate, src => src.MapFrom(otp => otp.Sportsman!.BirthDate));
         profile.CreateMap<Core.Entities.Coach, CoachModel>()
             .ForMember(dest => dest.Sportsman!.Belt, src => src.MapFrom(otp => otp.Sportsman!.Belt));
@@ -33,5 +33,6 @@ public class CoachModel: IMapFrom<Core.Entities.Coach>
             .ForMember(dest => dest.Sportsman!.User!.LastName, src => src.MapFrom(otp => otp.Sportsman!.User!.LastName));
         profile.CreateMap<Core.Entities.Coach, CoachModel>()
             .ForMember(dest => dest.Sportsman!.User!.Patronymic, src => src.MapFrom(otp => otp.Sportsman!.User!.Patronymic));
+    */
     }
 }
