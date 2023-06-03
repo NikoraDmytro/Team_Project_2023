@@ -10,15 +10,29 @@ import React, { useState } from 'react';
 interface SelectProps {
   label: string;
   items: string[];
+  name?: string;
+  setFieldValue?: (
+    field: string,
+    value: any,
+    shouldValidate?: boolean | undefined,
+  ) => void;
 }
 
-const SelectForFilter = ({ label, items }: SelectProps) => {
+const SelectForFilter = ({
+  label,
+  items,
+  name,
+  setFieldValue,
+}: SelectProps) => {
   const [value, setValue] = React.useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
-    setValue(event.target.value as string);
+    const selectedValue = event.target.value as string;
+    setValue(selectedValue);
+    if (setFieldValue && name) {
+      setFieldValue(name, selectedValue);
+    }
   };
-  
   return (
     <FormControl fullWidth>
       <InputLabel id='select-label'>{label}</InputLabel>

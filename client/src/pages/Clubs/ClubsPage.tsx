@@ -17,12 +17,13 @@ const ClubsPage = () => {
   const [clubs, setClubs] = useState(test);
   const [open, setOpen] = useState(false);
 
+  const [selectedCity, setSelectedCity] = useState('');
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
     const fetchClubs = async () => {
       const response = await ClubService.getAllClubs();
-      const clubsData = response.data.map((club) => ({
+      const clubsData = response.data.map(club => ({
         id: club.id,
         name: club.name,
         city: club.city,
@@ -33,6 +34,10 @@ const ClubsPage = () => {
 
     fetchClubs();
   }, []);
+  const handleChange = (field: string, value: string) => {
+    setSelectedCity(value);
+    setClubs(prev => prev.filter(club => club.city === value));
+  };
 
   const columns: TableColumns<Club, ColumnsType>[] = [
     {
@@ -62,7 +67,12 @@ const ClubsPage = () => {
     <div className='wrapper'>
       <div className='club-menu'>
         <TextField label='Пошук' />
-        <SelectForFilter label='Місто' items={regionalCenters} />
+        <SelectForFilter
+          label='Місто'
+          items={regionalCenters}
+          name='city'
+          setFieldValue={handleChange}
+        />
         <Button
           variant='contained'
           color='inherit'

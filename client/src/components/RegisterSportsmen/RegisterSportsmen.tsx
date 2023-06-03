@@ -17,6 +17,21 @@ const RegisterSportsmen = (props: RegisterSportsmenFormProps) => {
   const { open, setClose } = props;
 
   const [sportsmen, setSportsmen] = useState(test);
+  const [selectedClub, setSelectedClub] = useState('');
+  const [selectedCoach, setSelectedCoach] = useState('');
+  const [selectedSex, setSelectedSex] = useState('');
+  const handleChange = (field: string, value: string) => {
+    if (field === 'club') {
+      setSelectedClub(value);
+      setSportsmen(prev => prev.filter(sportsmen => sportsmen.club === value));
+    } else if (field === 'coach') {
+      setSelectedCoach(value);
+      setSportsmen(prev => prev.filter(sportsmen => sportsmen.coach === value));
+    } else {
+      setSelectedSex(value);
+      setSportsmen(prev => prev.filter(sportsmen => sportsmen.sex === value));
+    }
+  };
 
   const columns: TableColumns<Sporstman, ColumnsType>[] = [
     {
@@ -59,18 +74,29 @@ const RegisterSportsmen = (props: RegisterSportsmenFormProps) => {
     },
   ];
   return (
-    <Dialog
-      open={open}
-      onClose={setClose}
-      maxWidth='lg'
-    >
+    <Dialog open={open} onClose={setClose} maxWidth='lg'>
       <div className='menu'>
         <TextField label='Пошук' />
         <div className='groups-filters'>
           <div className='filter-buttons1'>
-            <SelectForFilter label='Стать' items={['Ч', 'Ж']} />
-            <SelectForFilter label='Клуб' items={clubsTest} />
-            <SelectForFilter label='Тренер' items={coachesTest} />
+            <SelectForFilter
+              label='Стать'
+              items={['Ч', 'Ж']}
+              name='sex'
+              setFieldValue={handleChange}
+            />
+            <SelectForFilter
+              label='Клуб'
+              items={clubsTest}
+              name='club'
+              setFieldValue={handleChange}
+            />
+            <SelectForFilter
+              label='Тренер'
+              items={coachesTest}
+              name='coach'
+              setFieldValue={handleChange}
+            />
           </div>
           <div className='filter-buttons2'>
             <SelectForFilter label='Мін пояс' items={belts} />

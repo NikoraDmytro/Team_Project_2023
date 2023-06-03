@@ -18,6 +18,18 @@ const RegisterJudge = (props: RegisterJudgeFormProps) => {
   const { open, setClose } = props;
 
   const [judges, setJudges] = useState(test);
+  const [selectedClub, setSelectedClub] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const handleChange = (field: string, value: string) => {
+    if (field === 'club') {
+      setSelectedClub(value);
+      setJudges(prev => prev.filter(judge => judge.club === value));
+    } else {
+      setSelectedCategory(value);
+      setJudges(prev => prev.filter(judge => judge.judgeCategory === value));
+    }
+  };
+
   const columns: TableColumns<Judge, ColumnsType>[] = [
     {
       name: 'controls',
@@ -64,8 +76,18 @@ const RegisterJudge = (props: RegisterJudgeFormProps) => {
         <TextField label='Пошук' />
         <div className='groups-filters'>
           <div className='filter-buttons1'>
-            <SelectForFilter label='Клуб' items={clubsTest} />
-            <SelectForFilter label='Категорія' items={judgeCategory} />
+            <SelectForFilter
+              label='Клуб'
+              items={clubsTest}
+              name='club'
+              setFieldValue={handleChange}
+            />
+            <SelectForFilter
+              label='Категорія'
+              items={judgeCategory}
+              name='judgeCategory'
+              setFieldValue={handleChange}
+            />
           </div>
           <div className='filter-buttons2'>
             <SelectForFilter label='Мін пояс' items={belts} />

@@ -27,11 +27,11 @@ interface ClubFormProps {
 
 const ClubForm = (props: ClubFormProps) => {
   const { open, setClose } = props;
-  const [city, setCity] = useState('');
-  
-  const handleCityChange = (selectedCity: any) => {
-    setCity(selectedCity);
-  };
+  // const [city, setCity] = useState('');
+
+  // const handleCityChange = (selectedCity: any) => {
+  //   setCity(selectedCity);
+  // };
 
   const submitHandler = async (values: FormValues) => {
     const club: Club = {
@@ -40,7 +40,7 @@ const ClubForm = (props: ClubFormProps) => {
       city: 'default',
       address: values.address,
     };
-
+    console.log(values);
 
     await ClubService.createClub(club);
     setClose();
@@ -49,10 +49,15 @@ const ClubForm = (props: ClubFormProps) => {
   return (
     <Dialog open={open} onClose={setClose} maxWidth='lg'>
       <Formik initialValues={initialValues} onSubmit={submitHandler}>
-        {() => (
+        {({ setFieldValue }) => (
           <Form className='form'>
             <InputFormField label='Назва клубу' name='name' type='text' />
-            <SelectForFilter label='Місто' items={regionalCenters}/>
+            <SelectForFilter
+              label='Місто'
+              items={regionalCenters}
+              name={'city'}
+              setFieldValue={setFieldValue}
+            />
             <InputFormField label='Адреса' name='address' type='text' />
 
             <Button
@@ -73,7 +78,6 @@ const ClubForm = (props: ClubFormProps) => {
 };
 
 export { ClubForm };
-  function setValue(value: any) {
-    throw new Error('Function not implemented.');
-  }
-
+function setValue(value: any) {
+  throw new Error('Function not implemented.');
+}

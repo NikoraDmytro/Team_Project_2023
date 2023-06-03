@@ -5,7 +5,6 @@ import { InputFormField } from '../InputFormField';
 import SelectForFilter from '../SelectForFilter/SelectForFilter';
 import belts from '../../const/belts';
 import ClearIcon from '@mui/icons-material/Clear';
-import coachesLevel from '../../const/coachesLevel';
 import judgeCategory from '../../const/judgeCategory';
 
 interface FormValues {
@@ -44,7 +43,7 @@ const JudgeForm = (props: JudgeFormProps) => {
   return (
     <Dialog open={open} onClose={setClose} maxWidth='lg'>
       <Formik initialValues={initialValues} onSubmit={submitHandler}>
-        {() => (
+        {({ setFieldValue }) => (
           <Form className='form'>
             <Avatar
               src={initialValues.photo}
@@ -58,8 +57,18 @@ const JudgeForm = (props: JudgeFormProps) => {
             <InputFormField label='ПІБ' name='name' type='text' />
 
             <div className='inputs-group'>
-              <SelectForFilter label='Стать' items={['Ч', 'Ж']} />
-              <SelectForFilter label='Пояс' items={belts} />
+              <SelectForFilter
+                label='Стать'
+                items={['Ч', 'Ж']}
+                name={'sex'}
+                setFieldValue={setFieldValue}
+              />
+              <SelectForFilter
+                label='Пояс'
+                items={belts}
+                name={'belt'}
+                setFieldValue={setFieldValue}
+              />
             </div>
             <div className='inputs-group'>
               <InputFormField
@@ -67,7 +76,12 @@ const JudgeForm = (props: JudgeFormProps) => {
                 name='weightingDate'
                 type='date'
               />
-              <SelectForFilter label='Категорія' items={judgeCategory} />
+              <SelectForFilter
+                label='Категорія'
+                items={judgeCategory}
+                name={'judgeCategory'}
+                setFieldValue={setFieldValue}
+              />
             </div>
             <Button
               type='submit'
