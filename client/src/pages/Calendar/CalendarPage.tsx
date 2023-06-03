@@ -17,8 +17,18 @@ type ColumnsType = Competition & { controls: string };
 const CalendarPage = (): JSX.Element => {
   const [competitions, setCompetitions] = useState(test);
   const [open, setOpen] = useState(false);
+  const [selectedCity, setSelectedCity] = useState('');
 
   const handleClose = () => setOpen(false);
+
+  const handleCityChange = (field: string, value: string) => {
+    setSelectedCity(value);
+    console.log(selectedCity);
+  };
+
+  const filteredCompetitions = competitions.filter(
+    competition => competition.city === selectedCity,
+  );
 
   const columns: TableColumns<Competition, ColumnsType>[] = [
     {
@@ -69,7 +79,12 @@ const CalendarPage = (): JSX.Element => {
         <div className='calendar-menu'>
           <TextField label='Пошук'></TextField>
           <div className='filter-buttons'>
-            <SelectForFilter label='Місто' items={regionalCenters} />
+            <SelectForFilter
+              label='Місто'
+              items={regionalCenters}
+              name='city'
+              setFieldValue={handleCityChange}
+            />
             <SelectForFilter label='Рівень' items={competitionLevel} />
             <TextField
               label='Дата початку'
@@ -89,7 +104,7 @@ const CalendarPage = (): JSX.Element => {
           </Button>
         </div>
 
-        <DataTable tableData={competitions} tableColumns={columns} />
+        <DataTable tableData={filteredCompetitions} tableColumns={columns} />
       </div>
       <CompetitionForm open={open} setClose={handleClose} />
     </>
