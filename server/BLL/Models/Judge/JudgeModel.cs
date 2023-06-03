@@ -18,7 +18,7 @@ public class JudgeModel: IMapFrom<Core.Entities.Judge>
 
     public void MapTo(Profile profile)
     {
-        profile.CreateMap<Core.Entities.Judge, JudgeModel>()
+        /*profile.CreateMap<Core.Entities.Judge, JudgeModel>()
             .ForMember(dest => dest.JudgeCategory, src => src.MapFrom(otp => otp.JudgeCategory));
         profile.CreateMap<Core.Entities.Judge, JudgeModel>()
             .ForMember(dest => dest.Sportsman!.BirthDate, src => src.MapFrom(otp => otp.Sportsman!.BirthDate));
@@ -30,5 +30,6 @@ public class JudgeModel: IMapFrom<Core.Entities.Judge>
             .ForMember(dest => dest.Sportsman!.User!.LastName, src => src.MapFrom(otp => otp.Sportsman!.User!.LastName));
         profile.CreateMap<Core.Entities.Judge, JudgeModel>()
             .ForMember(dest => dest.Sportsman!.User!.Patronymic, src => src.MapFrom(otp => otp.Sportsman!.User!.Patronymic));
+    */
     }
 }

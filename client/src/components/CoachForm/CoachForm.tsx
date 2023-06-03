@@ -13,7 +13,7 @@ interface FormValues {
   lastname: string;
   patronimyc: string;
   sex: string;
-  birthday: string;
+  birthDate: string;
   club: string;
   belt: string;
   coachCategory: string;
@@ -26,7 +26,7 @@ const initialValues: FormValues = {
   lastname: '',
   patronimyc: '',
   sex: '',
-  birthday: '',
+  birthDate: '',
   club: '',
   belt: '',
   coachCategory: '',
@@ -40,10 +40,12 @@ interface CoachFormProps {
 
 const CoachForm = (props: CoachFormProps) => {
   const { open, setClose } = props;
+
   const submitHandler = (values: FormValues) => {
     console.log(values);
     setClose();
   };
+  
   return (
     <Dialog open={open} onClose={setClose} maxWidth='lg'>
       <Formik initialValues={initialValues} onSubmit={submitHandler}>
@@ -55,7 +57,7 @@ const CoachForm = (props: CoachFormProps) => {
             />
             <InputFormField
               label='Номер членського квитка'
-              name='patronimyc'
+              name='membershipCardNum'
               type='text'
             />
             <div className='inputs-group'>
@@ -85,7 +87,7 @@ const CoachForm = (props: CoachFormProps) => {
             <div className='inputs-group'>
               <InputFormField
                 label='Дата народження'
-                name='weightingDate'
+                name='birthDate'
                 type='date'
               />
               <SelectForFilter

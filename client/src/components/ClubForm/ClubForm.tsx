@@ -27,17 +27,12 @@ interface ClubFormProps {
 
 const ClubForm = (props: ClubFormProps) => {
   const { open, setClose } = props;
-  // const [city, setCity] = useState('');
-
-  // const handleCityChange = (selectedCity: any) => {
-  //   setCity(selectedCity);
-  // };
 
   const submitHandler = async (values: FormValues) => {
     const club: Club = {
       id: 0,
       name: values.name,
-      city: 'default',
+      city: values.city,
       address: values.address,
     };
     console.log(values);
