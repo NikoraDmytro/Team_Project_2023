@@ -46,7 +46,7 @@ const SportsmenForm = (props: SportsmanFormProps) => {
   return (
     <Dialog open={open} onClose={setClose} maxWidth='lg'>
       <Formik initialValues={initialValues} onSubmit={submitHandler}>
-        {() => (
+        {({ setFieldValue }) => (
           <Form className='form'>
             <Avatar
               src={initialValues.photo}
@@ -72,10 +72,25 @@ const SportsmenForm = (props: SportsmanFormProps) => {
               type='date'
             />
             <div className='inputs-group'>
-              <SelectForFilter label='Стать' items={['Ч', 'Ж']} />
-              <SelectForFilter label='Пояс' items={belts} />
+              <SelectForFilter
+                label='Стать'
+                items={['Ч', 'Ж']}
+                name={'sex'}
+                setFieldValue={setFieldValue}
+              />
+              <SelectForFilter
+                label='Пояс'
+                items={belts}
+                name={'belt'}
+                setFieldValue={setFieldValue}
+              />
             </div>
-            <SelectForFilter label='Тренер' items={coachesTest} />
+            <SelectForFilter
+              label='Тренер'
+              items={coachesTest}
+              name={'coach'}
+              setFieldValue={setFieldValue}
+            />
             <Button
               type='submit'
               variant='contained'

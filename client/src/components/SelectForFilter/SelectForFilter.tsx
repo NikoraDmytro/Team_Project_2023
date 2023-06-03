@@ -29,10 +29,8 @@ const SelectForFilter = ({
   const handleChange = (event: SelectChangeEvent) => {
     const selectedValue = event.target.value as string;
     setValue(selectedValue);
-    if (setFieldValue) {
-      name
-        ? setFieldValue(name, selectedValue)
-        : setFieldValue(label, selectedValue);
+    if (setFieldValue && name) {
+      setFieldValue(name, selectedValue);
     }
   };
   return (

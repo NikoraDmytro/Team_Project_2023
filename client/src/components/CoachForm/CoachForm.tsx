@@ -47,7 +47,7 @@ const CoachForm = (props: CoachFormProps) => {
   return (
     <Dialog open={open} onClose={setClose} maxWidth='lg'>
       <Formik initialValues={initialValues} onSubmit={submitHandler}>
-        {() => (
+        {({ setFieldValue }) => (
           <Form className='form'>
             <Avatar
               src={initialValues.photo}
@@ -69,8 +69,18 @@ const CoachForm = (props: CoachFormProps) => {
             />
 
             <div className='inputs-group'>
-              <SelectForFilter label='Стать' items={['Ч', 'Ж']} />
-              <SelectForFilter label='Пояс' items={belts} />
+              <SelectForFilter
+                label='Стать'
+                items={['Ч', 'Ж']}
+                name={'sex'}
+                setFieldValue={setFieldValue}
+              />
+              <SelectForFilter
+                label='Пояс'
+                items={belts}
+                name={'belt'}
+                setFieldValue={setFieldValue}
+              />
             </div>
             <div className='inputs-group'>
               <InputFormField
@@ -78,9 +88,19 @@ const CoachForm = (props: CoachFormProps) => {
                 name='weightingDate'
                 type='date'
               />
-              <SelectForFilter label='Категорія' items={coachesLevel} />
+              <SelectForFilter
+                label='Категорія'
+                items={coachesLevel}
+                name={'coachCategory'}
+                setFieldValue={setFieldValue}
+              />
             </div>
-            <SelectForFilter label='Клуб' items={clubsTest} />
+            <SelectForFilter
+              label='Клуб'
+              items={clubsTest}
+              name={'club'}
+              setFieldValue={setFieldValue}
+            />
             <Button
               type='submit'
               variant='contained'

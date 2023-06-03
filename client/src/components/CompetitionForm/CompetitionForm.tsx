@@ -44,7 +44,7 @@ const CompetitionForm = (props: CompetitionFormProps) => {
   return (
     <Dialog open={open} onClose={setClose} maxWidth='lg'>
       <Formik initialValues={initialValues} onSubmit={submitHandler}>
-        {() => (
+        {({ setFieldValue }) => (
           <Form className='form'>
             <InputFormField
               label='Назва змагання'
@@ -68,11 +68,26 @@ const CompetitionForm = (props: CompetitionFormProps) => {
                 type='date'
               />
             </div>
-            <SelectForFilter label='Місто' items={regionalCenters} />
+            <SelectForFilter
+              label='Місто'
+              items={regionalCenters}
+              name={'city'}
+              setFieldValue={setFieldValue}
+            />
             <InputFormField label='Адреса' name='adrees' type='text' />
             <div className='inputs-group'>
-              <SelectForFilter label='Рівень' items={competitionLevel} />
-              <SelectForFilter label='Статус' items={competitionStatus} />
+              <SelectForFilter
+                label='Рівень'
+                items={competitionLevel}
+                name={'level'}
+                setFieldValue={setFieldValue}
+              />
+              <SelectForFilter
+                label='Статус'
+                items={competitionStatus}
+                name={'status'}
+                setFieldValue={setFieldValue}
+              />
             </div>
             <Button
               type='submit'

@@ -16,8 +16,27 @@ type ColumnsType = Coach & { controls: string };
 const CoachesPage = () => {
   const [coaches, setCoaches] = useState(test);
   const [open, setOpen] = useState(false);
+  const [selectedSex, setSelectedSex] = useState('');
+  const [selectedBelt, setSelectedBelt] = useState('');
+  const [selectedClub, setSelectedClub] = useState('');
+  const [selectedCoachCategory, setSelectedCoachCategory] = useState('');
 
   const handleClose = () => setOpen(false);
+  const handleChange = (field: string, value: string) => {
+    if (field === 'sex') {
+      setSelectedSex(value);
+      setCoaches(prev => prev.filter(coach => coach.sex === value));
+    } else if (field === 'belt') {
+      setSelectedBelt(value);
+      setCoaches(prev => prev.filter(coach => coach.belt === value));
+    } else if (field === 'club') {
+      setSelectedClub(value);
+      setCoaches(prev => prev.filter(coach => coach.club === value));
+    } else if (field === 'coachCategory') {
+      setSelectedCoachCategory(value);
+      setCoaches(prev => prev.filter(coach => coach.coachCategory === value));
+    }
+  };
 
   const columns: TableColumns<Coach, ColumnsType>[] = [
     {
@@ -70,12 +89,32 @@ const CoachesPage = () => {
         <TextField label='Пошук'></TextField>
         <div className='filter-buttons'>
           <div className='first-buttons'>
-            <SelectForFilter label='Стать' items={['Ч', 'Ж']} />
-            <SelectForFilter label='Пояс' items={belts} />
+            <SelectForFilter
+              label='Стать'
+              items={['Ч', 'Ж']}
+              name='sex'
+              setFieldValue={handleChange}
+            />
+            <SelectForFilter
+              label='Пояс'
+              items={belts}
+              name='belt'
+              setFieldValue={handleChange}
+            />
           </div>
           <div className='second-buttons'>
-            <SelectForFilter label='Клуб' items={clubsTest} />
-            <SelectForFilter label='Категорія' items={coachesLevel} />
+            <SelectForFilter
+              label='Клуб'
+              items={clubsTest}
+              name='club'
+              setFieldValue={handleChange}
+            />
+            <SelectForFilter
+              label='Категорія'
+              items={coachesLevel}
+              name='coachCategory'
+              setFieldValue={handleChange}
+            />
           </div>
         </div>
         <Button
