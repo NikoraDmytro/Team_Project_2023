@@ -6,6 +6,8 @@ import SelectForFilter from '../SelectForFilter/SelectForFilter';
 import belts from '../../const/belts';
 import ClearIcon from '@mui/icons-material/Clear';
 import coachesLevel from '../../const/coachesLevel';
+import CoachService from '../../services/CoachService';
+import { Coach } from '../../models/Coach';
 
 interface FormValues {
   photo: string;
@@ -40,10 +42,24 @@ interface CoachFormProps {
 
 const CoachForm = (props: CoachFormProps) => {
   const { open, setClose } = props;
-  const submitHandler = (values: FormValues) => {
-    console.log(values);
+  const submitHandler = async (values: FormValues) => {
+    const coach: Coach = {
+      membershipCardNum: +values.membershipCardNum,
+      firstName: values.firstname,
+      lastName: values.lastname,
+      patronymic: values.patronimyc,
+      clubName: values.club,
+      belt: values.belt,
+      sex: values.sex,
+      birthDate: values.birthday,
+      instructorCategory: values.coachCategory
+    };
+
+
+    await CoachService.createCoach(coach);
     setClose();
   };
+
   return (
     <Dialog open={open} onClose={setClose} maxWidth='lg'>
       <Formik initialValues={initialValues} onSubmit={submitHandler}>
@@ -55,7 +71,7 @@ const CoachForm = (props: CoachFormProps) => {
             />
             <InputFormField
               label='Номер членського квитка'
-              name='patronimyc'
+              name='membershipCardNum'
               type='text'
             />
             <div className='inputs-group'>
@@ -75,7 +91,7 @@ const CoachForm = (props: CoachFormProps) => {
             <div className='inputs-group'>
               <InputFormField
                 label='Дата народження'
-                name='weightingDate'
+                name='birthDate'
                 type='date'
               />
               <SelectForFilter label='Категорія' items={coachesLevel} />

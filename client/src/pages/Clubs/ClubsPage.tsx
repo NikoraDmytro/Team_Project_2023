@@ -19,20 +19,26 @@ const ClubsPage = () => {
 
   const handleClose = () => setOpen(false);
 
-  useEffect(() => {
-    const fetchClubs = async () => {
-      const response = await ClubService.getAllClubs();
-      const clubsData = response.data.map((club) => ({
-        id: club.id,
-        name: club.name,
-        city: club.city,
-        address: club.address,
-      }));
-      setClubs(clubsData);
-    };
+  const fetchClubs = async () => {
+    const response = await ClubService.getAllClubs();
+    const clubsData = response.data.map((club) => ({
+      id: club.id,
+      name: club.name,
+      city: club.city,
+      address: club.address,
+    }));
+    setClubs(clubsData);
+  };
 
+
+  useEffect(() => {
     fetchClubs();
   }, []);
+
+  const deleteClub = async (id: number) => {
+    await ClubService.deleteClub(id);
+    fetchClubs();
+  }
 
   const columns: TableColumns<Club, ColumnsType>[] = [
     {
@@ -50,10 +56,10 @@ const ClubsPage = () => {
     },
     {
       name: 'controls',
-      renderItem: () => (
+      renderItem: (item: Club) => (
         <div className='control-buttons'>
           <EditIcon onClick={() => setOpen(true)} />
-          <DeleteIcon className='delete-icon' />
+          <DeleteIcon onClick={() => deleteClub(item.id)} className='delete-icon' />
         </div>
       ),
     },
