@@ -6,6 +6,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Api.Validators.Club;
 using Api.Validators.Coach;
+using Api.Validators.Judge;
 
 namespace Api.Extensions;
 
@@ -60,5 +61,7 @@ public static class ServiceExtensions
         services.AddValidatorsFromAssemblyContaining<UpdateClubModelValidator>();
         services.AddValidatorsFromAssemblyContaining<CreateCoachModelValidator>();
         services.AddValidatorsFromAssemblyContaining<UpdateCoachModelValidator>();
+        services.AddValidatorsFromAssemblyContaining<CreateJudgeModelValidator>();
+        services.AddValidatorsFromAssemblyContaining<UpdateJudgeModelValidator>();
     }
 }
