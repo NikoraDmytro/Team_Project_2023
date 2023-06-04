@@ -1,31 +1,82 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TableColumns } from '../../types/DataTableTypes';
 import { DataTable } from '../../components/DataTable';
 import { Button, TextField } from '@mui/material';
 import SelectForFilter from '../../components/SelectForFilter/SelectForFilter';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import belts from '../../const/belts';
-import judgeCategory from '../../const/judgeCategory';
 import { JudgeForm } from '../../components/JudgeForm';
+import { Judge } from '../../models/Judge';
+import ClubService from '../../services/ClubService';
+import BeltService from '../../services/BeltService';
+import JudgeCategoryService from '../../services/JudgeCategoryService';
+import JudgeService from '../../services/JudgeService';
 
-type Judge = (typeof test)[0];
 type ColumnsType = Judge & { controls: string };
 
 const RefereesPage = () => {
-  const [judges, setJudges] = useState(test);
+  const [judges, setJudges] = useState<Judge[]>([]);
+  const [clubs, setClubs] = useState<string[]>([]);
+  const [belts, setBelts] = useState<string[]>([]);
+  const [judgeCategories, setJudgeCategories] = useState<string[]>([]);
   const [open, setOpen] = useState(false);
+  const [update, setUpdate] = useState(false);
+  const [judge, setJudge] = useState<Judge>();
 
   const handleClose = () => setOpen(false);
 
+  const fetchClubs = async () => {
+    var clubs = (await ClubService.getAllClubs()).data.map(x => x.name);
+    setClubs(clubs);
+  }
+
+  const fetchBelts = async () => {
+    const response = await BeltService.getAllBelts();
+    setBelts(response.data.map(x => x.rank));
+  }
+
+  const fetchJudges = async () => {
+    const response = await JudgeService.getAllJudges();
+    setJudges(response.data);
+  }
+
+  const fetchJudgeCategories = async () => {
+    const response = await JudgeCategoryService.getAllJudgeCategories();
+    setJudgeCategories(response.data.map(x => x.name));
+  }
+
+  useEffect(() => {
+    fetchJudges();
+    fetchClubs();
+    fetchBelts();
+    fetchJudgeCategories();
+  }, []);
+
+  const editJudge = async (item: Judge) => {
+    setUpdate(true);
+    setJudge(item);
+    setOpen(true);
+  }
+
+  const createJudge = async () => {
+    setUpdate(false);
+    setOpen(true);
+  }
+
   const columns: TableColumns<Judge, ColumnsType>[] = [
     {
-      name: 'photo',
-      label: 'Фото',
+      name: 'firstName',
+      label: 'Ім\'я',
+      sortable: true,
     },
     {
-      name: 'name',
-      label: 'Назва',
+      name: 'lastName',
+      label: 'Прізвище',
+      sortable: true,
+    },
+    {
+      name: 'patronymic',
+      label: 'По-батькові',
       sortable: true,
     },
     {
@@ -33,17 +84,13 @@ const RefereesPage = () => {
       label: 'Стать',
     },
     {
-      name: 'birthday',
+      name: 'birthDate',
       label: 'Дата народження',
       sortable: true,
     },
     {
-      name: 'club',
-      label: 'Клуб',
-    },
-    {
       name: 'belt',
-      label: 'Статус',
+      label: 'Пояс',
     },
     {
       name: 'judgeCategory',
@@ -55,9 +102,9 @@ const RefereesPage = () => {
     },
     {
       name: 'controls',
-      renderItem: () => (
+      renderItem: (item: Judge) => (
         <div className='control-buttons'>
-          <EditIcon onClick={() => setOpen(true)} />
+          <EditIcon onClick={() => editJudge(item)} />
           <DeleteIcon className='delete-icon' />
         </div>
       ),
@@ -73,93 +120,23 @@ const RefereesPage = () => {
             <SelectForFilter label='Пояс' items={belts} />
           </div>
           <div className='second-buttons'>
-            <SelectForFilter label='Клуб' items={clubsTest} />
-            <SelectForFilter label='Категорія' items={judgeCategory} />
+            <SelectForFilter label='Клуб' items={clubs} />
+            <SelectForFilter label='Категорія' items={judgeCategories} />
           </div>
         </div>
         <Button
           variant='contained'
           color='inherit'
-          onClick={() => setOpen(true)}
+          onClick={() => createJudge()}
         >
           Додати суддю
         </Button>
       </div>
 
       <DataTable tableData={judges} tableColumns={columns} />
-      <JudgeForm open={open} setClose={handleClose} />
+      <JudgeForm open={open} update={update} judge={judge} setClose={handleClose} />
     </div>
   );
 };
 
 export { RefereesPage };
-
-const test = [
-  {
-    id: 1,
-    photo: '',
-    name: 'Іванов Іван Іванович',
-    sex: 'ч',
-    birthday: '1970-02-06',
-    club: 'СК "ПРАЙД"',
-    belt: '3 дан',
-    judgeCategory: 'Суддя 1-ї категорії',
-    membershipCardNum: '123456',
-  },
-  {
-    id: 2,
-    photo: '',
-    name: 'Іванов Іван Іванович',
-    sex: 'ч',
-    birthday: '1970-02-06',
-    club: 'СК "ПРАЙД"',
-    belt: '3 дан',
-    judgeCategory: 'Суддя 1-ї категорії',
-    membershipCardNum: '123456',
-  },
-  {
-    id: 3,
-    photo: '',
-    name: 'Іванов Іван Іванович',
-    sex: 'ч',
-    birthday: '1970-02-06',
-    club: 'СК "ПРАЙД"',
-    belt: '3 дан',
-    judgeCategory: 'Суддя 1-ї категорії',
-    membershipCardNum: '123456',
-  },
-  {
-    id: 4,
-    photo: '',
-    name: 'Іванов Іван Іванович',
-    sex: 'ч',
-    birthday: '1970-02-06',
-    club: 'СК "ПРАЙД"',
-    belt: '3 дан',
-    judgeCategory: 'Суддя 1-ї категорії',
-    membershipCardNum: '123456',
-  },
-  {
-    id: 5,
-    photo: '',
-    name: 'Іванов Іван Іванович',
-    sex: 'ч',
-    birthday: '1970-02-06',
-    club: 'СК "ПРАЙД"',
-    belt: '3 дан',
-    judgeCategory: 'Суддя 1-ї категорії',
-    membershipCardNum: '123456',
-  },
-  {
-    id: 6,
-    photo: '',
-    name: 'Іванов Іван Іванович',
-    sex: 'ч',
-    birthday: '1970-02-06',
-    club: 'СК "ПРАЙД"',
-    belt: '3 дан',
-    judgeCategory: 'Суддя 1-ї категорії',
-    membershipCardNum: '123456',
-  },
-];
-const clubsTest = ['Клуб 1', 'Клуб 2', 'Клуб 3'];
