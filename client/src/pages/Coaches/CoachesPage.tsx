@@ -75,6 +75,11 @@ const CoachesPage = () => {
     setOpen(true);
   }
 
+  const deleteCoach = async (id: number) => {
+    await CoachService.deleteCoach(id);
+    fetchCoaches();
+  }
+
   useEffect(() => {
     fetchCoaches();
     fetchBelts();
@@ -132,7 +137,7 @@ const CoachesPage = () => {
       renderItem: (item: Coach) => (
         <div className='control-buttons'>
           <EditIcon onClick={() => editCoach(item)} />
-          <DeleteIcon className='delete-icon' />
+          <DeleteIcon onClick={() => deleteCoach(item.membershipCardNum)} className='delete-icon' />
         </div>
       ),
     },
