@@ -6,11 +6,18 @@ import axios from 'axios';
 
 export default class ClubsStore {
   clubs: Club[] = [];
+  cityFilter = '';
   rootStore: RootStore;
 
   constructor(rootStore: RootStore) {
     makeAutoObservable(this);
     this.rootStore = rootStore;
+  }
+
+  get filteredClubs() {
+    return this.clubs.filter(
+      club => !this.cityFilter || club.city === this.cityFilter,
+    );
   }
 
   fetchClubs = async () => {
@@ -26,4 +33,8 @@ export default class ClubsStore {
       } else throw e;
     }
   };
+
+  setCityFilter(city: string) {
+    this.cityFilter = city;
+  }
 }

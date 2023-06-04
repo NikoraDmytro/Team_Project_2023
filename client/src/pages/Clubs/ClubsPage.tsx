@@ -17,10 +17,9 @@ type ColumnsType = Club & { controls: string };
 
 const ClubsPage = observer(() => {
   const {
-    clubsStore: { clubs, fetchClubs },
+    clubsStore: { fetchClubs, setCityFilter, filteredClubs },
   } = useRootStoreContext();
 
-  const [filteredClubs, setFilteredClubs] = useState<Club[]>([]);
   const [open, setOpen] = useState(false);
   const [update, setUpdate] = useState(false);
   const [club, setClub] = useState<Club>();
@@ -32,11 +31,6 @@ const ClubsPage = observer(() => {
   useEffect(() => {
     fetchClubs();
   }, []);
-
-  const handleChange = (field: string, value: string) => {
-    var filtered = clubs.filter(x => x.city === value);
-    setFilteredClubs(filtered);
-  };
 
   const editClub = async (item: Club) => {
     setClub(item);
@@ -89,7 +83,7 @@ const ClubsPage = observer(() => {
           label='Місто'
           items={regionalCenters}
           name='city'
-          setFieldValue={handleChange}
+          setFieldValue={(field, value) => setCityFilter(value)}
         />
         <Button
           variant='contained'

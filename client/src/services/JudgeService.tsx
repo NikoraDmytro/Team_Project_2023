@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Judge } from '../models/Judge';
 
-const BASE_URL = process.env.REACT_APP_API_URL + 'judges/';
+const BASE_URL = 'judges/';
 
 const JudgeService = {
   getAllJudges: async (): Promise<Judge[]> => {

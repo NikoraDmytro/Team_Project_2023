@@ -1,7 +1,7 @@
 import http from './index';
 import { instructorCategory } from '../models/InstructorCategory';
 
-const BASE_URL = process.env.REACT_APP_API_URL + 'instructorCategories/';
+const BASE_URL = 'instructorCategories/';
 
 const InstructorCategoryService = {
   getAllInstructorCategories: async (): Promise<instructorCategory[]> => {
