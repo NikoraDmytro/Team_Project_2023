@@ -30,7 +30,7 @@ public class DivisionsController : ControllerBase
         return Ok(divisions);
     }
 
-    [HttpGet("{id}", Name = nameof(GetById))]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
         var division = await _divisionService.GetByDivisionIdAsync(id);
@@ -41,7 +41,7 @@ public class DivisionsController : ControllerBase
     public async Task<IActionResult> Create(CreateDivisionModel createDivisionModel)
     {
         var division = await _divisionService.CreateAsync(createDivisionModel);
-        return CreatedAtRoute(nameof(GetById), new { id = division.DivisionId }, division);
+        return Ok(division);
     }
 
     [HttpPut("{id}")]

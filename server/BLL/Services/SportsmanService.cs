@@ -14,22 +14,42 @@ namespace BLL.Services
 {
     public class SportsmanService : ISportsmanService
     {
-        private readonly AppDbContext _context;
         private readonly ISportsmanRepository _sportsmanRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly ICoachRepository _coachRepository;
+        private readonly IBeltRepository _beltRepository;
         private readonly IMapper _mapper;
+        private readonly AppDbContext _context;
 
         public SportsmanService(
-            AppDbContext context,
             ISportsmanRepository sportsmanRepository,
-            IMapper mapper)
+            IUserRepository userRepository,
+            ICoachRepository coachRepository,
+            IBeltRepository beltRepository,
+            IMapper mapper,
+            AppDbContext context)
         {
-            _context = context;
             _sportsmanRepository = sportsmanRepository;
+            _userRepository = userRepository;
+            _coachRepository = coachRepository;
+            _beltRepository = beltRepository;
             _mapper = mapper;
+            _context = context;
         }
+        
         public async Task<SportsmanModel> CreateAsync(CreateSportsmanModel createSportsmanModel)
         {
             var sportsman = _mapper.Map<Sportsman>(createSportsmanModel);
+
+            var user = await _userRepository.GetByNameAsync(createSportsmanModel.FirstName, createSportsmanModel.LastName)
+                       ?? throw new NotFoundException("User was not found");
+
+            sportsman.User = user;
+
+            var belt = await _beltRepository.GetByNameAsync(createSportsmanModel.Belt)
+                       ?? throw new NotFoundException("Belt was not found");
+
+            sportsman.Belt = belt;
 
             await _sportsmanRepository.CreateAsync(sportsman);
             await _context.SaveChangesAsync();

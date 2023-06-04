@@ -7,8 +7,7 @@ namespace Api.Validators.Coach
     {
         public CreateCoachModelValidator()
         {
-            RuleFor(c => c.Phone)
-                .NotEmpty().WithMessage("Phone must not be empty");
+            
         }
     }
 }

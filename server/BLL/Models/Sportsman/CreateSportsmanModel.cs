@@ -1,22 +1,24 @@
-﻿using BLL.Mappings;
-using Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AutoMapper;
+using BLL.Mappings;
 
-namespace BLL.Models.Sportsman
+namespace BLL.Models.Sportsman;
+
+public class CreateSportsmanModel: IMapTo<Core.Entities.Sportsman>
 {
-    public class CreateSportsmanModel: IMapTo<Core.Entities.Sportsman>
+    public int MembershipCardNum { get; set; }
+    public DateTime BirthDate { get; set; }
+    public string Sex { get; set; }
+    public string Belt { get; set; }
+    public string ClubName { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Patronymic { get; set; }
+
+    public void MapTo(Profile profile)
     {
-        public DateTime BirthDate { get; set; }
-        public Sex Sex { get; set; }
-        public int UserId { get; set; }
-        public int? CoachMembershipCardNum { get; set; }
-        public int BeltId { get; set; }
-        public Core.Entities.Belt? Belt { get; set; }
-        public int? SportsCategoryId { get; set; }
-        public SportsCategory? SportsCategory { get; set; }
+        profile.CreateMap<CreateSportsmanModel, Core.Entities.Sportsman>()
+            .ForMember(dest => dest.Sex,
+                src => src.MapFrom(opt => opt.Sex == "Ч" ? Core.Entities.Sex.M : Core.Entities.Sex.F))
+            .ForMember(dest => dest.Belt, opt => opt.Ignore());
     }
 }

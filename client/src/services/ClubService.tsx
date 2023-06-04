@@ -10,6 +10,14 @@ const ClubService = {
 
     createClub: async (club: Club) => {
         return await axios.post(BASE_URL, club);
+    },
+
+    updateClub: async (id: number, club: Club) => {
+        return await axios.put(BASE_URL + id, club);
+    },
+
+    deleteClub: async (id: number) => {
+        return await axios.delete(BASE_URL + id);
     }
 }
 

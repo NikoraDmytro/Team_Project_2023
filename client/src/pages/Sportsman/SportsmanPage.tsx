@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { TableColumns } from '../../types/DataTableTypes';
@@ -8,46 +8,68 @@ import SelectForFilter from '../../components/SelectForFilter/SelectForFilter';
 import belts from '../../const/belts';
 import './Sportsman.scss';
 import { SportsmenForm } from '../../components/SportsmenForm';
+import { Sportsman } from '../../models/Sportsman';
+import SportsmanService from '../../services/SportsmanService';
 
-type Sporstman = (typeof test)[0];
-type ColumnsType = Sporstman & { controls: string };
+type ColumnsType = Sportsman & { controls: string };
 
 const SportsmanPage = () => {
-  const [sportsmen, setSportsmen] = useState(test);
+  const [sportsmen, setSportsmen] = useState<Sportsman[]>([]);
   const [open, setOpen] = useState(false);
 
   const handleClose = () => setOpen(false);
 
-  const columns: TableColumns<Sporstman, ColumnsType>[] = [
+  const fetchSportsmen = async () => {
+    const response = await SportsmanService.getAllSportsmen();
+    const data = response.data.map((sportsman) => ({
+      membershipCardNum: sportsman.membershipCardNum,
+      firstName: sportsman.firstName,
+      lastName: sportsman.lastName,
+      patronymic: sportsman.patronymic,
+      birthDate: sportsman.birthDate,
+      belt: sportsman.belt,
+      sex: sportsman.sex,
+      clubName: sportsman.clubName,
+      coachName: sportsman.coachName
+    }));
+
+    setSportsmen(data);
+  };
+
+  useEffect(() => {
+    fetchSportsmen();
+  }, []);
+
+  const columns: TableColumns<Sportsman, ColumnsType>[] = [
     {
-      name: 'photo',
-      label: 'Фото',
+      name: 'firstName',
+      label: 'Ім\'я',
+      sortable: true,
     },
     {
-      name: 'name',
-      label: 'Назва',
-      sortable: true,
+      name: 'lastName',
+      label: 'Прізвище',
     },
     {
       name: 'sex',
       label: 'Стать',
     },
     {
-      name: 'birthday',
+      name: 'birthDate',
       label: 'Дата народження',
       sortable: true,
     },
     {
-      name: 'club',
+      name: 'clubName',
       label: 'Клуб',
     },
     {
       name: 'belt',
-      label: 'Статус',
+      label: 'Пояс',
     },
     {
-      name: 'coach',
-      label: 'Прокопенко Ю.С.',
+      name: 'coachName',
+      label: 'Ім\'я тренера',
     },
     {
       name: 'membershipCardNum',
@@ -96,86 +118,6 @@ const SportsmanPage = () => {
 };
 
 export { SportsmanPage };
-
-const test = [
-  {
-    id: 1,
-    photo: '',
-    name: 'Іванов Іван Іванович',
-    sex: 'ч',
-    birthday: '2005-02-06',
-    club: 'СК "ПРАЙД"',
-    belt: '1 дан',
-    coach: 'Прокопенко Ю.С.',
-    membershipCardNum: '123456',
-  },
-  {
-    id: 2,
-    photo: '',
-    name: 'Іванов Іван Іванович',
-    sex: 'ч',
-    birthday: '2005-02-06',
-    club: 'СК "ПРАЙД"',
-    belt: '1 дан',
-    coach: 'Прокопенко Ю.С.',
-    membershipCardNum: '123456',
-  },
-  {
-    id: 3,
-    photo: '',
-    name: 'Іванов Іван Іванович',
-    sex: 'ч',
-    birthday: '2005-02-06',
-    club: 'СК "ПРАЙД"',
-    belt: '1 дан',
-    coach: 'Прокопенко Ю.С.',
-    membershipCardNum: '123456',
-  },
-  {
-    id: 4,
-    photo: '',
-    name: 'Іванов Іван Іванович',
-    sex: 'ч',
-    birthday: '2005-02-06',
-    club: 'СК "ПРАЙД"',
-    belt: '1 дан',
-    coach: 'Прокопенко Ю.С.',
-    membershipCardNum: '123456',
-  },
-  {
-    id: 5,
-    photo: '',
-    name: 'Іванов Іван Іванович',
-    sex: 'ч',
-    birthday: '2005-02-06',
-    club: 'СК "ПРАЙД"',
-    belt: '1 дан',
-    coach: 'Прокопенко Ю.С.',
-    membershipCardNum: '123456',
-  },
-  {
-    id: 6,
-    photo: '',
-    name: 'Іванов Іван Іванович',
-    sex: 'ч',
-    birthday: '2005-02-06',
-    club: 'СК "ПРАЙД"',
-    belt: '1 дан',
-    coach: 'Прокопенко Ю.С.',
-    membershipCardNum: '123456',
-  },
-  {
-    id: 7,
-    photo: '',
-    name: 'Іванов Іван Іванович',
-    sex: 'ч',
-    birthday: '2005-02-06',
-    club: 'СК "ПРАЙД"',
-    belt: '1 дан',
-    coach: 'Прокопенко Ю.С.',
-    membershipCardNum: '123456',
-  },
-];
 
 const clubsTest = ['Клуб 1', 'Клуб 2', 'Клуб 3'];
 const coachesTest = ['Прокопенко Ю.С.', 'Прокопенко Ю.С.', 'Прокопенко Ю.С.'];

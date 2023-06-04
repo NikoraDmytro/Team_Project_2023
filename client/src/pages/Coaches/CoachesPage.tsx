@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TableColumns } from '../../types/DataTableTypes';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -9,12 +9,13 @@ import belts from '../../const/belts';
 import coachesLevel from '../../const/coachesLevel';
 import './CoachesPage.scss';
 import { CoachForm } from '../../components/CoachForm';
+import CoachService from '../../services/CoachService';
+import { Coach } from '../../models/Coach';
 
-type Coach = (typeof test)[0];
 type ColumnsType = Coach & { controls: string };
 
 const CoachesPage = () => {
-  const [coaches, setCoaches] = useState(test);
+  const [coaches, setCoaches] = useState<Coach[]>([]);
   const [open, setOpen] = useState(false);
   const [selectedSex, setSelectedSex] = useState('');
   const [selectedBelt, setSelectedBelt] = useState('');
@@ -31,21 +32,47 @@ const CoachesPage = () => {
       setCoaches(prev => prev.filter(coach => coach.belt === value));
     } else if (field === 'club') {
       setSelectedClub(value);
-      setCoaches(prev => prev.filter(coach => coach.club === value));
+      setCoaches(prev => prev.filter(coach => coach.clubName === value));
     } else if (field === 'coachCategory') {
       setSelectedCoachCategory(value);
-      setCoaches(prev => prev.filter(coach => coach.coachCategory === value));
+      setCoaches(prev => prev.filter(coach => coach.instructorCategory === value));
     }
   };
 
+  const fetchCoaches = async () => {
+    const response = await CoachService.getAllCoaches();
+    const coachesData = response.data.map((coach) => ({
+      membershipCardNum: coach.membershipCardNum,
+      firstName: coach.firstName,
+      lastName: coach.lastName,
+      patronymic: coach.patronymic,
+      sex: coach.sex,
+      birthDate: coach.birthDate,
+      clubName: coach.clubName,
+      belt: coach.belt,
+      instructorCategory: coach.instructorCategory
+    }));
+    setCoaches(coachesData);
+  };
+
+  useEffect(() => {
+    fetchCoaches();
+  }, []);
+
   const columns: TableColumns<Coach, ColumnsType>[] = [
     {
-      name: 'photo',
-      label: 'Фото',
+      name: 'firstName',
+      label: 'Ім\'я',
+      sortable: true,
     },
     {
-      name: 'name',
-      label: 'Назва',
+      name: 'lastName',
+      label: 'Прізвище',
+      sortable: true,
+    },
+    {
+      name: 'patronymic',
+      label: 'По-батькові',
       sortable: true,
     },
     {
@@ -53,20 +80,16 @@ const CoachesPage = () => {
       label: 'Стать',
     },
     {
-      name: 'birthday',
+      name: 'birthDate',
       label: 'Дата народження',
       sortable: true,
     },
     {
-      name: 'club',
+      name: 'clubName',
       label: 'Клуб',
     },
     {
-      name: 'belt',
-      label: 'Статус',
-    },
-    {
-      name: 'coachCategory',
+      name: 'instructorCategory',
       label: 'Інструкторська категорія',
     },
     {
@@ -134,72 +157,4 @@ const CoachesPage = () => {
 
 export { CoachesPage };
 
-const test = [
-  {
-    id: 1,
-    photo: '',
-    name: 'Іванов Іван Іванович',
-    sex: 'ч',
-    birthday: '2005-02-06',
-    club: 'СК "ПРАЙД"',
-    belt: '1 дан',
-    coachCategory: 'Тренер національного класу',
-    membershipCardNum: '123456',
-  },
-  {
-    id: 2,
-    photo: '',
-    name: 'Іванов Іван Іванович',
-    sex: 'ч',
-    birthday: '2005-02-06',
-    club: 'СК "ПРАЙД"',
-    belt: '1 дан',
-    coachCategory: 'Тренер національного класу',
-    membershipCardNum: '123456',
-  },
-  {
-    id: 3,
-    photo: '',
-    name: 'Іванов Іван Іванович',
-    sex: 'ч',
-    birthday: '2005-02-06',
-    club: 'СК "ПРАЙД"',
-    belt: '1 дан',
-    coachCategory: 'Тренер національного класу',
-    membershipCardNum: '123456',
-  },
-  {
-    id: 4,
-    photo: '',
-    name: 'Іванов Іван Іванович',
-    sex: 'ч',
-    birthday: '2005-02-06',
-    club: 'СК "ПРАЙД"',
-    belt: '1 дан',
-    coachCategory: 'Тренер національного класу',
-    membershipCardNum: '123456',
-  },
-  {
-    id: 5,
-    photo: '',
-    name: 'Іванов Іван Іванович',
-    sex: 'ч',
-    birthday: '2005-02-06',
-    club: 'СК "ПРАЙД"',
-    belt: '1 дан',
-    coachCategory: 'Тренер національного класу',
-    membershipCardNum: '123456',
-  },
-  {
-    id: 6,
-    photo: '',
-    name: 'Іванов Іван Іванович',
-    sex: 'ч',
-    birthday: '2005-02-06',
-    club: 'СК "ПРАЙД"',
-    belt: '1 дан',
-    coachCategory: 'Тренер національного класу',
-    membershipCardNum: '123456',
-  },
-];
 const clubsTest = ['Клуб 1', 'Клуб 2', 'Клуб 3'];
