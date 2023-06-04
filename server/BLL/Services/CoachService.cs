@@ -81,6 +81,8 @@ public class CoachService: ICoachService
             
             coach.ClubId = updateCoachModel.ClubId.Value;
         }
+        _coachRepository.Update(coach);
+        await _context.SaveChangesAsync();
     }
 
     public async Task DeleteAsync(int cardNum)
