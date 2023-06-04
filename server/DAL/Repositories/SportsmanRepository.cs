@@ -16,4 +16,9 @@ public class SportsmanRepository : GenericRepository<Sportsman>, ISportsmanRepos
     {
         return await _dbSet.FirstOrDefaultAsync(c => c.MembershipCardNum == cardNum);
     }
+
+    public async Task<Sportsman?> GetByNameAsync(string firstName, string lastName)
+    {
+        return await _dbSet.FirstOrDefaultAsync(x => x.User.FirstName == firstName && x.User.LastName == lastName);
+    }
 }

@@ -1,61 +1,82 @@
-import React from 'react';
-import { Avatar, Button, Dialog } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Button, Dialog } from '@mui/material';
 import { Formik, Form } from 'formik';
-import { InputFormField } from '../InputFormField';
 import SelectForFilter from '../SelectForFilter/SelectForFilter';
-import belts from '../../const/belts';
 import ClearIcon from '@mui/icons-material/Clear';
 import coachesLevel from '../../const/coachesLevel';
 import CoachService from '../../services/CoachService';
 import { Coach } from '../../models/Coach';
+import ClubService from '../../services/ClubService';
+import SportsmanService from '../../services/SportsmanService';
+import InstructorCategoryService from '../../services/InstructorCategoryService';
+import { InputFormField } from '../InputFormField';
 
 interface FormValues {
-  photo: string;
-  firstname: string;
-  lastname: string;
-  patronimyc: string;
-  sex: string;
-  birthDate: string;
+  membershipCardNum: number;
+  sportsman: string;
   club: string;
-  belt: string;
   coachCategory: string;
-  membershipCardNum: string;
+  phone: string;
 }
-
-const initialValues: FormValues = {
-  photo: '',
-  firstname: '',
-  lastname: '',
-  patronimyc: '',
-  sex: '',
-  birthDate: '',
-  club: '',
-  belt: '',
-  coachCategory: '',
-  membershipCardNum: '',
-};
 
 interface CoachFormProps {
   open: boolean;
+  update: boolean;
+  coach?: Coach;
   setClose: () => void;
 }
 
 const CoachForm = (props: CoachFormProps) => {
-    const { open, setClose } = props;
+    const { open, update, coach, setClose } = props;
+    const [clubs, setClubs] = useState<string[]>([]);
+    const [sportsmen, setSportsmen] = useState<string[]>([]);
+    const [instructorCategories, setInstructorCategories] = useState<string[]>([]);
+
+    const initialValues: FormValues = {
+      membershipCardNum: update ? coach?.membershipCardNum || 0 : 0,
+      sportsman: '',
+      club: '',
+      coachCategory: '',
+      phone: update ? coach?.phone || '' : ''
+    };
+
+    const fetchClubs = async () => {
+      const response = await ClubService.getAllClubs();
+      setClubs(response.data.map(x => x.name));
+    }
+
+    const fetchSportsmen = async () => {
+      const response = await SportsmanService.getAllSportsmen();
+      setSportsmen(response.data.map(x => x.firstName + " " + x.lastName));
+    }
+
+    const fetchInstructorCategories = async () => {
+      const response = await InstructorCategoryService.getAllInstructorCategories();
+      setInstructorCategories(response.data.map(x => x.name));
+    }
+
+    useEffect(() => {
+      fetchClubs();
+      fetchSportsmen();
+      fetchInstructorCategories();
+    }, []);
+
     const submitHandler = async (values: FormValues) => {
-      const coach: Coach = {
-        membershipCardNum: +values.membershipCardNum,
-        firstName: values.firstname,
-        lastName: values.lastname,
-        patronymic: values.patronimyc,
-        clubName: values.club,
-        belt: values.belt,
-        sex: values.sex,
-        birthDate: values.birthDate,
+      const coach: any = {
+        membershipCardNum: values.membershipCardNum,
+        phone: values.phone,
+        sportsman: values.sportsman,
+        club: values.club,
         instructorCategory: values.coachCategory
       };
 
-      await CoachService.createCoach(coach);
+      if (update){
+        await CoachService.updateCoach(coach.membershipCardNum, coach);
+      }
+      else{
+        await CoachService.createCoach(coach);
+      }
+      
       setClose();
     }
 
@@ -64,55 +85,26 @@ const CoachForm = (props: CoachFormProps) => {
         <Formik initialValues={initialValues} onSubmit={submitHandler}>
           {({ setFieldValue }) => (
             <Form className='form'>
-              <Avatar
-                src={initialValues.photo}
-                style={{ width: '60px', height: '60px' }}
-              />
-              <InputFormField
-                label='Номер членського квитка'
-                name='membershipCardNum'
-                type='text'
-              />
               <div className='inputs-group'>
-                <InputFormField label='Прізвище' name='lastname' type='text' />
-                <InputFormField label="Ім'я" name='firstname' type='text' />
-              </div>
-              <InputFormField
-                label="Ім'я по-батькові"
-                name='patronimyc'
-                type='text'
-              />
-
-              <div className='inputs-group'>
+                <InputFormField label='Номер телефону' name='phone' type='text' />
                 <SelectForFilter
-                  label='Стать'
-                  items={['Ч', 'Ж']}
-                  name={'sex'}
-                  setFieldValue={setFieldValue}
-                />
-                <SelectForFilter
-                  label='Пояс'
-                  items={belts}
-                  name={'belt'}
+                  label='Спортсмен'
+                  items={sportsmen}
+                  name={'sportsman'}
                   setFieldValue={setFieldValue}
                 />
               </div>
               <div className='inputs-group'>
-                <InputFormField
-                  label='Дата народження'
-                  name='birthDate'
-                  type='date'
-                />
                 <SelectForFilter
                   label='Категорія'
-                  items={coachesLevel}
+                  items={instructorCategories}
                   name={'coachCategory'}
                   setFieldValue={setFieldValue}
                 />
               </div>
               <SelectForFilter
                 label='Клуб'
-                items={clubsTest}
+                items={clubs}
                 name={'club'}
                 setFieldValue={setFieldValue}
               />
@@ -133,5 +125,4 @@ const CoachForm = (props: CoachFormProps) => {
     );
   };
 
-const clubsTest = ['Клуб 1', 'Клуб 2', 'Клуб 3'];
 export { CoachForm };
