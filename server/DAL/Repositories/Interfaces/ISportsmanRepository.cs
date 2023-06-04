@@ -1,8 +1,9 @@
 ﻿using Core.Entities;
 
-namespace DAL.Repositories.Interfaces;
-
-public interface ISportsmanRepository: IGenericRepository<Sportsman>
+namespace DAL.Repositories.Interfaces
 {
-    Task<Sportsman?> GetByIdAsync(int id);
+    public interface ISportsmanRepository: IGenericRepository<Sportsman>
+    {
+        Task<Sportsman?> GetByMembershipCardNumAsync(int id);
+    }
 }

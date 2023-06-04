@@ -33,7 +33,7 @@ public class SportsmanController: ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var sportsman = await _sportsmanService.GetByIdAsync(id);
+        var sportsman = await _sportsmanService.GetByMembershipCardNumAsync(id);
         return Ok(sportsman);
     }
 

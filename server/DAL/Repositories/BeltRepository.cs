@@ -17,4 +17,10 @@ public class BeltRepository: GenericRepository<Belt>, IBeltRepository
     {
         return await _dbSet.FirstOrDefaultAsync(x => x.Rank == name);
     }
+    
+    public async Task<Belt?> GetByIdAsync(int id)
+    {
+        return await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
+    }
 }
+

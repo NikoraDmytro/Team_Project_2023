@@ -5,16 +5,15 @@ using Sieve.Services;
 
 namespace DAL.Repositories;
 
-public class SportsmanRepository: GenericRepository<Sportsman>, ISportsmanRepository
+public class SportsmanRepository : GenericRepository<Sportsman>, ISportsmanRepository
 {
     public SportsmanRepository(
         AppDbContext context,
-        ISieveProcessor sieveProcessor): base(context, sieveProcessor)
-    {
+        ISieveProcessor sieveProcessor) : base(context, sieveProcessor)
+    { 
     }
-
-    public async Task<Sportsman?> GetByIdAsync(int id)
+    public async Task<Sportsman?> GetByMembershipCardNumAsync(int cardNum)
     {
-        return await _dbSet.FirstOrDefaultAsync(x => x.MembershipCardNum == id);
+        return await _dbSet.FirstOrDefaultAsync(c => c.MembershipCardNum == cardNum);
     }
 }

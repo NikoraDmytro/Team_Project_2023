@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BLL.Mappings;
 
 namespace BLL.Models.Sportsman;

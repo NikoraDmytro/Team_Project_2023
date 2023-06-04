@@ -1,8 +1,10 @@
 ﻿using Core.Entities;
 
-namespace DAL.Repositories.Interfaces;
-
-public interface IBeltRepository: IGenericRepository<Belt>
+namespace DAL.Repositories.Interfaces
 {
-    Task<Belt?> GetByNameAsync(string name);
+    public interface IBeltRepository: IGenericRepository<Belt>
+    {
+        Task<Belt?> GetByIdAsync(int id);
+        Task<Belt?> GetByNameAsync(string name);
+    }
 }

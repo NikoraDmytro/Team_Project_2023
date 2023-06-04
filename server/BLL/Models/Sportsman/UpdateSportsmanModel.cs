@@ -1,4 +1,4 @@
-﻿namespace BLL.Models.Sportsman;
+namespace BLL.Models.Sportsman;
 
 public class UpdateSportsmanModel
 {

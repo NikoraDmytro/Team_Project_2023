@@ -1,6 +1,5 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BLL.Mappings;
-using Core.Entities;
 
 namespace BLL.Models.Sportsman;
 
