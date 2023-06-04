@@ -14,10 +14,14 @@ import { Club } from '../../models/Club';
 type ColumnsType = Club & { controls: string };
 
 const ClubsPage = () => {
-  const [clubs, setClubs] = useState(test);
+  const [clubs, setClubs] = useState<Club[]>([]);
+  const [filteredClubs, setFilteredClubs] = useState<Club[]>([]);
   const [open, setOpen] = useState(false);
+  const [update, setUpdate] = useState(false);
+  const [club, setClub] = useState<Club>();
+  
+  var filterValue = '';
 
-  const [selectedCity, setSelectedCity] = useState('');
   const handleClose = () => setOpen(false);
 
   const fetchClubs = async () => {
@@ -28,7 +32,9 @@ const ClubsPage = () => {
       city: club.city,
       address: club.address,
     }));
+
     setClubs(clubsData);
+    setFilteredClubs(clubsData);
   };
 
   useEffect(() => {
@@ -36,9 +42,20 @@ const ClubsPage = () => {
   }, []);
   
   const handleChange = (field: string, value: string) => {
-    setSelectedCity(value);
-    setClubs(prev => prev.filter(club => club.city === value));
+    var filtered = clubs.filter(x => x.city === value);
+    setFilteredClubs(filtered);
   };
+
+  const editClub = async (item: Club) => {
+    setClub(item);
+    setUpdate(true);
+    setOpen(true);
+  }
+
+  const createClub = async () => {
+    setUpdate(false);
+    setOpen(true);
+  }
 
   const deleteClub = async (id: number) => {
     await ClubService.deleteClub(id);
@@ -63,7 +80,7 @@ const ClubsPage = () => {
       name: 'controls',
       renderItem: (item: Club) => (
         <div className='control-buttons'>
-          <EditIcon onClick={() => setOpen(true)} />
+          <EditIcon onClick={() => editClub(item)} />
           <DeleteIcon onClick={() => deleteClub(item.id)} className='delete-icon' />
         </div>
       ),
@@ -72,7 +89,7 @@ const ClubsPage = () => {
   return (
     <div className='wrapper'>
       <div className='club-menu'>
-        <TextField label='Пошук' />
+        <TextField label='Пошук' value={filterValue}/>
         <SelectForFilter
           label='Місто'
           items={regionalCenters}
@@ -82,78 +99,15 @@ const ClubsPage = () => {
         <Button
           variant='contained'
           color='inherit'
-          onClick={() => setOpen(true)}
+          onClick={() => createClub()}
         >
           Додати клуб
         </Button>
       </div>
-      <DataTable tableData={clubs} tableColumns={columns} />
-      <ClubForm open={open} setClose={handleClose} />
+      <DataTable tableData={filteredClubs} tableColumns={columns} />
+      <ClubForm open={open} club={club} update={update} setClose={handleClose} />
     </div>
   );
 };
 
 export { ClubsPage };
-
-const test = [
-  {
-    id: 1,
-    name: 'СК "ПРАЙД"',
-    city: 'Харків',
-    address: 'вул. Героїв Праці, 4, оф. 553',
-  },
-  {
-    id: 2,
-    name: 'СК "ПРАЙД"',
-    city: 'Харків',
-    address: 'вул. Героїв Праці, 4, оф. 553',
-  },
-  {
-    id: 3,
-    name: 'СК "ПРАЙД"',
-    city: 'Харків',
-    address: 'вул. Героїв Праці, 4, оф. 553',
-  },
-  {
-    id: 4,
-    name: 'СК "ПРАЙД"',
-    city: 'Харків',
-    address: 'вул. Героїв Праці, 4, оф. 553',
-  },
-  {
-    id: 5,
-    name: 'СК "ПРАЙД"',
-    city: 'Харків',
-    address: 'вул. Героїв Праці, 4, оф. 553',
-  },
-  {
-    id: 6,
-    name: 'СК "ПРАЙД"',
-    city: 'Харків',
-    address: 'вул. Героїв Праці, 4, оф. 553',
-  },
-  {
-    id: 7,
-    name: 'СК "ПРАЙД"',
-    city: 'Харків',
-    address: 'вул. Героїв Праці, 4, оф. 553',
-  },
-  {
-    id: 8,
-    name: 'СК "ПРАЙД"',
-    city: 'Харків',
-    address: 'вул. Героїв Праці, 4, оф. 553',
-  },
-  {
-    id: 9,
-    name: 'СК "ПРАЙД"',
-    city: 'Харків',
-    address: 'вул. Героїв Праці, 4, оф. 553',
-  },
-  {
-    id: 10,
-    name: 'СК "ПРАЙД"',
-    city: 'Харків',
-    address: 'вул. Героїв Праці, 4, оф. 553',
-  },
-];

@@ -31,7 +31,7 @@ public class BeltsController: ControllerBase
         return Ok(belts);
     }
 
-    [HttpGet("{id}", Name = nameof(GetById))]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
         var belt = await _beltService.GetByIdAsync(id);
@@ -42,7 +42,7 @@ public class BeltsController: ControllerBase
     public async Task<IActionResult> Create(CreateBeltModel createBeltModel)
     {
         var belt = await _beltService.CreateAsync(createBeltModel);
-        return CreatedAtRoute(nameof(GetById), new { id = belt.Id }, belt);
+        return Ok(belt);
     }
 
     [HttpPut("{id}")]

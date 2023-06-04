@@ -9,35 +9,44 @@ import ClubService from '../../services/ClubService';
 import { Club } from '../../models/Club';
 
 interface FormValues {
+  id: number;
   name: string;
   address: string;
   city: string;
 }
 
-const initialValues: FormValues = {
-  name: '',
-  address: '',
-  city: '',
-};
-
 interface ClubFormProps {
   open: boolean;
+  update: boolean;
+  club?: Club;
   setClose: () => void;
 }
 
 const ClubForm = (props: ClubFormProps) => {
-  const { open, setClose } = props;
+  const { open, update, club, setClose } = props;
+
+  const initialValues: FormValues = {
+    id: update ? club?.id || 0 : 0,
+    name: update ? club?.name || '' : '',
+    address: update ? club?.address || '': '',
+    city: update ? club?.city || '': '',
+  };
 
   const submitHandler = async (values: FormValues) => {
     const club: Club = {
-      id: 0,
+      id: initialValues.id,
       name: values.name,
       city: values.city,
       address: values.address,
     };
 
-
-    await ClubService.createClub(club);
+    if (update){
+      await ClubService.updateClub(club.id, club);
+    }
+    else{
+      await ClubService.createClub(club);
+    }
+    
     setClose();
   };
 
@@ -73,6 +82,7 @@ const ClubForm = (props: ClubFormProps) => {
 };
 
 export { ClubForm };
+
 function setValue(value: any) {
   throw new Error('Function not implemented.');
 }

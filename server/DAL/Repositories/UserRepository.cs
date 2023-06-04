@@ -19,4 +19,10 @@ public class UserRepository: GenericRepository<User>, IUserRepository
         return await _context.Users
             .FirstOrDefaultAsync(x => x.FirstName == firstName && x.LastName == lastName);
     }
+
+    public async Task<User?> GetByIdAsync(int id)
+    {
+        return await _context.Users
+            .FirstOrDefaultAsync(x => x.Id == id);
+    }
 }

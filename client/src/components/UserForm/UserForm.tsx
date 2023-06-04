@@ -12,71 +12,63 @@ import {
 import { Formik, Form } from 'formik';
 import ClearIcon from '@mui/icons-material/Clear';
 import { InputFormField } from '../InputFormField';
+import UserService from '../../services/UserService';
+import { User } from '../../models/User';
 
 interface FormValues {
+  id: number;
   email: string;
-  password: string;
-  role: string;
-  name: string;
+  firstName: string;
+  lastName: string;
+  patronymic: string;
 }
-
-const initialValues: FormValues = {
-  email: '',
-  password: '',
-  role: '',
-  name: '',
-};
 
 interface UserFormProps {
   open: boolean;
+  update: boolean;
+  user?: User;
   setClose: () => void;
 }
 
 const UserForm = (props: UserFormProps) => {
-  const { open, setClose } = props;
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const { open, update, user, setClose } = props;
 
-  const submitHandler = (values: FormValues) => {
-    console.log(values);
+  const initialValues: FormValues = {
+    id: update ? user?.id || 0 : 0,
+    email: update ? user?.email || '' : '',
+    firstName: update ? user?.firstName || '' : '',
+    lastName: update ? user?.lastName || '' : '',
+    patronymic: update ? user?.patronymic || '' : ''
+  };
+  
+  const submitHandler = async (values: FormValues) => {
+    const user: User = {
+      id: initialValues.id,
+      email: values.email,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      patronymic: values.patronymic,
+    }
+
+    if (update){
+      await UserService.updateUser(user.id, user);
+    }
+    else{
+      await UserService.createUser(user);
+    }
+    
     setClose();
   };
 
-  const handleSelectChange = (event: SelectChangeEvent<string[]>) => {
-    setSelectedItems(event.target.value as string[]);
-  };
   return (
     <Dialog open={open} onClose={setClose}>
       <Formik initialValues={initialValues} onSubmit={submitHandler}>
         {() => (
           <Form className='form'>
-            <InputFormField
-              label='Електронна адреса'
-              name='email'
-              type='Email'
-            />
-            <InputFormField label='Пароль' name='password' type='text' />
-            <InputFormField label='ПІБ' name='name' type='text' />
-            <FormControl>
-              <InputLabel id='select-label'>Роль</InputLabel>
-              <Select
-                multiple
-                value={selectedItems}
-                onChange={handleSelectChange}
-                label='Роль'
-                className='irole-input'
-                renderValue={selected => (
-                  <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                    {(selected as string[]).map(item => (
-                      <Chip key={item} label={item} style={{ margin: '2px' }} />
-                    ))}
-                  </div>
-                )}
-              >
-                <MenuItem value='суддя'>Суддя</MenuItem>
-                <MenuItem value='тренер'>Тренер</MenuItem>
-                <MenuItem value='адміністратор'>Адміністратор</MenuItem>
-              </Select>
-            </FormControl>
+            <InputFormField label="Email" name='email' type='text' />
+            <InputFormField label="Ім'я" name='firstName' type='text' />
+            <InputFormField label='Прізвище' name='lastName' type='text' />
+            <InputFormField label='По-батькові' name='patronymic' type='text' />
             <Button
               type='submit'
               variant='contained'

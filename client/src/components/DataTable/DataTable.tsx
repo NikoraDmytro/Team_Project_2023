@@ -89,21 +89,21 @@ const DataTable = <T extends WithId, P extends T>(props: TableProps<T, P>) => {
           ))}
         </TableRow>
       </TableHead>
-        <TableBody>
-          {paginatedData.map(item => (
-            <TableRow key={item.id}>
-              {tableColumns.map(column => (
-                <TableCell key={String(column.name)}>
-                  {column.renderItem
-                    ? column.renderItem(item)
-                    : item[column.name as string] || (
-                        <Avatar src={item[column.name as string]} />
-                      )}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
+      <TableBody>
+        {paginatedData.map((item) => (
+          <TableRow key={item.id}>
+            {tableColumns.map((column) => (
+              <TableCell key={String(column.name)}>
+                {column.renderItem ? (
+                  column.renderItem(item)
+                ) : (
+                  item[column.name as string] || '-'
+                )}
+              </TableCell>
+            ))}
+          </TableRow>
+        ))}
+      </TableBody>
       </Table>
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
