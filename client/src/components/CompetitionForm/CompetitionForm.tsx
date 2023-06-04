@@ -19,7 +19,6 @@ interface FormValues {
   city: string;
   status: string;
   level: string;
-
 }
 
 interface CompetitionFormProps {
@@ -43,23 +42,25 @@ const CompetitionForm = (props: CompetitionFormProps) => {
     city: update ? competition?.city || '' : '',
     status: update ? competition?.status || '' : '',
     level: update ? competition?.level || '' : '',
-  }
+  };
 
   const fetchCompetitionStatuses = async () => {
-    var competitionStatuses = await CompetitionStatusService.getAllCompetitionStatuses();
-    setCompetitionStatuses(competitionStatuses.data.map(x => x.name));
-  }
+    var competitionStatuses =
+      await CompetitionStatusService.getAllCompetitionStatuses();
+    setCompetitionStatuses(competitionStatuses.map(x => x.name));
+  };
 
   const fetchCompetitionLevels = async () => {
-    var competitionLevels = await CompetitionLevelService.getAllCompetitionLevels();
-    setCompetitionLevels(competitionLevels.data.map(x => x.name));
-  }
+    var competitionLevels =
+      await CompetitionLevelService.getAllCompetitionLevels();
+    setCompetitionLevels(competitionLevels.map(x => x.name));
+  };
 
   useEffect(() => {
     fetchCompetitionStatuses();
     fetchCompetitionLevels();
   }, []);
-  
+
   const submitHandler = async (values: FormValues) => {
     const competition: any = {
       id: initialValues.id,
@@ -72,13 +73,12 @@ const CompetitionForm = (props: CompetitionFormProps) => {
       level: values.level,
     };
 
-    if (update){
+    if (update) {
       await CompetitionService.updateCompetition(competition.id, competition);
-    }
-    else{
+    } else {
       await CompetitionService.createCompetition(competition);
     }
-    
+
     setClose();
   };
   return (
@@ -86,11 +86,7 @@ const CompetitionForm = (props: CompetitionFormProps) => {
       <Formik initialValues={initialValues} onSubmit={submitHandler}>
         {({ setFieldValue }) => (
           <Form className='form'>
-            <InputFormField
-              label='Назва змагання'
-              name='name'
-              type='text'
-            />
+            <InputFormField label='Назва змагання' name='name' type='text' />
             <InputFormField
               label='Дата зважування'
               name='weightingDate'

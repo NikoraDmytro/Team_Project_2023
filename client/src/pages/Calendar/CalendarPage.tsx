@@ -29,19 +29,21 @@ const CalendarPage = (): JSX.Element => {
   const handleClose = () => setOpen(false);
 
   const fetchCompetitionStatuses = async () => {
-    var competitionStatuses = await CompetitionStatusService.getAllCompetitionStatuses();
-    setCompetitionStatuses(competitionStatuses.data.map(x => x.name));
-  }
+    var competitionStatuses =
+      await CompetitionStatusService.getAllCompetitionStatuses();
+    setCompetitionStatuses(competitionStatuses.map(x => x.name));
+  };
 
   const fetchCompetitionLevels = async () => {
-    var competitionLevels = await CompetitionLevelService.getAllCompetitionLevels();
-    setCompetitionLevels(competitionLevels.data.map(x => x.name));
-  }
+    var competitionLevels =
+      await CompetitionLevelService.getAllCompetitionLevels();
+    setCompetitionLevels(competitionLevels.map(x => x.name));
+  };
 
   const fetchCompetitions = async () => {
     var competitions = await CompetitionService.getAllCompetitions();
-    setCompetitions(competitions.data);
-  }
+    setCompetitions(competitions);
+  };
 
   useEffect(() => {
     fetchCompetitionStatuses();
@@ -53,12 +55,12 @@ const CalendarPage = (): JSX.Element => {
     setUpdate(true);
     setCompetition(competition);
     setOpen(true);
-  }
+  };
 
   const createCompetition = async () => {
     setUpdate(false);
     setOpen(true);
-  }
+  };
 
   const handleChange = (field: string, value: string) => {
     if (field === 'city') {
@@ -165,7 +167,12 @@ const CalendarPage = (): JSX.Element => {
 
         <DataTable tableData={competitions} tableColumns={columns} />
       </div>
-      <CompetitionForm open={open} update={update} competition={competition} setClose={handleClose} />
+      <CompetitionForm
+        open={open}
+        update={update}
+        competition={competition}
+        setClose={handleClose}
+      />
     </>
   );
 };
