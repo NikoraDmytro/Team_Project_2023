@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace DAL.Configuration;
+namespace DAL.Initializers;
 
-internal class RoleConfiguration : IEntityTypeConfiguration<IdentityRole<int>>
+public class RoleDataInitializer
 {
-    public void Configure(EntityTypeBuilder<IdentityRole<int>> builder)
+    internal static void SeedData(ModelBuilder builder)
     {
-        builder.HasData(
+        builder.Entity<IdentityRole<int>>().HasData(
             new IdentityRole<int>
             {
                 Id = 1,
