@@ -26,6 +26,7 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
         CompetitionLevelDataInitializer.SeedData(modelBuilder);
         BeltDataInitializer.SeedData(modelBuilder);
         JudgeRoleDataInitializer.SeedData(modelBuilder);
+        ClubsDataInitializer.SeedData(modelBuilder);
     }
 
     public DbSet<Club>? Clubs { get; set; }
@@ -44,6 +45,6 @@ public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int>
     public DbSet<InstructorCategory>? InstructorCategories { get; set; }
     public DbSet<CompetitionLevel>? CompetitionLevels { get; set; }
     public DbSet<CompetitionStatus>? CompetitionStatuses { get; set; }
-    public DbSet<Belt> Belts { get; set; }
-    public DbSet<JudgeRole> JudgeRoles { get; set; }
+    public DbSet<Belt>? Belts { get; set; }
+    public DbSet<JudgeRole>? JudgeRoles { get; set; }
 }
