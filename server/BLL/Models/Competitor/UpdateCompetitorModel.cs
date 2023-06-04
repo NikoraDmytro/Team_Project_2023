@@ -13,6 +13,6 @@ namespace BLL.Models.Competitor
         public Core.Entities.Belt? Belt { get; set; }
 
         public int CompetitionId { get; set; }
-        public virtual Competition? Competition { get; set; }
+        public virtual Core.Entities.Competition? Competition { get; set; }
     }
 }

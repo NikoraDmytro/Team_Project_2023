@@ -52,6 +52,11 @@ const RefereesPage = () => {
     fetchJudgeCategories();
   }, []);
 
+  const deleteJudge = async (id: number) => {
+    await JudgeService.deleteJudge(id);
+    fetchJudges();
+  }
+
   const editJudge = async (item: Judge) => {
     setUpdate(true);
     setJudge(item);
@@ -105,7 +110,7 @@ const RefereesPage = () => {
       renderItem: (item: Judge) => (
         <div className='control-buttons'>
           <EditIcon onClick={() => editJudge(item)} />
-          <DeleteIcon className='delete-icon' />
+          <DeleteIcon onClick={() => deleteJudge(item.membershipCardNum)} className='delete-icon' />
         </div>
       ),
     },
