@@ -1,5 +1,5 @@
 export class Competition{
-    competitionId!: string;
+    competitionId!: number;
     name!: string;
     weightingDate!: string;
     startDate!: string;

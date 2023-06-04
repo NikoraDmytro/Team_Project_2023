@@ -1,44 +1,84 @@
 import { Button, Dialog } from '@mui/material';
 import { Formik, Form } from 'formik';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { InputFormField } from '../InputFormField';
 import ClearIcon from '@mui/icons-material/Clear';
 import SelectForFilter from '../SelectForFilter/SelectForFilter';
 import regionalCenters from '../../const/cities';
-import competitionLevel from '../../const/competitionLevel';
-import competitionStatus from '../../const/competitionStatus';
+import CompetitionStatusService from '../../services/CompetitionStatusService';
+import CompetitionLevelService from '../../services/CompetitionLevelService';
+import CompetitionService from '../../services/CompetitionService';
+import { Competition } from '../../models/Competition';
 
 interface FormValues {
-  competitionName: string;
+  id: number;
+  name: string;
   weightingDate: string;
   startDate: string;
-  endData: string;
+  endDate: string;
   city: string;
   status: string;
   level: string;
-  address: string;
-}
 
-const initialValues: FormValues = {
-  competitionName: '',
-  weightingDate: '',
-  startDate: '',
-  endData: '',
-  city: '',
-  status: '',
-  level: '',
-  address: '',
-};
+}
 
 interface CompetitionFormProps {
   open: boolean;
+  update: boolean;
+  competition?: Competition;
   setClose: () => void;
 }
 
 const CompetitionForm = (props: CompetitionFormProps) => {
-  const { open, setClose } = props;
-  const submitHandler = (values: FormValues) => {
-    console.log(values);
+  const { open, update, competition, setClose } = props;
+  const [competitionLevels, setCompetitionLevels] = useState<string[]>([]);
+  const [competitionStatuses, setCompetitionStatuses] = useState<string[]>([]);
+
+  const initialValues: FormValues = {
+    id: update ? competition?.competitionId || 0 : 0,
+    name: update ? competition?.name || '' : '',
+    weightingDate: update ? competition?.weightingDate || '' : '',
+    startDate: update ? competition?.startDate || '' : '',
+    endDate: update ? competition?.endDate || '' : '',
+    city: update ? competition?.city || '' : '',
+    status: update ? competition?.status || '' : '',
+    level: update ? competition?.level || '' : '',
+  }
+
+  const fetchCompetitionStatuses = async () => {
+    var competitionStatuses = await CompetitionStatusService.getAllCompetitionStatuses();
+    setCompetitionStatuses(competitionStatuses.data.map(x => x.name));
+  }
+
+  const fetchCompetitionLevels = async () => {
+    var competitionLevels = await CompetitionLevelService.getAllCompetitionLevels();
+    setCompetitionLevels(competitionLevels.data.map(x => x.name));
+  }
+
+  useEffect(() => {
+    fetchCompetitionStatuses();
+    fetchCompetitionLevels();
+  }, []);
+  
+  const submitHandler = async (values: FormValues) => {
+    const competition: any = {
+      id: initialValues.id,
+      name: values.name,
+      weightingDate: values.weightingDate,
+      startDate: values.startDate,
+      endDate: values.endDate,
+      city: values.city,
+      status: values.status,
+      level: values.level,
+    };
+
+    if (update){
+      await CompetitionService.updateCompetition(competition.id, competition);
+    }
+    else{
+      await CompetitionService.createCompetition(competition);
+    }
+    
     setClose();
   };
   return (
@@ -48,7 +88,7 @@ const CompetitionForm = (props: CompetitionFormProps) => {
           <Form className='form'>
             <InputFormField
               label='Назва змагання'
-              name='competitionName'
+              name='name'
               type='text'
             />
             <InputFormField
@@ -64,7 +104,7 @@ const CompetitionForm = (props: CompetitionFormProps) => {
               />
               <InputFormField
                 label='Дата закінчення'
-                name='endData'
+                name='endDate'
                 type='date'
               />
             </div>
@@ -74,17 +114,16 @@ const CompetitionForm = (props: CompetitionFormProps) => {
               name={'city'}
               setFieldValue={setFieldValue}
             />
-            <InputFormField label='Адреса' name='adrees' type='text' />
             <div className='inputs-group'>
               <SelectForFilter
                 label='Рівень'
-                items={competitionLevel}
+                items={competitionLevels}
                 name={'level'}
                 setFieldValue={setFieldValue}
               />
               <SelectForFilter
                 label='Статус'
-                items={competitionStatus}
+                items={competitionStatuses}
                 name={'status'}
                 setFieldValue={setFieldValue}
               />

@@ -18,6 +18,6 @@ public class CompetitionModel: IMapFrom<Core.Entities.Competition>
     {
         profile.CreateMap<Core.Entities.Competition, CompetitionModel>()
             .ForMember(dest => dest.Status, src => src.MapFrom(opt => opt.CompetitionStatus.Name))
-            .ForMember(dest => dest.Level, src => src.MapFrom(opt => opt.CompetitionLevel));
+            .ForMember(dest => dest.Level, src => src.MapFrom(opt => opt.CompetitionLevel.Name));
     }
 }
