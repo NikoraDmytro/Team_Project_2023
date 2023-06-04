@@ -1,10 +1,5 @@
 ﻿using BLL.Mappings;
-using Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AutoMapper;
 
 namespace BLL.Models.Division
 {
@@ -16,10 +11,16 @@ namespace BLL.Models.Division
         public int? MaxWeight { get; set; }
         public int MinAge { get; set; }
         public int MaxAge { get; set; }
-        public Sex Sex { get; set; }
-        public int MinBeltId { get; set; }
-        public virtual Core.Entities.Belt? MinBelt { get; set; }
-        public int MaxBeltId { get; set; }
-        public virtual Core.Entities.Belt? MaxBelt { get; set; }
+        public string? Sex { get; set; }
+        public string MinBelt { get; set; }
+        public string MaxBelt { get; set; }
+
+        public void MapFrom(Profile profile)
+        {
+            profile.CreateMap<Core.Entities.Division, DivisionModel>()
+                .ForMember(dest => dest.Sex, src => src.MapFrom(opt => opt.Sex == Core.Entities.Sex.M ? "Ч" : "Ж"))
+                .ForMember(dest => dest.MinBelt, src => src.MapFrom(opt => opt.MinBelt.Rank))
+                .ForMember(dest => dest.MaxBelt, src => src.MapFrom(opt => opt.MaxBelt.Rank));
+        }
     }
 }

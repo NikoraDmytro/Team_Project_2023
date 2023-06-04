@@ -8,4 +8,5 @@ export class Coach{
     belt!: string;
     birthDate!: string;
     instructorCategory!: string;
+    phone!: string;
 }

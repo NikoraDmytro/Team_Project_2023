@@ -5,7 +5,7 @@ const BASE_URL = process.env.REACT_APP_API_URL + 'belts/';
 
 const BeltService = {
     getAllBelts: async () => {
-        return await axios.get<Belt[]>(BASE_URL)
+        return await axios.get<Belt[]>(BASE_URL + 'all')
     }
 }
 

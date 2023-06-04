@@ -8,8 +8,12 @@ const CoachService = {
         return await axios.get<Coach[]>(BASE_URL + 'all')
     },
 
-    createCoach: async (club: Coach) => {
-        return await axios.post(BASE_URL, club);
+    createCoach: async (coach: any) => {
+        return await axios.post(BASE_URL, coach);
+    },
+
+    updateCoach: async (membershipCardNum: number, coach: Coach) => {
+        return await axios.put(BASE_URL + membershipCardNum, coach);
     },
 
     deleteCoach: async (id: number) => {

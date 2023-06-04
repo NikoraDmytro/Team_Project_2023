@@ -17,4 +17,9 @@ public class ClubRepository: GenericRepository<Club>, IClubRepository
     {
         return await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
     }
+
+    public async Task<Club?> GetByNameAsync(string name)
+    {
+        return await _dbSet.FirstOrDefaultAsync(x => x.Name == name);
+    }
 }
