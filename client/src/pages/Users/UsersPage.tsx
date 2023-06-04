@@ -8,51 +8,26 @@ import { Button, TextField } from '@mui/material';
 import { UserForm } from '../../components/UserForm';
 import { User } from '../../models/User';
 import { UserService } from '../../services';
+import { useRootStoreContext } from '../../store';
+import { observer } from 'mobx-react-lite';
 
 type ColumnsType = User & { controls: string };
 
-const UsersPage = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
-  const [filterValue, setFilterValue] = useState('');
+const UsersPage = observer(() => {
+  const {
+    usersStore: { filteredUsers, fetchUsers, setSearch, search },
+  } = useRootStoreContext();
+
   const [open, setOpen] = useState(false);
   const [update, setUpdate] = useState(false);
   const [user, setUser] = useState<User>();
+
   const handleClose = () => setOpen(false);
-
-  const fetchUsers = async () => {
-    const response = await UserService.getAllUsers();
-    const data = response.map(user => ({
-      id: user.id,
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      patronymic: user.patronymic,
-    }));
-
-    setUsers(data);
-    setFilteredUsers(data);
-  };
-
-  const handleFilterChange = (event: any) => {
-    setFilterValue(event.target.value);
-    setFilteredUsers(filteredItems);
-  };
 
   const deleteUser = async (id: number) => {
     await UserService.deleteUser(id);
     fetchUsers();
   };
-
-  const filteredItems = users.filter(user => {
-    if (!filterValue) return true;
-    console.log(filterValue);
-    return (
-      user.firstName?.toLowerCase().includes(filterValue.toLowerCase()) ||
-      user.lastName?.toLowerCase().includes(filterValue.toLowerCase()) ||
-      user.patronymic?.toLowerCase().includes(filterValue.toLowerCase())
-    );
-  });
 
   const editUser = (item: User) => {
     setUpdate(true);
@@ -114,8 +89,8 @@ const UsersPage = () => {
         <TextField
           label='Пошук'
           className='menu-input'
-          value={filterValue}
-          onChange={handleFilterChange}
+          value={search}
+          onChange={e => setSearch(e.target.value)}
         />
         <Button
           className='menu-input'
@@ -135,6 +110,6 @@ const UsersPage = () => {
       />
     </div>
   );
-};
+});
 
 export { UsersPage };

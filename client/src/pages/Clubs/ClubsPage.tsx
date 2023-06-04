@@ -17,14 +17,12 @@ type ColumnsType = Club & { controls: string };
 
 const ClubsPage = observer(() => {
   const {
-    clubsStore: { fetchClubs, setCityFilter, filteredClubs },
+    clubsStore: { fetchClubs, setCityFilter, filteredClubs, search, setSearch },
   } = useRootStoreContext();
 
   const [open, setOpen] = useState(false);
   const [update, setUpdate] = useState(false);
   const [club, setClub] = useState<Club>();
-
-  var filterValue = '';
 
   const handleClose = () => setOpen(false);
 
@@ -78,7 +76,11 @@ const ClubsPage = observer(() => {
   return (
     <div className='wrapper'>
       <div className='club-menu'>
-        <TextField label='Пошук' value={filterValue} />
+        <TextField
+          label='Пошук'
+          onChange={e => setSearch(e.target.value)}
+          value={search}
+        />
         <SelectForFilter
           label='Місто'
           items={regionalCenters}

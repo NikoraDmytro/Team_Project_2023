@@ -6,17 +6,20 @@ import axios from 'axios';
 
 export default class ClubsStore {
   clubs: Club[] = [];
+  search = '';
   cityFilter = '';
   rootStore: RootStore;
 
   constructor(rootStore: RootStore) {
-    makeAutoObservable(this);
     this.rootStore = rootStore;
+    makeAutoObservable(this);
   }
 
   get filteredClubs() {
     return this.clubs.filter(
-      club => !this.cityFilter || club.city === this.cityFilter,
+      club =>
+        (!this.cityFilter || club.city === this.cityFilter) &&
+        club.name.includes(this.search),
     );
   }
 
@@ -34,7 +37,12 @@ export default class ClubsStore {
     }
   };
 
-  setCityFilter(city: string) {
+  setCityFilter = (city: string) => {
+    console.log(city, this);
     this.cityFilter = city;
-  }
+  };
+
+  setSearch = (search: string) => {
+    this.search = search;
+  };
 }

@@ -14,6 +14,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { InputFormField } from '../InputFormField';
 import { UserService } from '../../services';
 import { User } from '../../models/User';
+import { useRootStoreContext } from '../../store';
 
 interface FormValues {
   id: number;
@@ -32,6 +33,9 @@ interface UserFormProps {
 
 const UserForm = (props: UserFormProps) => {
   const { open, update, user, setClose } = props;
+  const {
+    usersStore: { fetchUsers },
+  } = useRootStoreContext();
 
   const initialValues: FormValues = {
     id: update ? user?.id || 0 : 0,
@@ -55,7 +59,7 @@ const UserForm = (props: UserFormProps) => {
     } else {
       await UserService.createUser(user);
     }
-
+    fetchUsers();
     setClose();
   };
 
