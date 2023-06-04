@@ -9,7 +9,7 @@ import belts from '../../const/belts';
 import './Sportsman.scss';
 import { SportsmenForm } from '../../components/SportsmenForm';
 import { Sportsman } from '../../models/Sportsman';
-import SportsmanService from '../../services/SportsmanService';
+import { SportsmanService } from '../../services';
 
 type ColumnsType = Sportsman & { controls: string };
 
@@ -21,7 +21,7 @@ const SportsmanPage = () => {
 
   const fetchSportsmen = async () => {
     const response = await SportsmanService.getAllSportsmen();
-    const data = response.data.map((sportsman) => ({
+    const data = response.map(sportsman => ({
       membershipCardNum: sportsman.membershipCardNum,
       firstName: sportsman.firstName,
       lastName: sportsman.lastName,
@@ -30,7 +30,7 @@ const SportsmanPage = () => {
       belt: sportsman.belt,
       sex: sportsman.sex,
       clubName: sportsman.clubName,
-      coachName: sportsman.coachName
+      coachName: sportsman.coachName,
     }));
 
     setSportsmen(data);
@@ -43,7 +43,7 @@ const SportsmanPage = () => {
   const columns: TableColumns<Sportsman, ColumnsType>[] = [
     {
       name: 'firstName',
-      label: 'Ім\'я',
+      label: "Ім'я",
       sortable: true,
     },
     {
@@ -69,7 +69,7 @@ const SportsmanPage = () => {
     },
     {
       name: 'coachName',
-      label: 'Ім\'я тренера',
+      label: "Ім'я тренера",
     },
     {
       name: 'membershipCardNum',

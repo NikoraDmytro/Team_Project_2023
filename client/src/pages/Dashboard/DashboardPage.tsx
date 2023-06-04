@@ -15,13 +15,12 @@ import { JudgingStaff } from '../Competition/components/JudgingStaff';
 import { Competitors } from '../Competition/components/Competitors/Competitors';
 import { Dayangs } from '../Competition/components/Dayangs';
 import { Shuffles } from '../Competition/components/Shuffles';
+import { SnackBar } from '../../components/SnackBar';
 
 const DashboardPage = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-
-  });
+  useEffect(() => {});
 
   return (
     <>
@@ -60,6 +59,7 @@ const DashboardPage = () => {
         <Route path={dashboardRoutes.REFEREES} element={<RefereesPage />} />
         <Route path={dashboardRoutes.DIVISIONS} element={<DivisionsPage />} />
       </Routes>
+      <SnackBar />
     </>
   );
 };

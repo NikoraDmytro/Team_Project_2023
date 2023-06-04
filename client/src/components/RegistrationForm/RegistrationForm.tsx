@@ -7,7 +7,7 @@ import { validationSchema } from './helpers/validation';
 import routes from '../../const/routes';
 import './RegistrationForm.scss';
 import logo from '../../assets/img/taekwondo.png';
-import AuthService from '../../services/AuthService';
+import { AuthService } from '../../services';
 
 interface FormValues {
   email: string;
@@ -19,7 +19,8 @@ const initialValues: FormValues = {
   password: '',
 };
 
-const clientId = "801059873983-1g644inr6eibjs8mcb5ejm7olt7s994v.apps.googleusercontent.com";
+const clientId =
+  '801059873983-1g644inr6eibjs8mcb5ejm7olt7s994v.apps.googleusercontent.com';
 
 const RegistrationForm = (): JSX.Element => {
   const navigate = useNavigate();
@@ -31,28 +32,32 @@ const RegistrationForm = (): JSX.Element => {
 
     google.accounts.id.initialize({
       client_id: clientId,
-      callback: handleLoginExternal
+      callback: handleLoginExternal,
     });
 
-    google.accounts.id.renderButton(
-      document.getElementById("signinDiv")!,
-      { theme: "outline", size: "large", type: "standard", text: "signin_with" }
-    );
+    google.accounts.id.renderButton(document.getElementById('signinDiv')!, {
+      theme: 'outline',
+      size: 'large',
+      type: 'standard',
+      text: 'signin_with',
+    });
   });
 
-  async function handleLoginExternal(res: any){
+  async function handleLoginExternal(res: any) {
     console.log('Callback response', res);
-    await AuthService.loginExternal({provider: "Google", idToken: res.credential })
-      .then(x => {
-        localStorage.setItem('token', x.data.token);
-        navigate(routes.DASHBOARD);
-      });
+    await AuthService.loginExternal({
+      provider: 'Google',
+      idToken: res.credential,
+    }).then(x => {
+      localStorage.setItem('token', x.token);
+      navigate(routes.DASHBOARD);
+    });
   }
 
   const submitHandler = async (values: FormValues) => {
     await AuthService.login(values)
       .then(x => {
-        localStorage.setItem('token', x.data.token);
+        localStorage.setItem('token', x.token);
         navigate(routes.DASHBOARD);
       })
       .catch(error => {
@@ -89,7 +94,7 @@ const RegistrationForm = (): JSX.Element => {
           >
             Увійти
           </Button>
-          <div id="signinDiv"></div>
+          <div id='signinDiv'></div>
         </Form>
       )}
     </Formik>

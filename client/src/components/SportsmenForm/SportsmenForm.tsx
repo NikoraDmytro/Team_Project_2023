@@ -6,8 +6,7 @@ import SelectForFilter from '../SelectForFilter/SelectForFilter';
 import belts from '../../const/belts';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Sportsman } from '../../models/Sportsman';
-import SportsmanService from '../../services/SportsmanService';
-import BeltService from '../../services/BeltService';
+import { BeltService, SportsmanService } from '../../services';
 import { Belt } from '../../models/Belt';
 
 interface FormValues {
@@ -55,8 +54,8 @@ const SportsmenForm = (props: SportsmanFormProps) => {
       sex: values.sex,
       clubName: values.clubname,
       belt: values.belt,
-      coachName: values.coachname
-    }
+      coachName: values.coachname,
+    };
 
     await SportsmanService.createSportsman(sportsman);
     setClose();
@@ -67,7 +66,7 @@ const SportsmenForm = (props: SportsmanFormProps) => {
   }, []);
 
   const getBelts = async () => {
-    var belts = (await BeltService.getAllBelts()).data.map(x => x.rank);
+    var belts = (await BeltService.getAllBelts()).map(x => x.rank);
     setBelts(belts);
   };
 

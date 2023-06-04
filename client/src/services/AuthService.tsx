@@ -1,30 +1,36 @@
-import axios from 'axios';
-import {LoginModel} from '../models/Auth'
-import {SignupModel} from '../models/Auth';
-import { ExternalLoginModel} from '../models/Auth';
+import http from './index';
+import { LoginModel } from '../models/Auth';
+import { SignupModel } from '../models/Auth';
+import { ExternalLoginModel } from '../models/Auth';
 
-const BASE_URL = process.env.REACT_APP_API_URL + 'auth/';
+const BASE_URL = 'auth/';
+
+type Token = {
+  token: string;
+};
 
 const AuthService = {
-    login: async (loginModel: LoginModel) => {
-        return await axios.post(BASE_URL + "login", loginModel);
-    },
-      
-    signup: async (signupModel: SignupModel) => {
-        return await axios.post(BASE_URL + "signup", signupModel);
-    },
+  login: async (loginModel: LoginModel): Promise<Token> => {
+    return await http.post(BASE_URL + 'login', loginModel);
+  },
 
-    loginExternal: async (externalLoginModel: ExternalLoginModel) => {
-        return await axios.post(BASE_URL + "login-external", externalLoginModel);
-    },
+  signup: async (signupModel: SignupModel): Promise<Token> => {
+    return await http.post(BASE_URL + 'signup', signupModel);
+  },
 
-    isUserAuthenticated() {
-        return localStorage.getItem('token');
-    },
+  loginExternal: async (
+    externalLoginModel: ExternalLoginModel,
+  ): Promise<Token> => {
+    return await http.post(BASE_URL + 'login-external', externalLoginModel);
+  },
 
-    logout() {
-        localStorage.removeItem('token');
-    }
-}
+  isUserAuthenticated() {
+    return localStorage.getItem('token');
+  },
+
+  logout() {
+    localStorage.removeItem('token');
+  },
+};
 
 export default AuthService;

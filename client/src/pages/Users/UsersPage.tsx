@@ -4,19 +4,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { TableColumns } from '../../types/DataTableTypes';
 import { DataTable } from '../../components/DataTable';
 import './UserPage.scss';
-import {
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Chip,
-  Button,
-  TextField,
-  FormControl,
-  InputLabel,
-} from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { UserForm } from '../../components/UserForm';
 import { User } from '../../models/User';
-import UserService from '../../services/UserService';
+import { UserService } from '../../services';
 
 type ColumnsType = User & { controls: string };
 
@@ -31,7 +22,7 @@ const UsersPage = () => {
 
   const fetchUsers = async () => {
     const response = await UserService.getAllUsers();
-    const data = response.data.map((user) => ({
+    const data = response.map(user => ({
       id: user.id,
       email: user.email,
       firstName: user.firstName,
@@ -51,26 +42,28 @@ const UsersPage = () => {
   const deleteUser = async (id: number) => {
     await UserService.deleteUser(id);
     fetchUsers();
-  }
+  };
 
-  const filteredItems = users.filter((user) => {
+  const filteredItems = users.filter(user => {
     if (!filterValue) return true;
-    console.log(filterValue)
-    return user.firstName?.toLowerCase().includes(filterValue.toLowerCase()) ||
-    user.lastName?.toLowerCase().includes(filterValue.toLowerCase()) || 
-    user.patronymic?.toLowerCase().includes(filterValue.toLowerCase())
+    console.log(filterValue);
+    return (
+      user.firstName?.toLowerCase().includes(filterValue.toLowerCase()) ||
+      user.lastName?.toLowerCase().includes(filterValue.toLowerCase()) ||
+      user.patronymic?.toLowerCase().includes(filterValue.toLowerCase())
+    );
   });
 
   const editUser = (item: User) => {
     setUpdate(true);
     setUser(item);
     setOpen(true);
-  }
+  };
 
   const createUser = () => {
     setUpdate(false);
     setOpen(true);
-  }
+  };
 
   useEffect(() => {
     fetchUsers();
@@ -88,7 +81,7 @@ const UsersPage = () => {
     },
     {
       name: 'firstName',
-      label: 'Ім\'я',
+      label: "Ім'я",
       sortable: true,
     },
     {
@@ -106,7 +99,10 @@ const UsersPage = () => {
       renderItem: (item: User) => (
         <div>
           <EditIcon onClick={() => editUser(item)} />
-          <DeleteIcon onClick={() => deleteUser(item.id)} className='delete-icon' />
+          <DeleteIcon
+            onClick={() => deleteUser(item.id)}
+            className='delete-icon'
+          />
         </div>
       ),
     },
@@ -115,7 +111,12 @@ const UsersPage = () => {
   return (
     <div className='wrapper'>
       <div className='menu'>
-        <TextField label='Пошук' className='menu-input' value={filterValue} onChange={handleFilterChange}/>
+        <TextField
+          label='Пошук'
+          className='menu-input'
+          value={filterValue}
+          onChange={handleFilterChange}
+        />
         <Button
           className='menu-input'
           variant='contained'
@@ -126,7 +127,12 @@ const UsersPage = () => {
         </Button>
       </div>
       <DataTable tableData={filteredUsers} tableColumns={columns} />
-      <UserForm open={open} update={update} user={user} setClose={handleClose} />
+      <UserForm
+        open={open}
+        update={update}
+        user={user}
+        setClose={handleClose}
+      />
     </div>
   );
 };

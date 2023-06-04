@@ -5,7 +5,7 @@ import { Formik, Form } from 'formik';
 import SelectForFilter from '../SelectForFilter/SelectForFilter';
 import regionalCenters from '../../const/cities';
 import ClearIcon from '@mui/icons-material/Clear';
-import ClubService from '../../services/ClubService';
+import { ClubService } from '../../services';
 import { Club } from '../../models/Club';
 
 interface FormValues {
@@ -28,8 +28,8 @@ const ClubForm = (props: ClubFormProps) => {
   const initialValues: FormValues = {
     id: update ? club?.id || 0 : 0,
     name: update ? club?.name || '' : '',
-    address: update ? club?.address || '': '',
-    city: update ? club?.city || '': '',
+    address: update ? club?.address || '' : '',
+    city: update ? club?.city || '' : '',
   };
 
   const submitHandler = async (values: FormValues) => {
@@ -40,13 +40,12 @@ const ClubForm = (props: ClubFormProps) => {
       address: values.address,
     };
 
-    if (update){
+    if (update) {
       await ClubService.updateClub(club.id, club);
-    }
-    else{
+    } else {
       await ClubService.createClub(club);
     }
-    
+
     setClose();
   };
 
@@ -86,4 +85,3 @@ export { ClubForm };
 function setValue(value: any) {
   throw new Error('Function not implemented.');
 }
-

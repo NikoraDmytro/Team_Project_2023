@@ -12,7 +12,7 @@ import {
 import { Formik, Form } from 'formik';
 import ClearIcon from '@mui/icons-material/Clear';
 import { InputFormField } from '../InputFormField';
-import UserService from '../../services/UserService';
+import { UserService } from '../../services';
 import { User } from '../../models/User';
 
 interface FormValues {
@@ -38,9 +38,9 @@ const UserForm = (props: UserFormProps) => {
     email: update ? user?.email || '' : '',
     firstName: update ? user?.firstName || '' : '',
     lastName: update ? user?.lastName || '' : '',
-    patronymic: update ? user?.patronymic || '' : ''
+    patronymic: update ? user?.patronymic || '' : '',
   };
-  
+
   const submitHandler = async (values: FormValues) => {
     const user: User = {
       id: initialValues.id,
@@ -48,15 +48,14 @@ const UserForm = (props: UserFormProps) => {
       firstName: values.firstName,
       lastName: values.lastName,
       patronymic: values.patronymic,
-    }
+    };
 
-    if (update){
+    if (update) {
       await UserService.updateUser(user.id, user);
-    }
-    else{
+    } else {
       await UserService.createUser(user);
     }
-    
+
     setClose();
   };
 
@@ -65,7 +64,7 @@ const UserForm = (props: UserFormProps) => {
       <Formik initialValues={initialValues} onSubmit={submitHandler}>
         {() => (
           <Form className='form'>
-            <InputFormField label="Email" name='email' type='text' />
+            <InputFormField label='Email' name='email' type='text' />
             <InputFormField label="Ім'я" name='firstName' type='text' />
             <InputFormField label='Прізвище' name='lastName' type='text' />
             <InputFormField label='По-батькові' name='patronymic' type='text' />

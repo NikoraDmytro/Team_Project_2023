@@ -9,7 +9,7 @@ import belts from '../../const/belts';
 import coachesLevel from '../../const/coachesLevel';
 import './CoachesPage.scss';
 import { CoachForm } from '../../components/CoachForm';
-import CoachService from '../../services/CoachService';
+import { CoachService } from '../../services';
 import { Coach } from '../../models/Coach';
 
 type ColumnsType = Coach & { controls: string };
@@ -35,13 +35,15 @@ const CoachesPage = () => {
       setCoaches(prev => prev.filter(coach => coach.clubName === value));
     } else if (field === 'coachCategory') {
       setSelectedCoachCategory(value);
-      setCoaches(prev => prev.filter(coach => coach.instructorCategory === value));
+      setCoaches(prev =>
+        prev.filter(coach => coach.instructorCategory === value),
+      );
     }
   };
 
   const fetchCoaches = async () => {
     const response = await CoachService.getAllCoaches();
-    const coachesData = response.data.map((coach) => ({
+    const coachesData = response.map(coach => ({
       membershipCardNum: coach.membershipCardNum,
       firstName: coach.firstName,
       lastName: coach.lastName,
@@ -50,7 +52,7 @@ const CoachesPage = () => {
       birthDate: coach.birthDate,
       clubName: coach.clubName,
       belt: coach.belt,
-      instructorCategory: coach.instructorCategory
+      instructorCategory: coach.instructorCategory,
     }));
     setCoaches(coachesData);
   };
@@ -62,7 +64,7 @@ const CoachesPage = () => {
   const columns: TableColumns<Coach, ColumnsType>[] = [
     {
       name: 'firstName',
-      label: 'Ім\'я',
+      label: "Ім'я",
       sortable: true,
     },
     {

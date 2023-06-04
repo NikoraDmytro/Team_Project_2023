@@ -12,7 +12,7 @@ import {
   refereesIcon,
   sportsmanIcon,
 } from '../../assets/img';
-import AuthService from '../../services/AuthService';
+import { AuthService } from '../../services';
 
 const SideBar = (): JSX.Element => {
   const navigate = useNavigate();
