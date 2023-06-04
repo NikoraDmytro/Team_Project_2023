@@ -1,11 +1,11 @@
-import axios from 'axios';
+import http from './index';
 import { CompetitionLevel } from '../models/CompetitionLevel';
 
 const BASE_URL = 'competitionLevels/';
 
 const CompetitionLevelService = {
-  getAllCompetitionLevels: async () => {
-    return await axios.get<CompetitionLevel[]>(BASE_URL + 'all');
+  getAllCompetitionLevels: async (): Promise<CompetitionLevel[]> => {
+    return await http.get(BASE_URL + 'all');
   },
 };
 

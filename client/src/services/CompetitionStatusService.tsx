@@ -1,11 +1,11 @@
-import axios from 'axios';
+import http from './index';
 import { CompetitionStatus } from '../models/CompetitionStatus';
 
 const BASE_URL = 'competitionStatuses/';
 
 const CompetitionStatusService = {
-  getAllCompetitionStatuses: async () => {
-    return await axios.get<CompetitionStatus[]>(BASE_URL + 'all');
+  getAllCompetitionStatuses: async (): Promise<CompetitionStatus[]> => {
+    return await http.get(BASE_URL + 'all');
   },
 };
 
