@@ -11,6 +11,7 @@ import { CompetitionForm } from '../../components/CompetitionForm/CompetitionFor
 import { Competition } from '../../models/Competition';
 import CompetitionStatusService from '../../services/CompetitionStatusService';
 import CompetitionLevelService from '../../services/CompetitionLevelService';
+import CompetitionService from '../../services/CompetitionService';
 
 type ColumnsType = Competition & { controls: string };
 
@@ -22,6 +23,8 @@ const CalendarPage = (): JSX.Element => {
   const [selectedLevel, setSelectedLevel] = useState('');
   const [competitionLevels, setCompetitionLevels] = useState<string[]>([]);
   const [competitionStatuses, setCompetitionStatuses] = useState<string[]>([]);
+  const [update, setUpdate] = useState(false);
+  const [competition, setCompetition] = useState<Competition>();
 
   const handleClose = () => setOpen(false);
 
@@ -35,10 +38,27 @@ const CalendarPage = (): JSX.Element => {
     setCompetitionLevels(competitionLevels.data.map(x => x.name));
   }
 
+  const fetchCompetitions = async () => {
+    var competitions = await CompetitionService.getAllCompetitions();
+    setCompetitions(competitions.data);
+  }
+
   useEffect(() => {
     fetchCompetitionStatuses();
     fetchCompetitionLevels();
+    fetchCompetitions();
   }, []);
+
+  const editCompetition = async (item: Competition) => {
+    setUpdate(true);
+    setCompetition(competition);
+    setOpen(true);
+  }
+
+  const createCompetition = async () => {
+    setUpdate(false);
+    setOpen(true);
+  }
 
   const handleChange = (field: string, value: string) => {
     if (field === 'city') {
@@ -93,9 +113,9 @@ const CalendarPage = (): JSX.Element => {
     },
     {
       name: 'controls',
-      renderItem: () => (
+      renderItem: (item: Competition) => (
         <div className='control-buttons'>
-          <EditIcon onClick={() => setOpen(true)} />
+          <EditIcon onClick={() => editCompetition(item)} />
           <DeleteIcon className='delete-icon' />
         </div>
       ),
@@ -137,7 +157,7 @@ const CalendarPage = (): JSX.Element => {
           <Button
             variant='contained'
             color='inherit'
-            onClick={() => setOpen(true)}
+            onClick={() => createCompetition()}
           >
             Додати змагання
           </Button>
@@ -145,7 +165,7 @@ const CalendarPage = (): JSX.Element => {
 
         <DataTable tableData={competitions} tableColumns={columns} />
       </div>
-      <CompetitionForm open={open} setClose={handleClose} />
+      <CompetitionForm open={open} update={update} competition={competition} setClose={handleClose} />
     </>
   );
 };
