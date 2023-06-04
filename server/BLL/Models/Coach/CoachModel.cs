@@ -11,9 +11,9 @@ public class CoachModel: IMapFrom<Core.Entities.Coach>
     public string? Phone { get; set; }
     public int ClubId { get; set; }
     public string? ClubName { get; set; }
-    public Sportsman? Sportsman { get; set; }
+    public Core.Entities.Sportsman? Sportsman { get; set; }
     public DateTime BirthDate { get; set; }
-    public Belt? Belt { get; set; }
+    public Core.Entities.Belt? Belt { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? Patronymic { get; set; }

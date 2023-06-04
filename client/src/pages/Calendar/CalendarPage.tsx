@@ -17,8 +17,30 @@ type ColumnsType = Competition & { controls: string };
 const CalendarPage = (): JSX.Element => {
   const [competitions, setCompetitions] = useState(test);
   const [open, setOpen] = useState(false);
+  const [selectedCity, setSelectedCity] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState('');
+  const [selectedLevel, setSelectedLevel] = useState('');
 
   const handleClose = () => setOpen(false);
+
+  const handleChange = (field: string, value: string) => {
+    if (field === 'city') {
+      setSelectedCity(value);
+      setCompetitions(prev =>
+        prev.filter(competition => competition.city === value),
+      );
+    } else if (field === 'level') {
+      setSelectedLevel(value);
+      setCompetitions(prev =>
+        prev.filter(competition => competition.level === value),
+      );
+    } else {
+      setSelectedStatus(value);
+      setCompetitions(prev =>
+        prev.filter(competition => competition.status === value),
+      );
+    }
+  };
 
   const columns: TableColumns<Competition, ColumnsType>[] = [
     {
@@ -69,8 +91,18 @@ const CalendarPage = (): JSX.Element => {
         <div className='calendar-menu'>
           <TextField label='Пошук'></TextField>
           <div className='filter-buttons'>
-            <SelectForFilter label='Місто' items={regionalCenters} />
-            <SelectForFilter label='Рівень' items={competitionLevel} />
+            <SelectForFilter
+              label='Місто'
+              items={regionalCenters}
+              name='city'
+              setFieldValue={handleChange}
+            />
+            <SelectForFilter
+              label='Рівень'
+              items={competitionLevel}
+              name='level'
+              setFieldValue={handleChange}
+            />
             <TextField
               label='Дата початку'
               type='date'
@@ -78,7 +110,12 @@ const CalendarPage = (): JSX.Element => {
                 shrink: true,
               }}
             />
-            <SelectForFilter label='Статус' items={competitionStatus} />
+            <SelectForFilter
+              label='Статус'
+              items={competitionStatus}
+              name='status'
+              setFieldValue={handleChange}
+            />
           </div>
           <Button
             variant='contained'

@@ -15,7 +15,7 @@ interface FormValues {
   lastname: string;
   patronimyc: string;
   sex: string;
-  birthday: string;
+  birthDate: string;
   club: string;
   belt: string;
   coachCategory: string;
@@ -28,7 +28,7 @@ const initialValues: FormValues = {
   lastname: '',
   patronimyc: '',
   sex: '',
-  birthday: '',
+  birthDate: '',
   club: '',
   belt: '',
   coachCategory: '',
@@ -41,78 +41,97 @@ interface CoachFormProps {
 }
 
 const CoachForm = (props: CoachFormProps) => {
-  const { open, setClose } = props;
-  const submitHandler = async (values: FormValues) => {
-    const coach: Coach = {
-      membershipCardNum: +values.membershipCardNum,
-      firstName: values.firstname,
-      lastName: values.lastname,
-      patronymic: values.patronimyc,
-      clubName: values.club,
-      belt: values.belt,
-      sex: values.sex,
-      birthDate: values.birthday,
-      instructorCategory: values.coachCategory
-    };
+    const { open, setClose } = props;
+    const submitHandler = async (values: FormValues) => {
+      const coach: Coach = {
+        membershipCardNum: +values.membershipCardNum,
+        firstName: values.firstname,
+        lastName: values.lastname,
+        patronymic: values.patronimyc,
+        clubName: values.club,
+        belt: values.belt,
+        sex: values.sex,
+        birthDate: values.birthDate,
+        instructorCategory: values.coachCategory
+      };
 
+      await CoachService.createCoach(coach);
+      setClose();
+    }
 
-    await CoachService.createCoach(coach);
-    setClose();
-  };
-
-  return (
-    <Dialog open={open} onClose={setClose} maxWidth='lg'>
-      <Formik initialValues={initialValues} onSubmit={submitHandler}>
-        {() => (
-          <Form className='form'>
-            <Avatar
-              src={initialValues.photo}
-              style={{ width: '60px', height: '60px' }}
-            />
-            <InputFormField
-              label='Номер членського квитка'
-              name='membershipCardNum'
-              type='text'
-            />
-            <div className='inputs-group'>
-              <InputFormField label='Прізвище' name='lastname' type='text' />
-              <InputFormField label="Ім'я" name='firstname' type='text' />
-            </div>
-            <InputFormField
-              label="Ім'я по-батькові"
-              name='patronimyc'
-              type='text'
-            />
-
-            <div className='inputs-group'>
-              <SelectForFilter label='Стать' items={['Ч', 'Ж']} />
-              <SelectForFilter label='Пояс' items={belts} />
-            </div>
-            <div className='inputs-group'>
-              <InputFormField
-                label='Дата народження'
-                name='birthDate'
-                type='date'
+    return (
+      <Dialog open={open} onClose={setClose} maxWidth='lg'>
+        <Formik initialValues={initialValues} onSubmit={submitHandler}>
+          {({ setFieldValue }) => (
+            <Form className='form'>
+              <Avatar
+                src={initialValues.photo}
+                style={{ width: '60px', height: '60px' }}
               />
-              <SelectForFilter label='Категорія' items={coachesLevel} />
-            </div>
-            <SelectForFilter label='Клуб' items={clubsTest} />
-            <Button
-              type='submit'
-              variant='contained'
-              color='primary'
-              size='large'
-              sx={{ width: '60%' }}
-            >
-              Зберегти
-            </Button>
-            <ClearIcon className='close-icon' onClick={setClose} />
-          </Form>
-        )}
-      </Formik>
-    </Dialog>
-  );
-};
+              <InputFormField
+                label='Номер членського квитка'
+                name='membershipCardNum'
+                type='text'
+              />
+              <div className='inputs-group'>
+                <InputFormField label='Прізвище' name='lastname' type='text' />
+                <InputFormField label="Ім'я" name='firstname' type='text' />
+              </div>
+              <InputFormField
+                label="Ім'я по-батькові"
+                name='patronimyc'
+                type='text'
+              />
+
+              <div className='inputs-group'>
+                <SelectForFilter
+                  label='Стать'
+                  items={['Ч', 'Ж']}
+                  name={'sex'}
+                  setFieldValue={setFieldValue}
+                />
+                <SelectForFilter
+                  label='Пояс'
+                  items={belts}
+                  name={'belt'}
+                  setFieldValue={setFieldValue}
+                />
+              </div>
+              <div className='inputs-group'>
+                <InputFormField
+                  label='Дата народження'
+                  name='birthDate'
+                  type='date'
+                />
+                <SelectForFilter
+                  label='Категорія'
+                  items={coachesLevel}
+                  name={'coachCategory'}
+                  setFieldValue={setFieldValue}
+                />
+              </div>
+              <SelectForFilter
+                label='Клуб'
+                items={clubsTest}
+                name={'club'}
+                setFieldValue={setFieldValue}
+              />
+              <Button
+                type='submit'
+                variant='contained'
+                color='primary'
+                size='large'
+                sx={{ width: '60%' }}
+              >
+                Зберегти
+              </Button>
+              <ClearIcon className='close-icon' onClick={setClose} />
+            </Form>
+          )}
+        </Formik>
+      </Dialog>
+    );
+  };
 
 const clubsTest = ['Клуб 1', 'Клуб 2', 'Клуб 3'];
 export { CoachForm };

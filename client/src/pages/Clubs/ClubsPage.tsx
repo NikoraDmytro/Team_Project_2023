@@ -17,6 +17,7 @@ const ClubsPage = () => {
   const [clubs, setClubs] = useState(test);
   const [open, setOpen] = useState(false);
 
+  const [selectedCity, setSelectedCity] = useState('');
   const handleClose = () => setOpen(false);
 
   const fetchClubs = async () => {
@@ -30,10 +31,14 @@ const ClubsPage = () => {
     setClubs(clubsData);
   };
 
-
   useEffect(() => {
     fetchClubs();
   }, []);
+  
+  const handleChange = (field: string, value: string) => {
+    setSelectedCity(value);
+    setClubs(prev => prev.filter(club => club.city === value));
+  };
 
   const deleteClub = async (id: number) => {
     await ClubService.deleteClub(id);
@@ -68,7 +73,12 @@ const ClubsPage = () => {
     <div className='wrapper'>
       <div className='club-menu'>
         <TextField label='Пошук' />
-        <SelectForFilter label='Місто' items={regionalCenters} />
+        <SelectForFilter
+          label='Місто'
+          items={regionalCenters}
+          name='city'
+          setFieldValue={handleChange}
+        />
         <Button
           variant='contained'
           color='inherit'

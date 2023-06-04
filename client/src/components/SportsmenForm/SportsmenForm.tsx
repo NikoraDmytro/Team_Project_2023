@@ -1,21 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Avatar, Button, Dialog } from '@mui/material';
 import { Formik, Form } from 'formik';
 import { InputFormField } from '../InputFormField';
 import SelectForFilter from '../SelectForFilter/SelectForFilter';
 import belts from '../../const/belts';
 import ClearIcon from '@mui/icons-material/Clear';
+import { Sportsman } from '../../models/Sportsman';
+import SportsmanService from '../../services/SportsmanService';
+import BeltService from '../../services/BeltService';
+import { Belt } from '../../models/Belt';
 
 interface FormValues {
   photo: string;
   firstname: string;
   lastname: string;
-  patronimyc: string;
+  patronymic: string;
   sex: string;
-  birthday: string;
-  club: string;
+  birthdate: string;
+  clubname: string;
   belt: string;
-  coach: string;
+  coachname: string;
   membershipCardNum: string;
 }
 
@@ -23,12 +27,12 @@ const initialValues: FormValues = {
   photo: '',
   firstname: '',
   lastname: '',
-  patronimyc: '',
+  patronymic: '',
   sex: '',
-  birthday: '',
-  club: '',
+  birthdate: '',
+  clubname: '',
   belt: '',
-  coach: '',
+  coachname: '',
   membershipCardNum: '',
 };
 
@@ -39,14 +43,38 @@ interface SportsmanFormProps {
 
 const SportsmenForm = (props: SportsmanFormProps) => {
   const { open, setClose } = props;
-  const submitHandler = (values: FormValues) => {
-    console.log(values);
+  const [belts, setBelts] = useState<string[]>([]);
+
+  const submitHandler = async (values: FormValues) => {
+    const sportsman: Sportsman = {
+      membershipCardNum: +values.membershipCardNum,
+      firstName: values.firstname,
+      lastName: values.lastname,
+      patronymic: values.patronymic,
+      birthDate: values.birthdate,
+      sex: values.sex,
+      clubName: values.clubname,
+      belt: values.belt,
+      coachName: values.coachname
+    }
+
+    await SportsmanService.createSportsman(sportsman);
     setClose();
   };
+
+  useEffect(() => {
+    getBelts();
+  }, []);
+
+  const getBelts = async () => {
+    var belts = (await BeltService.getAllBelts()).data.map(x => x.rank);
+    setBelts(belts);
+  };
+
   return (
     <Dialog open={open} onClose={setClose} maxWidth='lg'>
       <Formik initialValues={initialValues} onSubmit={submitHandler}>
-        {() => (
+        {({ setFieldValue }) => (
           <Form className='form'>
             <Avatar
               src={initialValues.photo}
@@ -54,7 +82,7 @@ const SportsmenForm = (props: SportsmanFormProps) => {
             />
             <InputFormField
               label='Номер членського квитка'
-              name='patronimyc'
+              name='membershipCardNum'
               type='text'
             />
             <div className='inputs-group'>
@@ -63,19 +91,40 @@ const SportsmenForm = (props: SportsmanFormProps) => {
             </div>
             <InputFormField
               label="Ім'я по-батькові"
-              name='patronimyc'
+              name='patronymic'
               type='text'
             />
             <InputFormField
               label='Дата народження'
-              name='weightingDate'
+              name='birthdate'
               type='date'
             />
             <div className='inputs-group'>
-              <SelectForFilter label='Стать' items={['Ч', 'Ж']} />
-              <SelectForFilter label='Пояс' items={belts} />
+              <SelectForFilter
+                label='Стать'
+                items={['Ч', 'Ж']}
+                name={'sex'}
+                setFieldValue={setFieldValue}
+              />
+              <SelectForFilter
+                label='Пояс'
+                items={belts}
+                name={'belt'}
+                setFieldValue={setFieldValue}
+              />
             </div>
-            <SelectForFilter label='Тренер' items={coachesTest} />
+            <SelectForFilter
+              label='Тренер'
+              items={coachesTest}
+              name={'coachname'}
+              setFieldValue={setFieldValue}
+            />
+            <SelectForFilter
+              label='Клуб'
+              items={clubsTest}
+              name={'clubname'}
+              setFieldValue={setFieldValue}
+            />
             <Button
               type='submit'
               variant='contained'
@@ -96,3 +145,4 @@ const SportsmenForm = (props: SportsmanFormProps) => {
 export { SportsmenForm };
 
 const coachesTest = ['Прокопенко Ю.С.', 'Прокопенко Ю.С.', 'Прокопенко Ю.С.'];
+const clubsTest = ['Клуб 1', 'Клуб 2', 'Клуб 3'];
