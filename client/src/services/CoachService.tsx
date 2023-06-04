@@ -8,8 +8,15 @@ const CoachService = {
     return await http.get(BASE_URL + 'all');
   },
 
-  createCoach: async (club: Coach): Promise<Coach> => {
-    return await http.post(BASE_URL, club);
+  createCoach: async (coach: any): Promise<Coach> => {
+    return await http.post(BASE_URL, coach);
+  },
+
+  updateCoach: async (
+    membershipCardNum: number,
+    coach: Coach,
+  ): Promise<Coach> => {
+    return await http.put(BASE_URL + membershipCardNum, coach);
   },
 
   deleteCoach: async (id: number): Promise<Coach> => {

@@ -1,68 +1,70 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Button, Dialog } from '@mui/material';
+import { Button, Dialog } from '@mui/material';
 import { Formik, Form } from 'formik';
-import { InputFormField } from '../InputFormField';
 import SelectForFilter from '../SelectForFilter/SelectForFilter';
-import belts from '../../const/belts';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Sportsman } from '../../models/Sportsman';
 import { BeltService, SportsmanService } from '../../services';
-import { Belt } from '../../models/Belt';
+import UserService from '../../services/UserService';
+import CoachService from '../../services/CoachService';
+import ClubService from '../../services/ClubService';
 
 interface FormValues {
-  photo: string;
-  firstname: string;
-  lastname: string;
-  patronymic: string;
+  membershipCardNum: number;
   sex: string;
-  birthdate: string;
-  clubname: string;
+  user: string;
   belt: string;
-  coachname: string;
-  membershipCardNum: string;
+  coach: string;
 }
-
-const initialValues: FormValues = {
-  photo: '',
-  firstname: '',
-  lastname: '',
-  patronymic: '',
-  sex: '',
-  birthdate: '',
-  clubname: '',
-  belt: '',
-  coachname: '',
-  membershipCardNum: '',
-};
 
 interface SportsmanFormProps {
   open: boolean;
+  update: boolean;
+  sportsman?: Sportsman;
   setClose: () => void;
 }
 
 const SportsmenForm = (props: SportsmanFormProps) => {
-  const { open, setClose } = props;
+  const { open, update, sportsman, setClose } = props;
   const [belts, setBelts] = useState<string[]>([]);
+  const [users, setUsers] = useState<string[]>([]);
+  const [coaches, setCoaches] = useState<string[]>([]);
+  const [clubs, setClubs] = useState<string[]>([]);
+
+  const initialValues: FormValues = {
+    membershipCardNum: update ? sportsman?.membershipCardNum || 0 : 0,
+    sex: update ? sportsman?.sex || '' : '',
+    user: '',
+    belt: '',
+    coach: '',
+  };
 
   const submitHandler = async (values: FormValues) => {
-    const sportsman: Sportsman = {
-      membershipCardNum: +values.membershipCardNum,
-      firstName: values.firstname,
-      lastName: values.lastname,
-      patronymic: values.patronymic,
-      birthDate: values.birthdate,
+    const sportsman: any = {
+      membershipCardNum: values.membershipCardNum,
       sex: values.sex,
-      clubName: values.clubname,
+      user: values.user,
       belt: values.belt,
-      coachName: values.coachname,
+      coach: values.coach,
     };
 
-    await SportsmanService.createSportsman(sportsman);
+    if (update) {
+      await SportsmanService.updateSportsman(
+        initialValues.membershipCardNum,
+        sportsman,
+      );
+    } else {
+      await SportsmanService.createSportsman(sportsman);
+    }
+
     setClose();
   };
 
   useEffect(() => {
     getBelts();
+    getUsers();
+    getCoaches();
+    getClubs();
   }, []);
 
   const getBelts = async () => {
@@ -70,35 +72,37 @@ const SportsmenForm = (props: SportsmanFormProps) => {
     setBelts(belts);
   };
 
+  const getUsers = async () => {
+    var users = (await UserService.getAllUsers()).map(
+      x => x.firstName + ' ' + x.lastName,
+    );
+    setUsers(users);
+  };
+
+  const getCoaches = async () => {
+    var coaches = (await CoachService.getAllCoaches()).map(
+      x => x.firstName + ' ' + x.lastName,
+    );
+    setCoaches(coaches);
+  };
+
+  const getClubs = async () => {
+    var clubs = (await ClubService.getAllClubs()).map(x => x.name);
+    setClubs(clubs);
+  };
+
   return (
     <Dialog open={open} onClose={setClose} maxWidth='lg'>
       <Formik initialValues={initialValues} onSubmit={submitHandler}>
         {({ setFieldValue }) => (
           <Form className='form'>
-            <Avatar
-              src={initialValues.photo}
-              style={{ width: '60px', height: '60px' }}
-            />
-            <InputFormField
-              label='Номер членського квитка'
-              name='membershipCardNum'
-              type='text'
-            />
             <div className='inputs-group'>
-              <InputFormField label='Прізвище' name='lastname' type='text' />
-              <InputFormField label="Ім'я" name='firstname' type='text' />
-            </div>
-            <InputFormField
-              label="Ім'я по-батькові"
-              name='patronymic'
-              type='text'
-            />
-            <InputFormField
-              label='Дата народження'
-              name='birthdate'
-              type='date'
-            />
-            <div className='inputs-group'>
+              <SelectForFilter
+                label='Користувач'
+                items={users}
+                name={'user'}
+                setFieldValue={setFieldValue}
+              />
               <SelectForFilter
                 label='Стать'
                 items={['Ч', 'Ж']}
@@ -114,14 +118,8 @@ const SportsmenForm = (props: SportsmanFormProps) => {
             </div>
             <SelectForFilter
               label='Тренер'
-              items={coachesTest}
-              name={'coachname'}
-              setFieldValue={setFieldValue}
-            />
-            <SelectForFilter
-              label='Клуб'
-              items={clubsTest}
-              name={'clubname'}
+              items={coaches}
+              name={'coach'}
               setFieldValue={setFieldValue}
             />
             <Button
@@ -142,6 +140,3 @@ const SportsmenForm = (props: SportsmanFormProps) => {
 };
 
 export { SportsmenForm };
-
-const coachesTest = ['Прокопенко Ю.С.', 'Прокопенко Ю.С.', 'Прокопенко Ю.С.'];
-const clubsTest = ['Клуб 1', 'Клуб 2', 'Клуб 3'];

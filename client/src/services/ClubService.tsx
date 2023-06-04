@@ -6,7 +6,7 @@ const BASE_URL = 'clubs/';
 
 const ClubService = {
   getAllClubs: async (): Promise<Club[]> => {
-    return await http.get(BASE_URL + 'al');
+    return await http.get(BASE_URL + 'all');
   },
 
   createClub: async (club: Club): Promise<Club> => {

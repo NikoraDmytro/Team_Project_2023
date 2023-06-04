@@ -5,7 +5,7 @@ const BASE_URL = 'belts/';
 
 const BeltService = {
   getAllBelts: async (): Promise<Belt[]> => {
-    return await http.get(BASE_URL);
+    return await http.get(BASE_URL + 'all');
   },
 };
 

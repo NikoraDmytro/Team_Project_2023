@@ -15,7 +15,7 @@ public class JudgesController: ControllerBase
         _judgeService = judgeService;
     }
 
-    [HttpGet]
+    [HttpGet("all")]
     public async Task<IActionResult> Get()
     {
         var judges = await _judgeService.GetAllAsync();

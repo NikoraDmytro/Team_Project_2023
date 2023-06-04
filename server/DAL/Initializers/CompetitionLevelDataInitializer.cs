@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Initializers;
 
-public class CompetitionLevelDataInitializer
+internal static class CompetitionLevelDataInitializer
 {
     internal static void SeedData(ModelBuilder builder)
     {

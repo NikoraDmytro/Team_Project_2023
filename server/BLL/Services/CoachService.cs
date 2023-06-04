@@ -15,17 +15,23 @@ public class CoachService: ICoachService
 {
     private readonly ICoachRepository _coachRepository;
     private readonly IClubRepository _clubRepository;
+    private readonly ISportsmanRepository _sportsmanRepository;
+    private readonly IInstructorCategoryRepository _instructorCategoryRepository;
     private readonly AppDbContext _context;
     private readonly IMapper _mapper;
 
     public CoachService(
         ICoachRepository coachRepository, 
         IClubRepository clubRepository,
+        ISportsmanRepository sportsmanRepository,
+        IInstructorCategoryRepository instructorCategoryRepository,
         AppDbContext context, 
         IMapper mapper)
     {
         _coachRepository = coachRepository;
         _clubRepository = clubRepository;
+        _sportsmanRepository = sportsmanRepository;
+        _instructorCategoryRepository = instructorCategoryRepository;
         _context = context;
         _mapper = mapper;
     }
@@ -56,8 +62,29 @@ public class CoachService: ICoachService
 
     public async Task<CoachModel> CreateAsync(CreateCoachModel createCoachModel)
     {
-        var coach = _mapper.Map<Coach>(createCoachModel);
+        var sportsmanName = createCoachModel.Sportsman.Split(' ');
+        var firstName = sportsmanName[0];
+        var lastName = sportsmanName[1];
 
+        var coach = new Coach();
+
+        coach.Phone = createCoachModel.Phone;
+
+        var sportsman =
+            await _sportsmanRepository.GetByNameAsync(firstName, lastName)
+            ?? throw new NotFoundException("Sportsman was not found");
+
+        coach.Sportsman = sportsman;
+
+        var instructorCategory = await _instructorCategoryRepository
+            .GetByNameAsync(createCoachModel.InstructorCategory);
+
+        coach.InstructorCategory = instructorCategory;
+
+        var club = await _clubRepository
+            .GetByNameAsync(createCoachModel.Club);
+
+        coach.Club = club;
 
         await _coachRepository.CreateAsync(coach);
         await _context.SaveChangesAsync();
@@ -74,14 +101,27 @@ public class CoachService: ICoachService
         {
             coach.Phone = updateCoachModel.Phone;
         }
+        
+        var sportsmanName = updateCoachModel.Sportsman.Split(' ');
+        var firstName = sportsmanName[0];
+        var lastName = sportsmanName[1];
 
-        if (updateCoachModel.ClubId != null)
-        {
-            _ = await _clubRepository.GetByIdAsync(updateCoachModel.ClubId.Value)
-                       ?? throw new NotFoundException($"Club with id {updateCoachModel.ClubId} was not found");
-            
-            coach.ClubId = updateCoachModel.ClubId.Value;
-        }
+        var sportsman =
+            await _sportsmanRepository.GetByNameAsync(firstName, lastName)
+            ?? throw new NotFoundException("Sportsman was not found");
+
+        coach.Sportsman = sportsman;
+
+        var instructorCategory = await _instructorCategoryRepository
+            .GetByNameAsync(updateCoachModel.InstructorCategory);
+
+        coach.InstructorCategory = instructorCategory;
+
+        var club = await _clubRepository
+            .GetByNameAsync(updateCoachModel.Club);
+
+        coach.Club = club;
+        
         _coachRepository.Update(coach);
         await _context.SaveChangesAsync();
     }

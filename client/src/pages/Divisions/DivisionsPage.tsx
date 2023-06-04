@@ -1,19 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DataTable } from '../../components/DataTable';
 import SelectForFilter from '../../components/SelectForFilter/SelectForFilter';
 import { TableColumns } from '../../types/DataTableTypes';
 import { TextField } from '@mui/material';
 import belts from '../../const/belts';
 import './DivisionPage.scss';
+import { Division } from '../../models/Division';
+import DivisionService from '../../services/DivisionService';
+import { Belt } from '../../models/Belt';
+import BeltService from '../../services/BeltService';
 
-type Division = (typeof test)[0];
 type ColumnsType = Division & { controls: string };
 
 const DivisionsPage = () => {
-  const [divisions, setDivisions] = useState(test);
+  const [divisions, setDivisions] = useState<Division[]>([]);
   const [open, setOpen] = useState(false);
+  const [belts, setBelts] = useState<string[]>([]);
 
   const handleClose = () => setOpen(false);
+
+  const fetchDivisions = async () => {
+    const response = await DivisionService.getAllDivisions();
+
+    setDivisions(response);
+  };
+
+  const fetchBelts = async () => {
+    const response = await BeltService.getAllBelts();
+    console.log(response);
+    setBelts(response.map(x => x.rank));
+  };
+
+  useEffect(() => {
+    fetchDivisions();
+    fetchBelts();
+  }, []);
 
   const columns: TableColumns<Division, ColumnsType>[] = [
     {
@@ -41,7 +62,7 @@ const DivisionsPage = () => {
       sortable: true,
     },
     {
-      name: 'maxWeight',
+      name: 'maxAge',
       label: 'Максимальний вік',
       sortable: true,
     },

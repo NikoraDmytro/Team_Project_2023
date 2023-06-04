@@ -23,7 +23,7 @@ public static class ServiceExtensions
                           "Encrypt=False";*/
 
         var anotherString =
-            "Server=DESKTOP-LA5RDNV;Database=taekwondo;Integrated Security=True;MultipleActiveResultSets=True;TrustServerCertificate=True";
+            "Server=LEGION5\\SQLEXPRESS;Database=taekwondo;Integrated Security=True;MultipleActiveResultSets=True;TrustServerCertificate=True";
         
         services.AddDbContext<AppDbContext>(opts =>
             opts

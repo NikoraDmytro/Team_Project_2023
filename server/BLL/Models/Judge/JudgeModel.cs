@@ -9,27 +9,22 @@ public class JudgeModel: IMapFrom<Core.Entities.Judge>
 {
     public int MembershipCardNum { get; set; }
     public string? JudgeCategory { get; set; }
-    public Core.Entities.Sportsman? Sportsman { get; set; }
     public DateTime BirthDate { get; set; }
-    public Core.Entities.Belt? Belt { get; set; }
+    public string Belt { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? Patronymic { get; set; }
+    public string? Sex { get; set; }
 
-    public void MapTo(Profile profile)
+    public void MapFrom(Profile profile)
     {
-        /*profile.CreateMap<Core.Entities.Judge, JudgeModel>()
-            .ForMember(dest => dest.JudgeCategory, src => src.MapFrom(otp => otp.JudgeCategory));
         profile.CreateMap<Core.Entities.Judge, JudgeModel>()
-            .ForMember(dest => dest.Sportsman!.BirthDate, src => src.MapFrom(otp => otp.Sportsman!.BirthDate));
-        profile.CreateMap<Core.Entities.Judge, JudgeModel>()
-            .ForMember(dest => dest.Sportsman!.Belt, src => src.MapFrom(otp => otp.Sportsman!.Belt));
-        profile.CreateMap<Core.Entities.Judge, JudgeModel>()
-            .ForMember(dest => dest.Sportsman!.User!.FirstName, src => src.MapFrom(otp => otp.Sportsman!.User!.FirstName));
-        profile.CreateMap<Core.Entities.Judge, JudgeModel>()
-            .ForMember(dest => dest.Sportsman!.User!.LastName, src => src.MapFrom(otp => otp.Sportsman!.User!.LastName));
-        profile.CreateMap<Core.Entities.Judge, JudgeModel>()
-            .ForMember(dest => dest.Sportsman!.User!.Patronymic, src => src.MapFrom(otp => otp.Sportsman!.User!.Patronymic));
-    */
+            .ForMember(dest => dest.JudgeCategory, src => src.MapFrom(opt => opt.JudgeCategory.Name))
+            .ForMember(dest => dest.Belt, src => src.MapFrom(opt => opt.Sportsman.Belt.Rank))
+            .ForMember(dest => dest.Sex,
+                src => src.MapFrom(opt => opt.Sportsman.Sex == Core.Entities.Sex.M ? "Ч" : "Ж"))
+            .ForMember(dest => dest.FirstName, src => src.MapFrom(opt => opt.Sportsman.User.FirstName))
+            .ForMember(dest => dest.LastName, src => src.MapFrom(opt => opt.Sportsman.User.LastName))
+            .ForMember(dest => dest.Patronymic, src => src.MapFrom(opt => opt.Sportsman.User.Patronymic));
     }
 }

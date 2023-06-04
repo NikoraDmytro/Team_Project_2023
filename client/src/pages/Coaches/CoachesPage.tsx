@@ -5,18 +5,24 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, TextField } from '@mui/material';
 import SelectForFilter from '../../components/SelectForFilter/SelectForFilter';
 import { DataTable } from '../../components/DataTable';
-import belts from '../../const/belts';
 import coachesLevel from '../../const/coachesLevel';
 import './CoachesPage.scss';
 import { CoachForm } from '../../components/CoachForm';
 import { CoachService } from '../../services';
 import { Coach } from '../../models/Coach';
+import BeltService from '../../services/BeltService';
+import ClubService from '../../services/ClubService';
 
 type ColumnsType = Coach & { controls: string };
 
 const CoachesPage = () => {
   const [coaches, setCoaches] = useState<Coach[]>([]);
+  const [filteredCoaches, setFilteredCoaches] = useState<Coach[]>([]);
   const [open, setOpen] = useState(false);
+  const [belts, setBelts] = useState<string[]>([]);
+  const [clubs, setClubs] = useState<string[]>([]);
+  const [update, setUpdate] = useState(false);
+  const [coach, setCoach] = useState<Coach>();
   const [selectedSex, setSelectedSex] = useState('');
   const [selectedBelt, setSelectedBelt] = useState('');
   const [selectedClub, setSelectedClub] = useState('');
@@ -24,6 +30,8 @@ const CoachesPage = () => {
 
   const handleClose = () => setOpen(false);
   const handleChange = (field: string, value: string) => {
+    var filtered = filteredCoaches;
+
     if (field === 'sex') {
       setSelectedSex(value);
       setCoaches(prev => prev.filter(coach => coach.sex === value));
@@ -43,22 +51,35 @@ const CoachesPage = () => {
 
   const fetchCoaches = async () => {
     const response = await CoachService.getAllCoaches();
-    const coachesData = response.map(coach => ({
-      membershipCardNum: coach.membershipCardNum,
-      firstName: coach.firstName,
-      lastName: coach.lastName,
-      patronymic: coach.patronymic,
-      sex: coach.sex,
-      birthDate: coach.birthDate,
-      clubName: coach.clubName,
-      belt: coach.belt,
-      instructorCategory: coach.instructorCategory,
-    }));
-    setCoaches(coachesData);
+    setCoaches(response);
+    setFilteredCoaches(response);
+  };
+
+  const fetchBelts = async () => {
+    const response = await BeltService.getAllBelts();
+    setBelts(response.map(x => x.rank));
+  };
+
+  const fetchClubs = async () => {
+    const response = await ClubService.getAllClubs();
+    setClubs(response.map(x => x.name));
+  };
+
+  const editCoach = async (item: Coach) => {
+    setUpdate(true);
+    setCoach(item);
+    setOpen(true);
+  };
+
+  const createCoach = async () => {
+    setUpdate(false);
+    setOpen(true);
   };
 
   useEffect(() => {
     fetchCoaches();
+    fetchBelts();
+    fetchClubs();
   }, []);
 
   const columns: TableColumns<Coach, ColumnsType>[] = [
@@ -82,6 +103,15 @@ const CoachesPage = () => {
       label: 'Стать',
     },
     {
+      name: 'phone',
+      label: 'Номер телефону',
+    },
+    {
+      name: 'belt',
+      label: 'Пояс',
+      sortable: true,
+    },
+    {
       name: 'birthDate',
       label: 'Дата народження',
       sortable: true,
@@ -100,9 +130,9 @@ const CoachesPage = () => {
     },
     {
       name: 'controls',
-      renderItem: () => (
+      renderItem: (item: Coach) => (
         <div className='control-buttons'>
-          <EditIcon onClick={() => setOpen(true)} />
+          <EditIcon onClick={() => editCoach(item)} />
           <DeleteIcon className='delete-icon' />
         </div>
       ),
@@ -130,7 +160,7 @@ const CoachesPage = () => {
           <div className='second-buttons'>
             <SelectForFilter
               label='Клуб'
-              items={clubsTest}
+              items={clubs}
               name='club'
               setFieldValue={handleChange}
             />
@@ -145,18 +175,21 @@ const CoachesPage = () => {
         <Button
           variant='contained'
           color='inherit'
-          onClick={() => setOpen(true)}
+          onClick={() => createCoach()}
         >
           Додати тренера
         </Button>
       </div>
 
       <DataTable tableData={coaches} tableColumns={columns} />
-      <CoachForm open={open} setClose={handleClose} />
+      <CoachForm
+        open={open}
+        update={update}
+        coach={coach}
+        setClose={handleClose}
+      />
     </div>
   );
 };
 
 export { CoachesPage };
-
-const clubsTest = ['Клуб 1', 'Клуб 2', 'Клуб 3'];

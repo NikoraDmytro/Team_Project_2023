@@ -2,5 +2,6 @@
 
 public class UpdateJudgeModel
 {
+    public string Sportsman { get; set; }
     public string? JudgeCategory { get; set; }
 }

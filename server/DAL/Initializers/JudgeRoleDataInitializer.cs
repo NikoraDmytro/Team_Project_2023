@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Initializers;
 
-public class JudgeRoleDataInitializer
+internal static class JudgeRoleDataInitializer
 {
     internal static void SeedData(ModelBuilder builder)
     {

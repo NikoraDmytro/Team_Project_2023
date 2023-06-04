@@ -8,11 +8,18 @@ const SportsmanService = {
     return await http.get(BASE_URL + 'all');
   },
 
-  createSportsman: async (club: Sportsman): Promise<Sportsman> => {
-    return await http.post(BASE_URL, club);
+  createSportsman: async (sportsman: any): Promise<Sportsman> => {
+    return await http.post(BASE_URL, sportsman);
   },
 
-  deleteSportsman: async (id: Sportsman): Promise<Sportsman> => {
+  updateSportsman: async (
+    membershipCardNum: number,
+    sportsman: any,
+  ): Promise<Sportsman> => {
+    return await http.put(BASE_URL + membershipCardNum, sportsman);
+  },
+
+  deleteSportsman: async (id: number): Promise<Sportsman> => {
     return await http.delete(BASE_URL + id);
   },
 };
