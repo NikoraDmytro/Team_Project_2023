@@ -10,14 +10,37 @@ import './Sportsman.scss';
 import { SportsmenForm } from '../../components/SportsmenForm';
 import { Sportsman } from '../../models/Sportsman';
 import SportsmanService from '../../services/SportsmanService';
+import CoachService from '../../services/CoachService';
+import ClubService from '../../services/ClubService';
+import BeltService from '../../services/BeltService';
 
 type ColumnsType = Sportsman & { controls: string };
 
 const SportsmanPage = () => {
   const [sportsmen, setSportsmen] = useState<Sportsman[]>([]);
   const [open, setOpen] = useState(false);
+  const [update, setUpdate] = useState(false);
+  const [sportsman, setSportsman] = useState<Sportsman>();
+  const [coaches, setCoaches] = useState<string[]>([]);
+  const [clubs, setClubs] = useState<string[]>([]);
+  const [belts, setBelts] = useState<string[]>([]);
 
   const handleClose = () => setOpen(false);
+
+  const getCoaches = async () => {
+    var coaches = (await CoachService.getAllCoaches()).data.map(x => x.firstName + " " + x.lastName);
+    setCoaches(coaches);
+  }
+
+  const getClubs = async () => {
+    var clubs = (await ClubService.getAllClubs()).data.map(x => x.name);
+    setClubs(clubs);
+  }
+
+  const getBelts = async () => {
+    var belts = (await BeltService.getAllBelts()).data.map(x => x.rank);
+    setBelts(belts);
+  }
 
   const fetchSportsmen = async () => {
     const response = await SportsmanService.getAllSportsmen();
@@ -36,7 +59,26 @@ const SportsmanPage = () => {
     setSportsmen(data);
   };
 
+  const editSportsman = (item: Sportsman) => {
+    setUpdate(true);
+    setSportsman(item);
+    setOpen(true);
+  }
+
+  const createSportsman = () => {
+    setUpdate(true);
+    setOpen(true);
+  }
+
+  const deleteSportsman = async (id: number) => {
+    await SportsmanService.deleteSportsman(id);
+    fetchSportsmen();
+  }
+
   useEffect(() => {
+    getClubs();
+    getCoaches();
+    getBelts();
     fetchSportsmen();
   }, []);
 
@@ -77,10 +119,10 @@ const SportsmanPage = () => {
     },
     {
       name: 'controls',
-      renderItem: () => (
+      renderItem: (item: Sportsman) => (
         <div className='control-buttons'>
-          <EditIcon onClick={() => setOpen(true)} />
-          <DeleteIcon className='delete-icon' />
+          <EditIcon onClick={() => editSportsman(item)} />
+          <DeleteIcon onClick={() => deleteSportsman(item.membershipCardNum)} className='delete-icon' />
         </div>
       ),
     },
@@ -93,8 +135,8 @@ const SportsmanPage = () => {
         <div className='groups-filters'>
           <div className='filter-buttons1'>
             <SelectForFilter label='Стать' items={['Ч', 'Ж']} />
-            <SelectForFilter label='Клуб' items={clubsTest} />
-            <SelectForFilter label='Тренер' items={coachesTest} />
+            <SelectForFilter label='Клуб' items={clubs} />
+            <SelectForFilter label='Тренер' items={coaches} />
           </div>
           <div className='filter-buttons2'>
             <SelectForFilter label='Мін пояс' items={belts} />
@@ -106,18 +148,15 @@ const SportsmanPage = () => {
         <Button
           variant='contained'
           color='inherit'
-          onClick={() => setOpen(true)}
+          onClick={() => createSportsman()}
         >
           Додати спортсмена
         </Button>
       </div>
       <DataTable tableData={sportsmen} tableColumns={columns} />
-      <SportsmenForm open={open} setClose={handleClose} />
+      <SportsmenForm open={open} update={update} sportsman={sportsman} setClose={handleClose} />
     </div>
   );
 };
 
 export { SportsmanPage };
-
-const clubsTest = ['Клуб 1', 'Клуб 2', 'Клуб 3'];
-const coachesTest = ['Прокопенко Ю.С.', 'Прокопенко Ю.С.', 'Прокопенко Ю.С.'];

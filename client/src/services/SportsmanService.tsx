@@ -8,11 +8,15 @@ const SportsmanService = {
         return await axios.get<Sportsman[]>(BASE_URL + 'all')
     },
 
-    createSportsman: async (club: Sportsman) => {
-        return await axios.post(BASE_URL, club);
+    createSportsman: async (sportsman: any) => {
+        return await axios.post(BASE_URL, sportsman);
     },
 
-    deleteSportsman: async (id: Sportsman) => {
+    updateSportsman: async (membershipCardNum: number, sportsman: any) => {
+        return await axios.put(BASE_URL + membershipCardNum, sportsman);
+    },
+
+    deleteSportsman: async (id: number) => {
         return await axios.delete(BASE_URL + id);
     }
 }

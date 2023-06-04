@@ -18,8 +18,9 @@ public class CoachRepository: GenericRepository<Coach>, ICoachRepository
         return await _dbSet.FirstOrDefaultAsync(c => c.MembershipCardNum == cardNum);
     }
 
-    public Task<Coach?> GetByNameAsync(string firstName, string lastName)
+    public async Task<Coach?> GetByNameAsync(string firstName, string lastName)
     {
-        throw new NotImplementedException();
+        return await _dbSet.FirstOrDefaultAsync(x =>
+            x.Sportsman.User.FirstName == firstName && x.Sportsman.User.LastName == lastName);
     }
 }
