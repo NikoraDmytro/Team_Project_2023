@@ -19,7 +19,7 @@ internal class BeltConfiguration: IEntityTypeConfiguration<Belt>
         builder
             .Property(b => b.Rank)
             .HasColumnName("rank")
-            .HasColumnType("varchar(4)")
+            .HasColumnType("varchar(6)")
             .IsRequired();
 
         builder
